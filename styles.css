@@ -1,0 +1,17 @@
+circle {
+  fill: #ffe;
+}
+
+path {
+  stroke: #777;
+  fill: #fde;
+}
+
+html, body {
+	margin: 0; overflow: hidden;
+	background: #eee;
+}
+
+svg {
+	background: #fff;
+}
