@@ -6,7 +6,8 @@ var React = require('react');
 var TreePie = require('./TreePie');
 
 var tasks = [
-'Body', 'Mind', 'Soul'
+  'Body', 'Mind',
+  { name:'Soul', children: ['A', 'B', 'C'] }
 ];
 
 React.renderComponent(
