@@ -7,11 +7,31 @@ path {
   fill: #fde;
 }
 
+text {
+  font-size: 100px;
+}
+
 html, body {
 	margin: 0; overflow: hidden;
 	background: #eee;
 }
 
+textarea {
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 50%;
+	width: 40%;
+}
+
 svg {
 	background: #fff;
+	position: fixed;
+	left: 50%;
+	right: 100%;
+	width: 50%;
+	top: 0;
+	bottom: 0;
+	height: 100%;
 }
