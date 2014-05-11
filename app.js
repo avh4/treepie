@@ -10,6 +10,9 @@ var InputField = React.createClass({
   getInitialState: function() {
     return {string: 'Body\nMind\nSoul\n A\n B\n C'};
   },
+  componentDidMount: function() {
+    this.props.onChange(OutlineParser(this.state.string));
+  },
   onChange: function(e) {
     var string = this.refs.textarea.getDOMNode().value;
     this.props.onChange(OutlineParser(string));
@@ -21,10 +24,7 @@ var InputField = React.createClass({
 
 var App = React.createClass({
   getInitialState: function() {
-    return {tasks: [
-      'Body', 'Mind',
-      { name:'Soul', children: ['A', 'B', 'C'] }
-    ]};
+    return {tasks: []};
   },
   
   onInputChange: function(newTasks) {
