@@ -1,4 +1,7 @@
 {
+  "scripts": {
+    "test": "./node_modules/.bin/jasmine-node ./"
+  },
   "devDependencies": {
     "jsx-loader": "~0.10.0",
     "react": "~0.10.0",
