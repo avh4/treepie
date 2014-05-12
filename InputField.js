@@ -44,7 +44,25 @@ module.exports = React.createClass({
     localStorage.treepieDemo = string;
     this.sendData(string);
   },
+  replaceString: function(string) {
+    this.refs.textarea.getDOMNode().value = string;
+    this.onChange();
+  },
+  doConvertToJson: function(e) {
+    var string = this.refs.textarea.getDOMNode().value;
+    this.replaceString(JSON.stringify(OutlineParser(string), null, 2));
+  },
+  doConvertToOutline: function(e) {
+    if (confirm('Convert to outline MAY LOSE INFORMATION!\nOnly the name of each node and the heirarchy will be retained; all other information will be lost.  Are you sure you want to continue?') == true) {
+      var string = this.refs.textarea.getDOMNode().value;
+      this.replaceString(OutlineParser.reverse(JSON.parse(string)));
+    }
+  },
   render: function() {
-    return <textarea onChange={this.onChange} ref="textarea">{this.state.string}</textarea>;
+    return <div>
+      <button onClick={this.doConvertToJson}>Convert to JSON</button>
+      <button onClick={this.doConvertToOutline}>Convert to outline</button>
+      <textarea onChange={this.onChange} ref="textarea">{this.state.string}</textarea>
+    </div>;
   }
 });

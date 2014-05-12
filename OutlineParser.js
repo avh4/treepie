@@ -8,3 +8,20 @@ module.exports = function(string) {
   });
   return lasts[0].children;
 };
+
+function _reverse(depth, parent) {
+  var indent = '';
+  for (var i = 0; i < depth; i++) {
+    indent += ' ';
+  }
+  var children = parent.children.map(function(child) {
+    return _reverse(depth + 1, child);
+  }).join('');
+  return '\n' + indent + parent.name + children;
+}
+
+module.exports.reverse = function(data) {
+  return data.map(function(d) {
+    return _reverse(0, d);
+  }).join('').trim();
+};
