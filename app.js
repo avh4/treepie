@@ -25,4 +25,4 @@ var App = React.createClass({
   }
 })
 
-React.renderComponent(<App/>, document.body);
+React.renderComponent(<App/>, document.body.findElementById('root'));
