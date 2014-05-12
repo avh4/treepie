@@ -31,12 +31,21 @@ function mapChildren(o, f) {
 }
 
 var TreePie = React.createClass({
+  getInitialState: function() {
+    return {path: []};
+  },
+  doSelect: function(path, e) {
+    this.setState({path: path});
+  },
   render: function() {
     var cx = 0;
     var cy = 0;
     var r = 200;
 
-    function child(d, ir, start, end) {
+    console.log(this.state.path);
+    var self = this;
+
+    function child(d, ir, start, end, path) {
       var or = ir + r;
       var tr = (ir + or)/2;
       var mid = (start + end)/2;
@@ -48,19 +57,27 @@ var TreePie = React.createClass({
       var children = mapChildren(d, function(_d, j) {
         _start = _end;
         _end = _start + size * weight(_d) / totalWeight;
-        return child(_d, or, _start, _end);
+        return child(_d, or, _start, _end, path.concat(j));
       });
 
       return <g>
         {children}
-        <Arc cx={cx} cy={cy} r={or} r2={ir} start={start} end={end}/>
-        <text x={tr*Math.cos(mid)} y={tr*Math.sin(mid)}>{d.name}</text>
+        <g onClick={self.doSelect.bind(self, path)}>
+          <Arc cx={cx} cy={cy} r={or} r2={ir} start={start} end={end}/>
+          <text x={tr*Math.cos(mid)} y={tr*Math.sin(mid)}>{d.name}</text>
+        </g>
       </g>;
     }
 
+    var root = this.props.data;
+    this.state.path.forEach(function(index) {
+      if (root.children) root = root.children[index];
+      else root = root[index];
+    });
+
     return <g>
         <circle className="backdrop" cx={cx} cy={cy} r={r} />
-        {child(this.props.data, 0, 0, 2*Math.PI)}
+        {child(root, 0, 0, 2*Math.PI, [])}
       </g>;
   }
 });
