@@ -9,11 +9,11 @@ var Paths = require('./Paths');
 var Arc = React.createClass({
   render: function () {
     if (this.props.start === 0 && this.props.end == 2*Math.PI && this.props.r2 === 0) {
-      return <circle className="arc" cx={this.props.cx} cy={this.props.cy} r={this.props.r}/>;
+      return <circle className={this.props.className + " arc"} cx={this.props.cx} cy={this.props.cy} r={this.props.r}/>;
     } else {
       var p = Paths.annularSector(this.props.cx, this.props.cy, this.props.r,
         this.props.r2, this.props.start, this.props.end);
-      return <path className="arc" d={p}/>;
+      return <path className={this.props.className + " arc"} d={p}/>;
     }
   }
 });
@@ -62,11 +62,16 @@ var TreePie = React.createClass({
       
       var tx = tr*Math.cos(mid);
       var ty = tr*Math.sin(mid);
+      var progress;
+      if (d.percent) {
+        progress = <Arc className="progress" cx={cx} cy={cy} r={or} r2={ir} start={start} end={start + (end-start)*d.percent}/>;
+      }
 
       return <g>
         {children}
         <g onClick={self.doSelect.bind(self, path)}>
           <Arc cx={cx} cy={cy} r={or} r2={ir} start={start} end={end}/>
+          {progress}
           <text x={tx} y={ty}>{d.name}</text>
           <text className="score" x={tx} y={ty+50}>{d.score}</text>
         </g>

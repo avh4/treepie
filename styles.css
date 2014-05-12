@@ -7,8 +7,17 @@
   fill: #fde;
 }
 
-g:hover > .arc {
+.arc.progress {
+  fill: #fab;
+  stroke: none;
+}
+
+g:hover > g > .arc {
 	fill: #8e8;
+}
+
+g:hover > g > .arc.progress {
+  fill: #1e1;
 }
 
 text {

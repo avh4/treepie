@@ -38,6 +38,6 @@ exports.annularSector = function (cx, cy, r1, r2, startRadians, endRadians) {
     "A" + [r2, r2, 0, largeArc, 1, p[1]].join(),
     "L" + p[2].join(),
     "A" + [r1, r1, 0, largeArc, 0, p[3]].join(),
-    "z",
+    "L" + p[0].join(),
     ].join(' ');
 };
