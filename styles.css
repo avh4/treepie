@@ -7,14 +7,28 @@
   fill: #fde;
 }
 
-g:hover > .arc {
+.arc.progress {
+  fill: #fab;
+  stroke: none;
+}
+
+g:hover > g > .arc {
 	fill: #8e8;
+}
+
+g:hover > g > .arc.progress {
+  fill: #1e1;
 }
 
 text {
   font-size: 60px;
   text-anchor: middle;
   dominant-baseline: central;
+}
+
+text.score {
+  font-size: 40px;
+  fill: #999;
 }
 
 html, body {

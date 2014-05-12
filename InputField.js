@@ -58,10 +58,15 @@ module.exports = React.createClass({
       this.replaceString(OutlineParser.reverse(JSON.parse(string)));
     }
   },
+  doSaveToDropbox: function(e) {
+    var string = this.refs.textarea.getDOMNode().value;
+    Dropbox.save('data:text/plain,'+string, 'treepie.txt');
+  },
   render: function() {
     return <div>
       <button onClick={this.doConvertToJson}>Convert to JSON</button>
       <button onClick={this.doConvertToOutline}>Convert to outline</button>
+      <button onClick={this.doSaveToDropbox}>Backup to Dropbox</button>
       <textarea onChange={this.onChange} ref="textarea">{this.state.string}</textarea>
     </div>;
   }

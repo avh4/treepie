@@ -9,14 +9,21 @@ var Paths = require('./Paths');
 var Arc = React.createClass({
   render: function () {
     if (this.props.start === 0 && this.props.end == 2*Math.PI && this.props.r2 === 0) {
-      return <circle className="arc" cx={this.props.cx} cy={this.props.cy} r={this.props.r}/>;
+      return <circle className={this.props.className + " arc"} cx={this.props.cx} cy={this.props.cy} r={this.props.r}/>;
     } else {
       var p = Paths.annularSector(this.props.cx, this.props.cy, this.props.r,
         this.props.r2, this.props.start, this.props.end);
-      return <path className="arc" d={p}/>;
+      return <path className={this.props.className + " arc"} d={p}/>;
     }
   }
 });
+
+function formatPercent(p) {
+  if (p == 0) return '';
+  var per = p.toFixed(2)*100;
+  if (per == 0) return '<1%';
+  return per + '%';
+}
 
 function weight(o) {
   if (typeof o === 'string') return 1;
@@ -30,13 +37,35 @@ function mapChildren(o, f) {
   return o.map(f);
 }
 
+function percent(o) {
+  if (o.percent) return o.percent;
+  var totalWeight = 0;
+  var totalPercent = 0;
+  (o.children || o).forEach(function(child) {
+    var w = weight(child);
+    totalWeight += w;
+    totalPercent += w * percent(child);
+  });
+  if (totalWeight == 0) return 0;
+  return totalPercent / totalWeight;
+}
+
 var TreePie = React.createClass({
+  getInitialState: function() {
+    return {path: []};
+  },
+  doSelect: function(path, e) {
+    this.setState({path: path});
+  },
   render: function() {
     var cx = 0;
     var cy = 0;
     var r = 200;
 
-    function child(d, ir, start, end) {
+    console.log(this.state.path);
+    var self = this;
+
+    function child(d, ir, start, end, path) {
       var or = ir + r;
       var tr = (ir + or)/2;
       var mid = (start + end)/2;
@@ -48,19 +77,41 @@ var TreePie = React.createClass({
       var children = mapChildren(d, function(_d, j) {
         _start = _end;
         _end = _start + size * weight(_d) / totalWeight;
-        return child(_d, or, _start, _end);
+        return child(_d, or, _start, _end, path.concat(j));
       });
+      
+      var tx = tr*Math.cos(mid);
+      var ty = tr*Math.sin(mid);
+      if (ir == 0) {
+        tx = cx;
+        ty = cy;
+      }
+      var p = percent(d);
+      var progress;
+      if (p) {
+        progress = <Arc className="progress" cx={cx} cy={cy} r={or} r2={ir} start={start} end={start + (end-start)*p}/>;
+      }
 
       return <g>
         {children}
-        <Arc cx={cx} cy={cy} r={or} r2={ir} start={start} end={end}/>
-        <text x={tr*Math.cos(mid)} y={tr*Math.sin(mid)}>{d.name}</text>
+        <g onClick={self.doSelect.bind(self, path)}>
+          <Arc cx={cx} cy={cy} r={or} r2={ir} start={start} end={end}/>
+          {progress}
+          <text x={tx} y={ty}>{d.name}</text>
+          <text className="score" x={tx} y={ty+50}>{d.score || formatPercent(p)}</text>
+        </g>
       </g>;
     }
 
+    var root = this.props.data;
+    this.state.path.forEach(function(index) {
+      if (root.children) root = root.children[index];
+      else root = root[index];
+    });
+
     return <g>
         <circle className="backdrop" cx={cx} cy={cy} r={r} />
-        {child(this.props.data, 0, 0, 2*Math.PI)}
+        {child(root, 0, 0, 2*Math.PI, [])}
       </g>;
   }
 });
