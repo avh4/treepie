@@ -7,7 +7,7 @@
   fill: #fde;
 }
 
-.arc:hover {
+g:hover > .arc {
 	fill: #8e8;
 }
 
