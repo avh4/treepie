@@ -72,7 +72,7 @@
 	  }
 	})
 
-	React.renderComponent(App(null), document.body.findElementById('root'));
+	React.renderComponent(App(null), document.getElementById('root'));
 
 
 /***/ },
@@ -85,7 +85,7 @@
 	"use strict";
 
 	var React = require(3);
-	var Paths = require(5);
+	var Paths = require(4);
 
 	var Arc = React.createClass({displayName: 'Arc',
 	  render: function () {
@@ -158,7 +158,7 @@
 	"use strict";
 
 	var React = require(3);
-	var OutlineParser = require(4);
+	var OutlineParser = require(5);
 
 	function format(string) {
 	  try {
@@ -234,38 +234,6 @@
 /* 4 */
 /***/ function(module, exports, require) {
 
-	module.exports = function(string) {
-	  if (string === '') return [];
-	  var lasts = [{children: []}];
-	  string.trim().split(/\n+/).forEach(function(e) {
-	    var spaces = e.match(/^ */)[0].length;
-	    lasts[spaces+1] = { name: e.trim(), children: []};
-	    lasts[spaces].children.push(lasts[spaces+1]);
-	  });
-	  return lasts[0].children;
-	};
-
-	function _reverse(depth, parent) {
-	  var indent = '';
-	  for (var i = 0; i < depth; i++) {
-	    indent += ' ';
-	  }
-	  var children = parent.children.map(function(child) {
-	    return _reverse(depth + 1, child);
-	  }).join('');
-	  return '\n' + indent + parent.name + children;
-	}
-
-	module.exports.reverse = function(data) {
-	  return data.map(function(d) {
-	    return _reverse(0, d);
-	  }).join('').trim();
-	};
-
-/***/ },
-/* 5 */
-/***/ function(module, exports, require) {
-
 	function polarToCartesian(centerX, centerY, radius, angleInDegrees) {
 	  var angleInRadians = (angleInDegrees - 90) * Math.PI / 180.0;
 
@@ -310,6 +278,38 @@
 	    ].join(' ');
 	};
 
+
+/***/ },
+/* 5 */
+/***/ function(module, exports, require) {
+
+	module.exports = function(string) {
+	  if (string === '') return [];
+	  var lasts = [{children: []}];
+	  string.trim().split(/\n+/).forEach(function(e) {
+	    var spaces = e.match(/^ */)[0].length;
+	    lasts[spaces+1] = { name: e.trim(), children: []};
+	    lasts[spaces].children.push(lasts[spaces+1]);
+	  });
+	  return lasts[0].children;
+	};
+
+	function _reverse(depth, parent) {
+	  var indent = '';
+	  for (var i = 0; i < depth; i++) {
+	    indent += ' ';
+	  }
+	  var children = parent.children.map(function(child) {
+	    return _reverse(depth + 1, child);
+	  }).join('');
+	  return '\n' + indent + parent.name + children;
+	}
+
+	module.exports.reverse = function(data) {
+	  return data.map(function(d) {
+	    return _reverse(0, d);
+	  }).join('').trim();
+	};
 
 /***/ },
 /* 6 */
@@ -439,11 +439,11 @@
 
 	"use strict";
 
-	var DOMProperty = require(29);
+	var DOMProperty = require(25);
 
-	var escapeTextForBrowser = require(30);
-	var memoizeStringOnly = require(31);
-	var warning = require(32);
+	var escapeTextForBrowser = require(26);
+	var memoizeStringOnly = require(27);
+	var warning = require(28);
 
 	function shouldIgnoreValue(name, value) {
 	  return value == null ||
@@ -625,9 +625,9 @@
 
 	"use strict";
 
-	var EventConstants = require(25);
+	var EventConstants = require(29);
 
-	var invariant = require(26);
+	var invariant = require(30);
 
 	/**
 	 * Injected dependencies:
@@ -845,10 +845,10 @@
 
 	"use strict";
 
-	var PooledClass = require(27);
+	var PooledClass = require(31);
 
-	var invariant = require(26);
-	var traverseAllChildren = require(28);
+	var invariant = require(30);
+	var traverseAllChildren = require(32);
 
 	var twoArgumentPooler = PooledClass.twoArgumentPooler;
 	var threeArgumentPooler = PooledClass.threeArgumentPooler;
@@ -984,13 +984,13 @@
 	"use strict";
 
 	var ReactCurrentOwner = require(13);
-	var ReactOwner = require(34);
-	var ReactUpdates = require(38);
+	var ReactOwner = require(33);
+	var ReactUpdates = require(34);
 
-	var invariant = require(26);
-	var keyMirror = require(40);
-	var merge = require(41);
-	var monitorCodeUse = require(43);
+	var invariant = require(30);
+	var keyMirror = require(35);
+	var merge = require(36);
+	var monitorCodeUse = require(37);
 
 	/**
 	 * Every React component is in one of these life cycles.
@@ -1587,23 +1587,23 @@
 	var ReactComponent = require(10);
 	var ReactContext = require(12);
 	var ReactCurrentOwner = require(13);
-	var ReactErrorUtils = require(33);
-	var ReactOwner = require(34);
+	var ReactErrorUtils = require(38);
+	var ReactOwner = require(33);
 	var ReactPerf = require(20);
-	var ReactPropTransferer = require(35);
-	var ReactPropTypeLocations = require(36);
-	var ReactPropTypeLocationNames = require(37);
-	var ReactUpdates = require(38);
+	var ReactPropTransferer = require(39);
+	var ReactPropTypeLocations = require(40);
+	var ReactPropTypeLocationNames = require(41);
+	var ReactUpdates = require(34);
 
-	var instantiateReactComponent = require(39);
-	var invariant = require(26);
-	var keyMirror = require(40);
-	var merge = require(41);
-	var mixInto = require(42);
-	var monitorCodeUse = require(43);
+	var instantiateReactComponent = require(42);
+	var invariant = require(30);
+	var keyMirror = require(35);
+	var merge = require(36);
+	var mixInto = require(43);
+	var monitorCodeUse = require(37);
 	var objMap = require(44);
 	var shouldUpdateReactComponent = require(45);
-	var warning = require(32);
+	var warning = require(28);
 
 	/**
 	 * Policies that describe methods in `ReactCompositeComponentInterface`.
@@ -3177,7 +3177,7 @@
 
 	"use strict";
 
-	var merge = require(41);
+	var merge = require(36);
 
 	/**
 	 * Keeps track of the current context.
@@ -3298,8 +3298,8 @@
 
 	var ReactDOMComponent = require(15);
 
-	var mergeInto = require(50);
-	var objMapKeyVal = require(51);
+	var mergeInto = require(46);
+	var objMapKeyVal = require(47);
 
 	/**
 	 * Creates a new React class that is idempotent and capable of containing other
@@ -3509,21 +3509,21 @@
 
 	"use strict";
 
-	var CSSPropertyOperations = require(46);
-	var DOMProperty = require(29);
+	var CSSPropertyOperations = require(48);
+	var DOMProperty = require(25);
 	var DOMPropertyOperations = require(7);
-	var ReactBrowserComponentMixin = require(47);
+	var ReactBrowserComponentMixin = require(49);
 	var ReactComponent = require(10);
-	var ReactEventEmitter = require(48);
+	var ReactEventEmitter = require(50);
 	var ReactMount = require(18);
 	var ReactMultiChild = require(19);
 	var ReactPerf = require(20);
 
-	var escapeTextForBrowser = require(30);
-	var invariant = require(26);
-	var keyOf = require(49);
-	var merge = require(41);
-	var mixInto = require(42);
+	var escapeTextForBrowser = require(26);
+	var invariant = require(30);
+	var keyOf = require(51);
+	var merge = require(36);
+	var mixInto = require(43);
 
 	var deleteListener = ReactEventEmitter.deleteListener;
 	var listenTo = ReactEventEmitter.listenTo;
@@ -3930,39 +3930,39 @@
 
 	"use strict";
 
-	var ReactInjection = require(57);
+	var ReactInjection = require(52);
 
-	var ExecutionEnvironment = require(58);
+	var ExecutionEnvironment = require(53);
 
-	var DefaultDOMPropertyConfig = require(59);
+	var DefaultDOMPropertyConfig = require(54);
 
-	var ChangeEventPlugin = require(60);
-	var ClientReactRootIndex = require(61);
-	var CompositionEventPlugin = require(62);
-	var DefaultEventPluginOrder = require(63);
-	var EnterLeaveEventPlugin = require(64);
-	var MobileSafariClickEventPlugin = require(65);
-	var ReactBrowserComponentMixin = require(47);
+	var ChangeEventPlugin = require(55);
+	var ClientReactRootIndex = require(56);
+	var CompositionEventPlugin = require(57);
+	var DefaultEventPluginOrder = require(58);
+	var EnterLeaveEventPlugin = require(59);
+	var MobileSafariClickEventPlugin = require(60);
+	var ReactBrowserComponentMixin = require(49);
 	var ReactComponentBrowserEnvironment =
-	  require(66);
-	var ReactEventTopLevelCallback = require(67);
+	  require(61);
+	var ReactEventTopLevelCallback = require(62);
 	var ReactDOM = require(14);
-	var ReactDOMButton = require(68);
-	var ReactDOMForm = require(69);
-	var ReactDOMImg = require(70);
-	var ReactDOMInput = require(71);
-	var ReactDOMOption = require(72);
-	var ReactDOMSelect = require(73);
-	var ReactDOMTextarea = require(74);
+	var ReactDOMButton = require(63);
+	var ReactDOMForm = require(64);
+	var ReactDOMImg = require(65);
+	var ReactDOMInput = require(66);
+	var ReactDOMOption = require(67);
+	var ReactDOMSelect = require(68);
+	var ReactDOMTextarea = require(69);
 	var ReactInstanceHandles = require(17);
 	var ReactMount = require(18);
-	var SelectEventPlugin = require(75);
-	var ServerReactRootIndex = require(76);
-	var SimpleEventPlugin = require(77);
+	var SelectEventPlugin = require(70);
+	var ServerReactRootIndex = require(71);
+	var SimpleEventPlugin = require(72);
 
-	var ReactDefaultBatchingStrategy = require(78);
+	var ReactDefaultBatchingStrategy = require(73);
 
-	var createFullPageComponent = require(79);
+	var createFullPageComponent = require(74);
 
 	function inject() {
 	  ReactInjection.EventEmitter.injectTopLevelCallbackCreator(
@@ -4062,9 +4062,9 @@
 
 	"use strict";
 
-	var ReactRootIndex = require(56);
+	var ReactRootIndex = require(75);
 
-	var invariant = require(26);
+	var invariant = require(30);
 
 	var SEPARATOR = '.';
 	var SEPARATOR_LENGTH = SEPARATOR.length;
@@ -4405,15 +4405,15 @@
 
 	"use strict";
 
-	var DOMProperty = require(29);
-	var ReactEventEmitter = require(48);
+	var DOMProperty = require(25);
+	var ReactEventEmitter = require(50);
 	var ReactInstanceHandles = require(17);
 	var ReactPerf = require(20);
 
-	var containsNode = require(54);
-	var getReactRootElementInContainer = require(55);
-	var instantiateReactComponent = require(39);
-	var invariant = require(26);
+	var containsNode = require(76);
+	var getReactRootElementInContainer = require(77);
+	var instantiateReactComponent = require(42);
+	var invariant = require(30);
 	var shouldUpdateReactComponent = require(45);
 
 	var SEPARATOR = ReactInstanceHandles.SEPARATOR;
@@ -5062,10 +5062,10 @@
 	"use strict";
 
 	var ReactComponent = require(10);
-	var ReactMultiChildUpdateTypes = require(52);
+	var ReactMultiChildUpdateTypes = require(78);
 
-	var flattenChildren = require(53);
-	var instantiateReactComponent = require(39);
+	var flattenChildren = require(79);
+	var instantiateReactComponent = require(42);
 	var shouldUpdateReactComponent = require(45);
 
 	/**
@@ -5590,10 +5590,10 @@
 	"use strict";
 
 	var ReactComponent = require(10);
-	var ReactPropTypeLocationNames = require(37);
+	var ReactPropTypeLocationNames = require(41);
 
-	var warning = require(32);
-	var createObjectFrom = require(82);
+	var warning = require(28);
+	var createObjectFrom = require(80);
 
 	/**
 	 * Collection of methods that allow declaration and validation of props that are
@@ -5956,12 +5956,12 @@
 
 	var ReactComponent = require(10);
 	var ReactInstanceHandles = require(17);
-	var ReactMarkupChecksum = require(80);
+	var ReactMarkupChecksum = require(81);
 	var ReactServerRenderingTransaction =
-	  require(81);
+	  require(82);
 
-	var instantiateReactComponent = require(39);
-	var invariant = require(26);
+	var instantiateReactComponent = require(42);
+	var invariant = require(30);
 
 	/**
 	 * @param {ReactComponent} component
@@ -6051,11 +6051,11 @@
 	"use strict";
 
 	var DOMPropertyOperations = require(7);
-	var ReactBrowserComponentMixin = require(47);
+	var ReactBrowserComponentMixin = require(49);
 	var ReactComponent = require(10);
 
-	var escapeTextForBrowser = require(30);
-	var mixInto = require(42);
+	var escapeTextForBrowser = require(26);
+	var mixInto = require(43);
 
 	/**
 	 * Text nodes violate a couple assumptions that React makes about components:
@@ -6177,7 +6177,7 @@
 
 	var ReactComponent = require(10);
 
-	var invariant = require(26);
+	var invariant = require(30);
 
 	/**
 	 * Returns the first child in a collection of children and verifies that there
@@ -6220,477 +6220,6 @@
 	 * See the License for the specific language governing permissions and
 	 * limitations under the License.
 	 *
-	 * @providesModule EventConstants
-	 */
-
-	"use strict";
-
-	var keyMirror = require(40);
-
-	var PropagationPhases = keyMirror({bubbled: null, captured: null});
-
-	/**
-	 * Types of raw signals from the browser caught at the top level.
-	 */
-	var topLevelTypes = keyMirror({
-	  topBlur: null,
-	  topChange: null,
-	  topClick: null,
-	  topCompositionEnd: null,
-	  topCompositionStart: null,
-	  topCompositionUpdate: null,
-	  topContextMenu: null,
-	  topCopy: null,
-	  topCut: null,
-	  topDoubleClick: null,
-	  topDrag: null,
-	  topDragEnd: null,
-	  topDragEnter: null,
-	  topDragExit: null,
-	  topDragLeave: null,
-	  topDragOver: null,
-	  topDragStart: null,
-	  topDrop: null,
-	  topError: null,
-	  topFocus: null,
-	  topInput: null,
-	  topKeyDown: null,
-	  topKeyPress: null,
-	  topKeyUp: null,
-	  topLoad: null,
-	  topMouseDown: null,
-	  topMouseMove: null,
-	  topMouseOut: null,
-	  topMouseOver: null,
-	  topMouseUp: null,
-	  topPaste: null,
-	  topReset: null,
-	  topScroll: null,
-	  topSelectionChange: null,
-	  topSubmit: null,
-	  topTouchCancel: null,
-	  topTouchEnd: null,
-	  topTouchMove: null,
-	  topTouchStart: null,
-	  topWheel: null
-	});
-
-	var EventConstants = {
-	  topLevelTypes: topLevelTypes,
-	  PropagationPhases: PropagationPhases
-	};
-
-	module.exports = EventConstants;
-
-
-/***/ },
-/* 26 */
-/***/ function(module, exports, require) {
-
-	/**
-	 * Copyright 2013-2014 Facebook, Inc.
-	 *
-	 * Licensed under the Apache License, Version 2.0 (the "License");
-	 * you may not use this file except in compliance with the License.
-	 * You may obtain a copy of the License at
-	 *
-	 * http://www.apache.org/licenses/LICENSE-2.0
-	 *
-	 * Unless required by applicable law or agreed to in writing, software
-	 * distributed under the License is distributed on an "AS IS" BASIS,
-	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-	 * See the License for the specific language governing permissions and
-	 * limitations under the License.
-	 *
-	 * @providesModule invariant
-	 */
-
-	"use strict";
-
-	/**
-	 * Use invariant() to assert state which your program assumes to be true.
-	 *
-	 * Provide sprintf-style format (only %s is supported) and arguments
-	 * to provide information about what broke and what you were
-	 * expecting.
-	 *
-	 * The invariant message will be stripped in production, but the invariant
-	 * will remain to ensure logic does not differ in production.
-	 */
-
-	var invariant = function(condition) {
-	  if (!condition) {
-	    var error = new Error(
-	      'Minified exception occured; use the non-minified dev environment for ' +
-	      'the full error message and additional helpful warnings.'
-	    );
-	    error.framesToPop = 1;
-	    throw error;
-	  }
-	};
-
-	if (false) {
-	  invariant = function(condition, format, a, b, c, d, e, f) {
-	    if (format === undefined) {
-	      throw new Error('invariant requires an error message argument');
-	    }
-
-	    if (!condition) {
-	      var args = [a, b, c, d, e, f];
-	      var argIndex = 0;
-	      var error = new Error(
-	        'Invariant Violation: ' +
-	        format.replace(/%s/g, function() { return args[argIndex++]; })
-	      );
-	      error.framesToPop = 1; // we don't care about invariant's own frame
-	      throw error;
-	    }
-	  };
-	}
-
-	module.exports = invariant;
-
-
-/***/ },
-/* 27 */
-/***/ function(module, exports, require) {
-
-	/**
-	 * Copyright 2013-2014 Facebook, Inc.
-	 *
-	 * Licensed under the Apache License, Version 2.0 (the "License");
-	 * you may not use this file except in compliance with the License.
-	 * You may obtain a copy of the License at
-	 *
-	 * http://www.apache.org/licenses/LICENSE-2.0
-	 *
-	 * Unless required by applicable law or agreed to in writing, software
-	 * distributed under the License is distributed on an "AS IS" BASIS,
-	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-	 * See the License for the specific language governing permissions and
-	 * limitations under the License.
-	 *
-	 * @providesModule PooledClass
-	 */
-
-	"use strict";
-
-	var invariant = require(26);
-
-	/**
-	 * Static poolers. Several custom versions for each potential number of
-	 * arguments. A completely generic pooler is easy to implement, but would
-	 * require accessing the `arguments` object. In each of these, `this` refers to
-	 * the Class itself, not an instance. If any others are needed, simply add them
-	 * here, or in their own files.
-	 */
-	var oneArgumentPooler = function(copyFieldsFrom) {
-	  var Klass = this;
-	  if (Klass.instancePool.length) {
-	    var instance = Klass.instancePool.pop();
-	    Klass.call(instance, copyFieldsFrom);
-	    return instance;
-	  } else {
-	    return new Klass(copyFieldsFrom);
-	  }
-	};
-
-	var twoArgumentPooler = function(a1, a2) {
-	  var Klass = this;
-	  if (Klass.instancePool.length) {
-	    var instance = Klass.instancePool.pop();
-	    Klass.call(instance, a1, a2);
-	    return instance;
-	  } else {
-	    return new Klass(a1, a2);
-	  }
-	};
-
-	var threeArgumentPooler = function(a1, a2, a3) {
-	  var Klass = this;
-	  if (Klass.instancePool.length) {
-	    var instance = Klass.instancePool.pop();
-	    Klass.call(instance, a1, a2, a3);
-	    return instance;
-	  } else {
-	    return new Klass(a1, a2, a3);
-	  }
-	};
-
-	var fiveArgumentPooler = function(a1, a2, a3, a4, a5) {
-	  var Klass = this;
-	  if (Klass.instancePool.length) {
-	    var instance = Klass.instancePool.pop();
-	    Klass.call(instance, a1, a2, a3, a4, a5);
-	    return instance;
-	  } else {
-	    return new Klass(a1, a2, a3, a4, a5);
-	  }
-	};
-
-	var standardReleaser = function(instance) {
-	  var Klass = this;
-	  (false ? invariant(
-	    instance instanceof Klass,
-	    'Trying to release an instance into a pool of a different type.'
-	  ) : invariant(instance instanceof Klass));
-	  if (instance.destructor) {
-	    instance.destructor();
-	  }
-	  if (Klass.instancePool.length < Klass.poolSize) {
-	    Klass.instancePool.push(instance);
-	  }
-	};
-
-	var DEFAULT_POOL_SIZE = 10;
-	var DEFAULT_POOLER = oneArgumentPooler;
-
-	/**
-	 * Augments `CopyConstructor` to be a poolable class, augmenting only the class
-	 * itself (statically) not adding any prototypical fields. Any CopyConstructor
-	 * you give this may have a `poolSize` property, and will look for a
-	 * prototypical `destructor` on instances (optional).
-	 *
-	 * @param {Function} CopyConstructor Constructor that can be used to reset.
-	 * @param {Function} pooler Customizable pooler.
-	 */
-	var addPoolingTo = function(CopyConstructor, pooler) {
-	  var NewKlass = CopyConstructor;
-	  NewKlass.instancePool = [];
-	  NewKlass.getPooled = pooler || DEFAULT_POOLER;
-	  if (!NewKlass.poolSize) {
-	    NewKlass.poolSize = DEFAULT_POOL_SIZE;
-	  }
-	  NewKlass.release = standardReleaser;
-	  return NewKlass;
-	};
-
-	var PooledClass = {
-	  addPoolingTo: addPoolingTo,
-	  oneArgumentPooler: oneArgumentPooler,
-	  twoArgumentPooler: twoArgumentPooler,
-	  threeArgumentPooler: threeArgumentPooler,
-	  fiveArgumentPooler: fiveArgumentPooler
-	};
-
-	module.exports = PooledClass;
-
-
-/***/ },
-/* 28 */
-/***/ function(module, exports, require) {
-
-	/**
-	 * Copyright 2013-2014 Facebook, Inc.
-	 *
-	 * Licensed under the Apache License, Version 2.0 (the "License");
-	 * you may not use this file except in compliance with the License.
-	 * You may obtain a copy of the License at
-	 *
-	 * http://www.apache.org/licenses/LICENSE-2.0
-	 *
-	 * Unless required by applicable law or agreed to in writing, software
-	 * distributed under the License is distributed on an "AS IS" BASIS,
-	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-	 * See the License for the specific language governing permissions and
-	 * limitations under the License.
-	 *
-	 * @providesModule traverseAllChildren
-	 */
-
-	"use strict";
-
-	var ReactInstanceHandles = require(17);
-	var ReactTextComponent = require(23);
-
-	var invariant = require(26);
-
-	var SEPARATOR = ReactInstanceHandles.SEPARATOR;
-	var SUBSEPARATOR = ':';
-
-	/**
-	 * TODO: Test that:
-	 * 1. `mapChildren` transforms strings and numbers into `ReactTextComponent`.
-	 * 2. it('should fail when supplied duplicate key', function() {
-	 * 3. That a single child and an array with one item have the same key pattern.
-	 * });
-	 */
-
-	var userProvidedKeyEscaperLookup = {
-	  '=': '=0',
-	  '.': '=1',
-	  ':': '=2'
-	};
-
-	var userProvidedKeyEscapeRegex = /[=.:]/g;
-
-	function userProvidedKeyEscaper(match) {
-	  return userProvidedKeyEscaperLookup[match];
-	}
-
-	/**
-	 * Generate a key string that identifies a component within a set.
-	 *
-	 * @param {*} component A component that could contain a manual key.
-	 * @param {number} index Index that is used if a manual key is not provided.
-	 * @return {string}
-	 */
-	function getComponentKey(component, index) {
-	  if (component && component.props && component.props.key != null) {
-	    // Explicit key
-	    return wrapUserProvidedKey(component.props.key);
-	  }
-	  // Implicit key determined by the index in the set
-	  return index.toString(36);
-	}
-
-	/**
-	 * Escape a component key so that it is safe to use in a reactid.
-	 *
-	 * @param {*} key Component key to be escaped.
-	 * @return {string} An escaped string.
-	 */
-	function escapeUserProvidedKey(text) {
-	  return ('' + text).replace(
-	    userProvidedKeyEscapeRegex,
-	    userProvidedKeyEscaper
-	  );
-	}
-
-	/**
-	 * Wrap a `key` value explicitly provided by the user to distinguish it from
-	 * implicitly-generated keys generated by a component's index in its parent.
-	 *
-	 * @param {string} key Value of a user-provided `key` attribute
-	 * @return {string}
-	 */
-	function wrapUserProvidedKey(key) {
-	  return '$' + escapeUserProvidedKey(key);
-	}
-
-	/**
-	 * @param {?*} children Children tree container.
-	 * @param {!string} nameSoFar Name of the key path so far.
-	 * @param {!number} indexSoFar Number of children encountered until this point.
-	 * @param {!function} callback Callback to invoke with each child found.
-	 * @param {?*} traverseContext Used to pass information throughout the traversal
-	 * process.
-	 * @return {!number} The number of children in this subtree.
-	 */
-	var traverseAllChildrenImpl =
-	  function(children, nameSoFar, indexSoFar, callback, traverseContext) {
-	    var subtreeCount = 0;  // Count of children found in the current subtree.
-	    if (Array.isArray(children)) {
-	      for (var i = 0; i < children.length; i++) {
-	        var child = children[i];
-	        var nextName = (
-	          nameSoFar +
-	          (nameSoFar ? SUBSEPARATOR : SEPARATOR) +
-	          getComponentKey(child, i)
-	        );
-	        var nextIndex = indexSoFar + subtreeCount;
-	        subtreeCount += traverseAllChildrenImpl(
-	          child,
-	          nextName,
-	          nextIndex,
-	          callback,
-	          traverseContext
-	        );
-	      }
-	    } else {
-	      var type = typeof children;
-	      var isOnlyChild = nameSoFar === '';
-	      // If it's the only child, treat the name as if it was wrapped in an array
-	      // so that it's consistent if the number of children grows
-	      var storageName =
-	        isOnlyChild ? SEPARATOR + getComponentKey(children, 0) : nameSoFar;
-	      if (children == null || type === 'boolean') {
-	        // All of the above are perceived as null.
-	        callback(traverseContext, null, storageName, indexSoFar);
-	        subtreeCount = 1;
-	      } else if (children.type && children.type.prototype &&
-	                 children.type.prototype.mountComponentIntoNode) {
-	        callback(traverseContext, children, storageName, indexSoFar);
-	        subtreeCount = 1;
-	      } else {
-	        if (type === 'object') {
-	          (false ? invariant(
-	            !children || children.nodeType !== 1,
-	            'traverseAllChildren(...): Encountered an invalid child; DOM ' +
-	            'elements are not valid children of React components.'
-	          ) : invariant(!children || children.nodeType !== 1));
-	          for (var key in children) {
-	            if (children.hasOwnProperty(key)) {
-	              subtreeCount += traverseAllChildrenImpl(
-	                children[key],
-	                (
-	                  nameSoFar + (nameSoFar ? SUBSEPARATOR : SEPARATOR) +
-	                  wrapUserProvidedKey(key) + SUBSEPARATOR +
-	                  getComponentKey(children[key], 0)
-	                ),
-	                indexSoFar + subtreeCount,
-	                callback,
-	                traverseContext
-	              );
-	            }
-	          }
-	        } else if (type === 'string') {
-	          var normalizedText = new ReactTextComponent(children);
-	          callback(traverseContext, normalizedText, storageName, indexSoFar);
-	          subtreeCount += 1;
-	        } else if (type === 'number') {
-	          var normalizedNumber = new ReactTextComponent('' + children);
-	          callback(traverseContext, normalizedNumber, storageName, indexSoFar);
-	          subtreeCount += 1;
-	        }
-	      }
-	    }
-	    return subtreeCount;
-	  };
-
-	/**
-	 * Traverses children that are typically specified as `props.children`, but
-	 * might also be specified through attributes:
-	 *
-	 * - `traverseAllChildren(this.props.children, ...)`
-	 * - `traverseAllChildren(this.props.leftPanelChildren, ...)`
-	 *
-	 * The `traverseContext` is an optional argument that is passed through the
-	 * entire traversal. It can be used to store accumulations or anything else that
-	 * the callback might find relevant.
-	 *
-	 * @param {?*} children Children tree object.
-	 * @param {!function} callback To invoke upon traversing each child.
-	 * @param {?*} traverseContext Context for traversal.
-	 */
-	function traverseAllChildren(children, callback, traverseContext) {
-	  if (children !== null && children !== undefined) {
-	    traverseAllChildrenImpl(children, '', 0, callback, traverseContext);
-	  }
-	}
-
-	module.exports = traverseAllChildren;
-
-
-/***/ },
-/* 29 */
-/***/ function(module, exports, require) {
-
-	/**
-	 * Copyright 2013-2014 Facebook, Inc.
-	 *
-	 * Licensed under the Apache License, Version 2.0 (the "License");
-	 * you may not use this file except in compliance with the License.
-	 * You may obtain a copy of the License at
-	 *
-	 * http://www.apache.org/licenses/LICENSE-2.0
-	 *
-	 * Unless required by applicable law or agreed to in writing, software
-	 * distributed under the License is distributed on an "AS IS" BASIS,
-	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-	 * See the License for the specific language governing permissions and
-	 * limitations under the License.
-	 *
 	 * @providesModule DOMProperty
 	 * @typechecks static-only
 	 */
@@ -6699,7 +6228,7 @@
 
 	"use strict";
 
-	var invariant = require(26);
+	var invariant = require(30);
 
 	var DOMPropertyInjection = {
 	  /**
@@ -6949,7 +6478,7 @@
 
 
 /***/ },
-/* 30 */
+/* 26 */
 /***/ function(module, exports, require) {
 
 	/**
@@ -7002,7 +6531,7 @@
 
 
 /***/ },
-/* 31 */
+/* 27 */
 /***/ function(module, exports, require) {
 
 	/**
@@ -7047,7 +6576,7 @@
 
 
 /***/ },
-/* 32 */
+/* 28 */
 /***/ function(module, exports, require) {
 
 	/**
@@ -7101,7 +6630,7 @@
 
 
 /***/ },
-/* 33 */
+/* 29 */
 /***/ function(module, exports, require) {
 
 	/**
@@ -7119,32 +6648,460 @@
 	 * See the License for the specific language governing permissions and
 	 * limitations under the License.
 	 *
-	 * @providesModule ReactErrorUtils
-	 * @typechecks
+	 * @providesModule EventConstants
 	 */
 
 	"use strict";
 
-	var ReactErrorUtils = {
-	  /**
-	   * Creates a guarded version of a function. This is supposed to make debugging
-	   * of event handlers easier. To aid debugging with the browser's debugger,
-	   * this currently simply returns the original function.
-	   *
-	   * @param {function} func Function to be executed
-	   * @param {string} name The name of the guard
-	   * @return {function}
-	   */
-	  guard: function(func, name) {
-	    return func;
-	  }
+	var keyMirror = require(35);
+
+	var PropagationPhases = keyMirror({bubbled: null, captured: null});
+
+	/**
+	 * Types of raw signals from the browser caught at the top level.
+	 */
+	var topLevelTypes = keyMirror({
+	  topBlur: null,
+	  topChange: null,
+	  topClick: null,
+	  topCompositionEnd: null,
+	  topCompositionStart: null,
+	  topCompositionUpdate: null,
+	  topContextMenu: null,
+	  topCopy: null,
+	  topCut: null,
+	  topDoubleClick: null,
+	  topDrag: null,
+	  topDragEnd: null,
+	  topDragEnter: null,
+	  topDragExit: null,
+	  topDragLeave: null,
+	  topDragOver: null,
+	  topDragStart: null,
+	  topDrop: null,
+	  topError: null,
+	  topFocus: null,
+	  topInput: null,
+	  topKeyDown: null,
+	  topKeyPress: null,
+	  topKeyUp: null,
+	  topLoad: null,
+	  topMouseDown: null,
+	  topMouseMove: null,
+	  topMouseOut: null,
+	  topMouseOver: null,
+	  topMouseUp: null,
+	  topPaste: null,
+	  topReset: null,
+	  topScroll: null,
+	  topSelectionChange: null,
+	  topSubmit: null,
+	  topTouchCancel: null,
+	  topTouchEnd: null,
+	  topTouchMove: null,
+	  topTouchStart: null,
+	  topWheel: null
+	});
+
+	var EventConstants = {
+	  topLevelTypes: topLevelTypes,
+	  PropagationPhases: PropagationPhases
 	};
 
-	module.exports = ReactErrorUtils;
+	module.exports = EventConstants;
 
 
 /***/ },
-/* 34 */
+/* 30 */
+/***/ function(module, exports, require) {
+
+	/**
+	 * Copyright 2013-2014 Facebook, Inc.
+	 *
+	 * Licensed under the Apache License, Version 2.0 (the "License");
+	 * you may not use this file except in compliance with the License.
+	 * You may obtain a copy of the License at
+	 *
+	 * http://www.apache.org/licenses/LICENSE-2.0
+	 *
+	 * Unless required by applicable law or agreed to in writing, software
+	 * distributed under the License is distributed on an "AS IS" BASIS,
+	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	 * See the License for the specific language governing permissions and
+	 * limitations under the License.
+	 *
+	 * @providesModule invariant
+	 */
+
+	"use strict";
+
+	/**
+	 * Use invariant() to assert state which your program assumes to be true.
+	 *
+	 * Provide sprintf-style format (only %s is supported) and arguments
+	 * to provide information about what broke and what you were
+	 * expecting.
+	 *
+	 * The invariant message will be stripped in production, but the invariant
+	 * will remain to ensure logic does not differ in production.
+	 */
+
+	var invariant = function(condition) {
+	  if (!condition) {
+	    var error = new Error(
+	      'Minified exception occured; use the non-minified dev environment for ' +
+	      'the full error message and additional helpful warnings.'
+	    );
+	    error.framesToPop = 1;
+	    throw error;
+	  }
+	};
+
+	if (false) {
+	  invariant = function(condition, format, a, b, c, d, e, f) {
+	    if (format === undefined) {
+	      throw new Error('invariant requires an error message argument');
+	    }
+
+	    if (!condition) {
+	      var args = [a, b, c, d, e, f];
+	      var argIndex = 0;
+	      var error = new Error(
+	        'Invariant Violation: ' +
+	        format.replace(/%s/g, function() { return args[argIndex++]; })
+	      );
+	      error.framesToPop = 1; // we don't care about invariant's own frame
+	      throw error;
+	    }
+	  };
+	}
+
+	module.exports = invariant;
+
+
+/***/ },
+/* 31 */
+/***/ function(module, exports, require) {
+
+	/**
+	 * Copyright 2013-2014 Facebook, Inc.
+	 *
+	 * Licensed under the Apache License, Version 2.0 (the "License");
+	 * you may not use this file except in compliance with the License.
+	 * You may obtain a copy of the License at
+	 *
+	 * http://www.apache.org/licenses/LICENSE-2.0
+	 *
+	 * Unless required by applicable law or agreed to in writing, software
+	 * distributed under the License is distributed on an "AS IS" BASIS,
+	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	 * See the License for the specific language governing permissions and
+	 * limitations under the License.
+	 *
+	 * @providesModule PooledClass
+	 */
+
+	"use strict";
+
+	var invariant = require(30);
+
+	/**
+	 * Static poolers. Several custom versions for each potential number of
+	 * arguments. A completely generic pooler is easy to implement, but would
+	 * require accessing the `arguments` object. In each of these, `this` refers to
+	 * the Class itself, not an instance. If any others are needed, simply add them
+	 * here, or in their own files.
+	 */
+	var oneArgumentPooler = function(copyFieldsFrom) {
+	  var Klass = this;
+	  if (Klass.instancePool.length) {
+	    var instance = Klass.instancePool.pop();
+	    Klass.call(instance, copyFieldsFrom);
+	    return instance;
+	  } else {
+	    return new Klass(copyFieldsFrom);
+	  }
+	};
+
+	var twoArgumentPooler = function(a1, a2) {
+	  var Klass = this;
+	  if (Klass.instancePool.length) {
+	    var instance = Klass.instancePool.pop();
+	    Klass.call(instance, a1, a2);
+	    return instance;
+	  } else {
+	    return new Klass(a1, a2);
+	  }
+	};
+
+	var threeArgumentPooler = function(a1, a2, a3) {
+	  var Klass = this;
+	  if (Klass.instancePool.length) {
+	    var instance = Klass.instancePool.pop();
+	    Klass.call(instance, a1, a2, a3);
+	    return instance;
+	  } else {
+	    return new Klass(a1, a2, a3);
+	  }
+	};
+
+	var fiveArgumentPooler = function(a1, a2, a3, a4, a5) {
+	  var Klass = this;
+	  if (Klass.instancePool.length) {
+	    var instance = Klass.instancePool.pop();
+	    Klass.call(instance, a1, a2, a3, a4, a5);
+	    return instance;
+	  } else {
+	    return new Klass(a1, a2, a3, a4, a5);
+	  }
+	};
+
+	var standardReleaser = function(instance) {
+	  var Klass = this;
+	  (false ? invariant(
+	    instance instanceof Klass,
+	    'Trying to release an instance into a pool of a different type.'
+	  ) : invariant(instance instanceof Klass));
+	  if (instance.destructor) {
+	    instance.destructor();
+	  }
+	  if (Klass.instancePool.length < Klass.poolSize) {
+	    Klass.instancePool.push(instance);
+	  }
+	};
+
+	var DEFAULT_POOL_SIZE = 10;
+	var DEFAULT_POOLER = oneArgumentPooler;
+
+	/**
+	 * Augments `CopyConstructor` to be a poolable class, augmenting only the class
+	 * itself (statically) not adding any prototypical fields. Any CopyConstructor
+	 * you give this may have a `poolSize` property, and will look for a
+	 * prototypical `destructor` on instances (optional).
+	 *
+	 * @param {Function} CopyConstructor Constructor that can be used to reset.
+	 * @param {Function} pooler Customizable pooler.
+	 */
+	var addPoolingTo = function(CopyConstructor, pooler) {
+	  var NewKlass = CopyConstructor;
+	  NewKlass.instancePool = [];
+	  NewKlass.getPooled = pooler || DEFAULT_POOLER;
+	  if (!NewKlass.poolSize) {
+	    NewKlass.poolSize = DEFAULT_POOL_SIZE;
+	  }
+	  NewKlass.release = standardReleaser;
+	  return NewKlass;
+	};
+
+	var PooledClass = {
+	  addPoolingTo: addPoolingTo,
+	  oneArgumentPooler: oneArgumentPooler,
+	  twoArgumentPooler: twoArgumentPooler,
+	  threeArgumentPooler: threeArgumentPooler,
+	  fiveArgumentPooler: fiveArgumentPooler
+	};
+
+	module.exports = PooledClass;
+
+
+/***/ },
+/* 32 */
+/***/ function(module, exports, require) {
+
+	/**
+	 * Copyright 2013-2014 Facebook, Inc.
+	 *
+	 * Licensed under the Apache License, Version 2.0 (the "License");
+	 * you may not use this file except in compliance with the License.
+	 * You may obtain a copy of the License at
+	 *
+	 * http://www.apache.org/licenses/LICENSE-2.0
+	 *
+	 * Unless required by applicable law or agreed to in writing, software
+	 * distributed under the License is distributed on an "AS IS" BASIS,
+	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	 * See the License for the specific language governing permissions and
+	 * limitations under the License.
+	 *
+	 * @providesModule traverseAllChildren
+	 */
+
+	"use strict";
+
+	var ReactInstanceHandles = require(17);
+	var ReactTextComponent = require(23);
+
+	var invariant = require(30);
+
+	var SEPARATOR = ReactInstanceHandles.SEPARATOR;
+	var SUBSEPARATOR = ':';
+
+	/**
+	 * TODO: Test that:
+	 * 1. `mapChildren` transforms strings and numbers into `ReactTextComponent`.
+	 * 2. it('should fail when supplied duplicate key', function() {
+	 * 3. That a single child and an array with one item have the same key pattern.
+	 * });
+	 */
+
+	var userProvidedKeyEscaperLookup = {
+	  '=': '=0',
+	  '.': '=1',
+	  ':': '=2'
+	};
+
+	var userProvidedKeyEscapeRegex = /[=.:]/g;
+
+	function userProvidedKeyEscaper(match) {
+	  return userProvidedKeyEscaperLookup[match];
+	}
+
+	/**
+	 * Generate a key string that identifies a component within a set.
+	 *
+	 * @param {*} component A component that could contain a manual key.
+	 * @param {number} index Index that is used if a manual key is not provided.
+	 * @return {string}
+	 */
+	function getComponentKey(component, index) {
+	  if (component && component.props && component.props.key != null) {
+	    // Explicit key
+	    return wrapUserProvidedKey(component.props.key);
+	  }
+	  // Implicit key determined by the index in the set
+	  return index.toString(36);
+	}
+
+	/**
+	 * Escape a component key so that it is safe to use in a reactid.
+	 *
+	 * @param {*} key Component key to be escaped.
+	 * @return {string} An escaped string.
+	 */
+	function escapeUserProvidedKey(text) {
+	  return ('' + text).replace(
+	    userProvidedKeyEscapeRegex,
+	    userProvidedKeyEscaper
+	  );
+	}
+
+	/**
+	 * Wrap a `key` value explicitly provided by the user to distinguish it from
+	 * implicitly-generated keys generated by a component's index in its parent.
+	 *
+	 * @param {string} key Value of a user-provided `key` attribute
+	 * @return {string}
+	 */
+	function wrapUserProvidedKey(key) {
+	  return '$' + escapeUserProvidedKey(key);
+	}
+
+	/**
+	 * @param {?*} children Children tree container.
+	 * @param {!string} nameSoFar Name of the key path so far.
+	 * @param {!number} indexSoFar Number of children encountered until this point.
+	 * @param {!function} callback Callback to invoke with each child found.
+	 * @param {?*} traverseContext Used to pass information throughout the traversal
+	 * process.
+	 * @return {!number} The number of children in this subtree.
+	 */
+	var traverseAllChildrenImpl =
+	  function(children, nameSoFar, indexSoFar, callback, traverseContext) {
+	    var subtreeCount = 0;  // Count of children found in the current subtree.
+	    if (Array.isArray(children)) {
+	      for (var i = 0; i < children.length; i++) {
+	        var child = children[i];
+	        var nextName = (
+	          nameSoFar +
+	          (nameSoFar ? SUBSEPARATOR : SEPARATOR) +
+	          getComponentKey(child, i)
+	        );
+	        var nextIndex = indexSoFar + subtreeCount;
+	        subtreeCount += traverseAllChildrenImpl(
+	          child,
+	          nextName,
+	          nextIndex,
+	          callback,
+	          traverseContext
+	        );
+	      }
+	    } else {
+	      var type = typeof children;
+	      var isOnlyChild = nameSoFar === '';
+	      // If it's the only child, treat the name as if it was wrapped in an array
+	      // so that it's consistent if the number of children grows
+	      var storageName =
+	        isOnlyChild ? SEPARATOR + getComponentKey(children, 0) : nameSoFar;
+	      if (children == null || type === 'boolean') {
+	        // All of the above are perceived as null.
+	        callback(traverseContext, null, storageName, indexSoFar);
+	        subtreeCount = 1;
+	      } else if (children.type && children.type.prototype &&
+	                 children.type.prototype.mountComponentIntoNode) {
+	        callback(traverseContext, children, storageName, indexSoFar);
+	        subtreeCount = 1;
+	      } else {
+	        if (type === 'object') {
+	          (false ? invariant(
+	            !children || children.nodeType !== 1,
+	            'traverseAllChildren(...): Encountered an invalid child; DOM ' +
+	            'elements are not valid children of React components.'
+	          ) : invariant(!children || children.nodeType !== 1));
+	          for (var key in children) {
+	            if (children.hasOwnProperty(key)) {
+	              subtreeCount += traverseAllChildrenImpl(
+	                children[key],
+	                (
+	                  nameSoFar + (nameSoFar ? SUBSEPARATOR : SEPARATOR) +
+	                  wrapUserProvidedKey(key) + SUBSEPARATOR +
+	                  getComponentKey(children[key], 0)
+	                ),
+	                indexSoFar + subtreeCount,
+	                callback,
+	                traverseContext
+	              );
+	            }
+	          }
+	        } else if (type === 'string') {
+	          var normalizedText = new ReactTextComponent(children);
+	          callback(traverseContext, normalizedText, storageName, indexSoFar);
+	          subtreeCount += 1;
+	        } else if (type === 'number') {
+	          var normalizedNumber = new ReactTextComponent('' + children);
+	          callback(traverseContext, normalizedNumber, storageName, indexSoFar);
+	          subtreeCount += 1;
+	        }
+	      }
+	    }
+	    return subtreeCount;
+	  };
+
+	/**
+	 * Traverses children that are typically specified as `props.children`, but
+	 * might also be specified through attributes:
+	 *
+	 * - `traverseAllChildren(this.props.children, ...)`
+	 * - `traverseAllChildren(this.props.leftPanelChildren, ...)`
+	 *
+	 * The `traverseContext` is an optional argument that is passed through the
+	 * entire traversal. It can be used to store accumulations or anything else that
+	 * the callback might find relevant.
+	 *
+	 * @param {?*} children Children tree object.
+	 * @param {!function} callback To invoke upon traversing each child.
+	 * @param {?*} traverseContext Context for traversal.
+	 */
+	function traverseAllChildren(children, callback, traverseContext) {
+	  if (children !== null && children !== undefined) {
+	    traverseAllChildrenImpl(children, '', 0, callback, traverseContext);
+	  }
+	}
+
+	module.exports = traverseAllChildren;
+
+
+/***/ },
+/* 33 */
 /***/ function(module, exports, require) {
 
 	/**
@@ -7167,8 +7124,8 @@
 
 	"use strict";
 
-	var emptyObject = require(95);
-	var invariant = require(26);
+	var emptyObject = require(84);
+	var invariant = require(30);
 
 	/**
 	 * ReactOwners are capable of storing references to owned components.
@@ -7309,232 +7266,7 @@
 
 
 /***/ },
-/* 35 */
-/***/ function(module, exports, require) {
-
-	/**
-	 * Copyright 2013-2014 Facebook, Inc.
-	 *
-	 * Licensed under the Apache License, Version 2.0 (the "License");
-	 * you may not use this file except in compliance with the License.
-	 * You may obtain a copy of the License at
-	 *
-	 * http://www.apache.org/licenses/LICENSE-2.0
-	 *
-	 * Unless required by applicable law or agreed to in writing, software
-	 * distributed under the License is distributed on an "AS IS" BASIS,
-	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-	 * See the License for the specific language governing permissions and
-	 * limitations under the License.
-	 *
-	 * @providesModule ReactPropTransferer
-	 */
-
-	"use strict";
-
-	var emptyFunction = require(83);
-	var invariant = require(26);
-	var joinClasses = require(84);
-	var merge = require(41);
-
-	/**
-	 * Creates a transfer strategy that will merge prop values using the supplied
-	 * `mergeStrategy`. If a prop was previously unset, this just sets it.
-	 *
-	 * @param {function} mergeStrategy
-	 * @return {function}
-	 */
-	function createTransferStrategy(mergeStrategy) {
-	  return function(props, key, value) {
-	    if (!props.hasOwnProperty(key)) {
-	      props[key] = value;
-	    } else {
-	      props[key] = mergeStrategy(props[key], value);
-	    }
-	  };
-	}
-
-	/**
-	 * Transfer strategies dictate how props are transferred by `transferPropsTo`.
-	 * NOTE: if you add any more exceptions to this list you should be sure to
-	 * update `cloneWithProps()` accordingly.
-	 */
-	var TransferStrategies = {
-	  /**
-	   * Never transfer `children`.
-	   */
-	  children: emptyFunction,
-	  /**
-	   * Transfer the `className` prop by merging them.
-	   */
-	  className: createTransferStrategy(joinClasses),
-	  /**
-	   * Never transfer the `key` prop.
-	   */
-	  key: emptyFunction,
-	  /**
-	   * Never transfer the `ref` prop.
-	   */
-	  ref: emptyFunction,
-	  /**
-	   * Transfer the `style` prop (which is an object) by merging them.
-	   */
-	  style: createTransferStrategy(merge)
-	};
-
-	/**
-	 * ReactPropTransferer are capable of transferring props to another component
-	 * using a `transferPropsTo` method.
-	 *
-	 * @class ReactPropTransferer
-	 */
-	var ReactPropTransferer = {
-
-	  TransferStrategies: TransferStrategies,
-
-	  /**
-	   * Merge two props objects using TransferStrategies.
-	   *
-	   * @param {object} oldProps original props (they take precedence)
-	   * @param {object} newProps new props to merge in
-	   * @return {object} a new object containing both sets of props merged.
-	   */
-	  mergeProps: function(oldProps, newProps) {
-	    var props = merge(oldProps);
-
-	    for (var thisKey in newProps) {
-	      if (!newProps.hasOwnProperty(thisKey)) {
-	        continue;
-	      }
-
-	      var transferStrategy = TransferStrategies[thisKey];
-
-	      if (transferStrategy && TransferStrategies.hasOwnProperty(thisKey)) {
-	        transferStrategy(props, thisKey, newProps[thisKey]);
-	      } else if (!props.hasOwnProperty(thisKey)) {
-	        props[thisKey] = newProps[thisKey];
-	      }
-	    }
-
-	    return props;
-	  },
-
-	  /**
-	   * @lends {ReactPropTransferer.prototype}
-	   */
-	  Mixin: {
-
-	    /**
-	     * Transfer props from this component to a target component.
-	     *
-	     * Props that do not have an explicit transfer strategy will be transferred
-	     * only if the target component does not already have the prop set.
-	     *
-	     * This is usually used to pass down props to a returned root component.
-	     *
-	     * @param {ReactComponent} component Component receiving the properties.
-	     * @return {ReactComponent} The supplied `component`.
-	     * @final
-	     * @protected
-	     */
-	    transferPropsTo: function(component) {
-	      (false ? invariant(
-	        component._owner === this,
-	        '%s: You can\'t call transferPropsTo() on a component that you ' +
-	        'don\'t own, %s. This usually means you are calling ' +
-	        'transferPropsTo() on a component passed in as props or children.',
-	        this.constructor.displayName,
-	        component.constructor.displayName
-	      ) : invariant(component._owner === this));
-
-	      component.props = ReactPropTransferer.mergeProps(
-	        component.props,
-	        this.props
-	      );
-
-	      return component;
-	    }
-
-	  }
-	};
-
-	module.exports = ReactPropTransferer;
-
-
-/***/ },
-/* 36 */
-/***/ function(module, exports, require) {
-
-	/**
-	 * Copyright 2013-2014 Facebook, Inc.
-	 *
-	 * Licensed under the Apache License, Version 2.0 (the "License");
-	 * you may not use this file except in compliance with the License.
-	 * You may obtain a copy of the License at
-	 *
-	 * http://www.apache.org/licenses/LICENSE-2.0
-	 *
-	 * Unless required by applicable law or agreed to in writing, software
-	 * distributed under the License is distributed on an "AS IS" BASIS,
-	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-	 * See the License for the specific language governing permissions and
-	 * limitations under the License.
-	 *
-	 * @providesModule ReactPropTypeLocations
-	 */
-
-	"use strict";
-
-	var keyMirror = require(40);
-
-	var ReactPropTypeLocations = keyMirror({
-	  prop: null,
-	  context: null,
-	  childContext: null
-	});
-
-	module.exports = ReactPropTypeLocations;
-
-
-/***/ },
-/* 37 */
-/***/ function(module, exports, require) {
-
-	/**
-	 * Copyright 2013-2014 Facebook, Inc.
-	 *
-	 * Licensed under the Apache License, Version 2.0 (the "License");
-	 * you may not use this file except in compliance with the License.
-	 * You may obtain a copy of the License at
-	 *
-	 * http://www.apache.org/licenses/LICENSE-2.0
-	 *
-	 * Unless required by applicable law or agreed to in writing, software
-	 * distributed under the License is distributed on an "AS IS" BASIS,
-	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-	 * See the License for the specific language governing permissions and
-	 * limitations under the License.
-	 *
-	 * @providesModule ReactPropTypeLocationNames
-	 */
-
-	"use strict";
-
-	var ReactPropTypeLocationNames = {};
-
-	if (false) {
-	  ReactPropTypeLocationNames = {
-	    prop: 'prop',
-	    context: 'context',
-	    childContext: 'child context'
-	  };
-	}
-
-	module.exports = ReactPropTypeLocationNames;
-
-
-/***/ },
-/* 38 */
+/* 34 */
 /***/ function(module, exports, require) {
 
 	/**
@@ -7559,7 +7291,7 @@
 
 	var ReactPerf = require(20);
 
-	var invariant = require(26);
+	var invariant = require(30);
 
 	var dirtyComponents = [];
 
@@ -7688,7 +7420,425 @@
 
 
 /***/ },
+/* 35 */
+/***/ function(module, exports, require) {
+
+	/**
+	 * Copyright 2013-2014 Facebook, Inc.
+	 *
+	 * Licensed under the Apache License, Version 2.0 (the "License");
+	 * you may not use this file except in compliance with the License.
+	 * You may obtain a copy of the License at
+	 *
+	 * http://www.apache.org/licenses/LICENSE-2.0
+	 *
+	 * Unless required by applicable law or agreed to in writing, software
+	 * distributed under the License is distributed on an "AS IS" BASIS,
+	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	 * See the License for the specific language governing permissions and
+	 * limitations under the License.
+	 *
+	 * @providesModule keyMirror
+	 * @typechecks static-only
+	 */
+
+	"use strict";
+
+	var invariant = require(30);
+
+	/**
+	 * Constructs an enumeration with keys equal to their value.
+	 *
+	 * For example:
+	 *
+	 *   var COLORS = keyMirror({blue: null, red: null});
+	 *   var myColor = COLORS.blue;
+	 *   var isColorValid = !!COLORS[myColor];
+	 *
+	 * The last line could not be performed if the values of the generated enum were
+	 * not equal to their keys.
+	 *
+	 *   Input:  {key1: val1, key2: val2}
+	 *   Output: {key1: key1, key2: key2}
+	 *
+	 * @param {object} obj
+	 * @return {object}
+	 */
+	var keyMirror = function(obj) {
+	  var ret = {};
+	  var key;
+	  (false ? invariant(
+	    obj instanceof Object && !Array.isArray(obj),
+	    'keyMirror(...): Argument must be an object.'
+	  ) : invariant(obj instanceof Object && !Array.isArray(obj)));
+	  for (key in obj) {
+	    if (!obj.hasOwnProperty(key)) {
+	      continue;
+	    }
+	    ret[key] = key;
+	  }
+	  return ret;
+	};
+
+	module.exports = keyMirror;
+
+
+/***/ },
+/* 36 */
+/***/ function(module, exports, require) {
+
+	/**
+	 * Copyright 2013-2014 Facebook, Inc.
+	 *
+	 * Licensed under the Apache License, Version 2.0 (the "License");
+	 * you may not use this file except in compliance with the License.
+	 * You may obtain a copy of the License at
+	 *
+	 * http://www.apache.org/licenses/LICENSE-2.0
+	 *
+	 * Unless required by applicable law or agreed to in writing, software
+	 * distributed under the License is distributed on an "AS IS" BASIS,
+	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	 * See the License for the specific language governing permissions and
+	 * limitations under the License.
+	 *
+	 * @providesModule merge
+	 */
+
+	"use strict";
+
+	var mergeInto = require(46);
+
+	/**
+	 * Shallow merges two structures into a return value, without mutating either.
+	 *
+	 * @param {?object} one Optional object with properties to merge from.
+	 * @param {?object} two Optional object with properties to merge from.
+	 * @return {object} The shallow extension of one by two.
+	 */
+	var merge = function(one, two) {
+	  var result = {};
+	  mergeInto(result, one);
+	  mergeInto(result, two);
+	  return result;
+	};
+
+	module.exports = merge;
+
+
+/***/ },
+/* 37 */
+/***/ function(module, exports, require) {
+
+	/**
+	 * Copyright 2014 Facebook, Inc.
+	 *
+	 * Licensed under the Apache License, Version 2.0 (the "License");
+	 * you may not use this file except in compliance with the License.
+	 * You may obtain a copy of the License at
+	 *
+	 * http://www.apache.org/licenses/LICENSE-2.0
+	 *
+	 * Unless required by applicable law or agreed to in writing, software
+	 * distributed under the License is distributed on an "AS IS" BASIS,
+	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	 * See the License for the specific language governing permissions and
+	 * limitations under the License.
+	 *
+	 * @providesModule monitorCodeUse
+	 */
+
+	"use strict";
+
+	var invariant = require(30);
+
+	/**
+	 * Provides open-source compatible instrumentation for monitoring certain API
+	 * uses before we're ready to issue a warning or refactor. It accepts an event
+	 * name which may only contain the characters [a-z0-9_] and an optional data
+	 * object with further information.
+	 */
+
+	function monitorCodeUse(eventName, data) {
+	  (false ? invariant(
+	    eventName && !/[^a-z0-9_]/.test(eventName),
+	    'You must provide an eventName using only the characters [a-z0-9_]'
+	  ) : invariant(eventName && !/[^a-z0-9_]/.test(eventName)));
+	}
+
+	module.exports = monitorCodeUse;
+
+
+/***/ },
+/* 38 */
+/***/ function(module, exports, require) {
+
+	/**
+	 * Copyright 2013-2014 Facebook, Inc.
+	 *
+	 * Licensed under the Apache License, Version 2.0 (the "License");
+	 * you may not use this file except in compliance with the License.
+	 * You may obtain a copy of the License at
+	 *
+	 * http://www.apache.org/licenses/LICENSE-2.0
+	 *
+	 * Unless required by applicable law or agreed to in writing, software
+	 * distributed under the License is distributed on an "AS IS" BASIS,
+	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	 * See the License for the specific language governing permissions and
+	 * limitations under the License.
+	 *
+	 * @providesModule ReactErrorUtils
+	 * @typechecks
+	 */
+
+	"use strict";
+
+	var ReactErrorUtils = {
+	  /**
+	   * Creates a guarded version of a function. This is supposed to make debugging
+	   * of event handlers easier. To aid debugging with the browser's debugger,
+	   * this currently simply returns the original function.
+	   *
+	   * @param {function} func Function to be executed
+	   * @param {string} name The name of the guard
+	   * @return {function}
+	   */
+	  guard: function(func, name) {
+	    return func;
+	  }
+	};
+
+	module.exports = ReactErrorUtils;
+
+
+/***/ },
 /* 39 */
+/***/ function(module, exports, require) {
+
+	/**
+	 * Copyright 2013-2014 Facebook, Inc.
+	 *
+	 * Licensed under the Apache License, Version 2.0 (the "License");
+	 * you may not use this file except in compliance with the License.
+	 * You may obtain a copy of the License at
+	 *
+	 * http://www.apache.org/licenses/LICENSE-2.0
+	 *
+	 * Unless required by applicable law or agreed to in writing, software
+	 * distributed under the License is distributed on an "AS IS" BASIS,
+	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	 * See the License for the specific language governing permissions and
+	 * limitations under the License.
+	 *
+	 * @providesModule ReactPropTransferer
+	 */
+
+	"use strict";
+
+	var emptyFunction = require(83);
+	var invariant = require(30);
+	var joinClasses = require(85);
+	var merge = require(36);
+
+	/**
+	 * Creates a transfer strategy that will merge prop values using the supplied
+	 * `mergeStrategy`. If a prop was previously unset, this just sets it.
+	 *
+	 * @param {function} mergeStrategy
+	 * @return {function}
+	 */
+	function createTransferStrategy(mergeStrategy) {
+	  return function(props, key, value) {
+	    if (!props.hasOwnProperty(key)) {
+	      props[key] = value;
+	    } else {
+	      props[key] = mergeStrategy(props[key], value);
+	    }
+	  };
+	}
+
+	/**
+	 * Transfer strategies dictate how props are transferred by `transferPropsTo`.
+	 * NOTE: if you add any more exceptions to this list you should be sure to
+	 * update `cloneWithProps()` accordingly.
+	 */
+	var TransferStrategies = {
+	  /**
+	   * Never transfer `children`.
+	   */
+	  children: emptyFunction,
+	  /**
+	   * Transfer the `className` prop by merging them.
+	   */
+	  className: createTransferStrategy(joinClasses),
+	  /**
+	   * Never transfer the `key` prop.
+	   */
+	  key: emptyFunction,
+	  /**
+	   * Never transfer the `ref` prop.
+	   */
+	  ref: emptyFunction,
+	  /**
+	   * Transfer the `style` prop (which is an object) by merging them.
+	   */
+	  style: createTransferStrategy(merge)
+	};
+
+	/**
+	 * ReactPropTransferer are capable of transferring props to another component
+	 * using a `transferPropsTo` method.
+	 *
+	 * @class ReactPropTransferer
+	 */
+	var ReactPropTransferer = {
+
+	  TransferStrategies: TransferStrategies,
+
+	  /**
+	   * Merge two props objects using TransferStrategies.
+	   *
+	   * @param {object} oldProps original props (they take precedence)
+	   * @param {object} newProps new props to merge in
+	   * @return {object} a new object containing both sets of props merged.
+	   */
+	  mergeProps: function(oldProps, newProps) {
+	    var props = merge(oldProps);
+
+	    for (var thisKey in newProps) {
+	      if (!newProps.hasOwnProperty(thisKey)) {
+	        continue;
+	      }
+
+	      var transferStrategy = TransferStrategies[thisKey];
+
+	      if (transferStrategy && TransferStrategies.hasOwnProperty(thisKey)) {
+	        transferStrategy(props, thisKey, newProps[thisKey]);
+	      } else if (!props.hasOwnProperty(thisKey)) {
+	        props[thisKey] = newProps[thisKey];
+	      }
+	    }
+
+	    return props;
+	  },
+
+	  /**
+	   * @lends {ReactPropTransferer.prototype}
+	   */
+	  Mixin: {
+
+	    /**
+	     * Transfer props from this component to a target component.
+	     *
+	     * Props that do not have an explicit transfer strategy will be transferred
+	     * only if the target component does not already have the prop set.
+	     *
+	     * This is usually used to pass down props to a returned root component.
+	     *
+	     * @param {ReactComponent} component Component receiving the properties.
+	     * @return {ReactComponent} The supplied `component`.
+	     * @final
+	     * @protected
+	     */
+	    transferPropsTo: function(component) {
+	      (false ? invariant(
+	        component._owner === this,
+	        '%s: You can\'t call transferPropsTo() on a component that you ' +
+	        'don\'t own, %s. This usually means you are calling ' +
+	        'transferPropsTo() on a component passed in as props or children.',
+	        this.constructor.displayName,
+	        component.constructor.displayName
+	      ) : invariant(component._owner === this));
+
+	      component.props = ReactPropTransferer.mergeProps(
+	        component.props,
+	        this.props
+	      );
+
+	      return component;
+	    }
+
+	  }
+	};
+
+	module.exports = ReactPropTransferer;
+
+
+/***/ },
+/* 40 */
+/***/ function(module, exports, require) {
+
+	/**
+	 * Copyright 2013-2014 Facebook, Inc.
+	 *
+	 * Licensed under the Apache License, Version 2.0 (the "License");
+	 * you may not use this file except in compliance with the License.
+	 * You may obtain a copy of the License at
+	 *
+	 * http://www.apache.org/licenses/LICENSE-2.0
+	 *
+	 * Unless required by applicable law or agreed to in writing, software
+	 * distributed under the License is distributed on an "AS IS" BASIS,
+	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	 * See the License for the specific language governing permissions and
+	 * limitations under the License.
+	 *
+	 * @providesModule ReactPropTypeLocations
+	 */
+
+	"use strict";
+
+	var keyMirror = require(35);
+
+	var ReactPropTypeLocations = keyMirror({
+	  prop: null,
+	  context: null,
+	  childContext: null
+	});
+
+	module.exports = ReactPropTypeLocations;
+
+
+/***/ },
+/* 41 */
+/***/ function(module, exports, require) {
+
+	/**
+	 * Copyright 2013-2014 Facebook, Inc.
+	 *
+	 * Licensed under the Apache License, Version 2.0 (the "License");
+	 * you may not use this file except in compliance with the License.
+	 * You may obtain a copy of the License at
+	 *
+	 * http://www.apache.org/licenses/LICENSE-2.0
+	 *
+	 * Unless required by applicable law or agreed to in writing, software
+	 * distributed under the License is distributed on an "AS IS" BASIS,
+	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	 * See the License for the specific language governing permissions and
+	 * limitations under the License.
+	 *
+	 * @providesModule ReactPropTypeLocationNames
+	 */
+
+	"use strict";
+
+	var ReactPropTypeLocationNames = {};
+
+	if (false) {
+	  ReactPropTypeLocationNames = {
+	    prop: 'prop',
+	    context: 'context',
+	    childContext: 'child context'
+	  };
+	}
+
+	module.exports = ReactPropTypeLocationNames;
+
+
+/***/ },
+/* 42 */
 /***/ function(module, exports, require) {
 
 	/**
@@ -7712,7 +7862,7 @@
 
 	"use strict";
 
-	var warning = require(32);
+	var warning = require(28);
 
 	/**
 	 * Validate a `componentDescriptor`. This should be exposed publicly in a follow
@@ -7764,114 +7914,7 @@
 
 
 /***/ },
-/* 40 */
-/***/ function(module, exports, require) {
-
-	/**
-	 * Copyright 2013-2014 Facebook, Inc.
-	 *
-	 * Licensed under the Apache License, Version 2.0 (the "License");
-	 * you may not use this file except in compliance with the License.
-	 * You may obtain a copy of the License at
-	 *
-	 * http://www.apache.org/licenses/LICENSE-2.0
-	 *
-	 * Unless required by applicable law or agreed to in writing, software
-	 * distributed under the License is distributed on an "AS IS" BASIS,
-	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-	 * See the License for the specific language governing permissions and
-	 * limitations under the License.
-	 *
-	 * @providesModule keyMirror
-	 * @typechecks static-only
-	 */
-
-	"use strict";
-
-	var invariant = require(26);
-
-	/**
-	 * Constructs an enumeration with keys equal to their value.
-	 *
-	 * For example:
-	 *
-	 *   var COLORS = keyMirror({blue: null, red: null});
-	 *   var myColor = COLORS.blue;
-	 *   var isColorValid = !!COLORS[myColor];
-	 *
-	 * The last line could not be performed if the values of the generated enum were
-	 * not equal to their keys.
-	 *
-	 *   Input:  {key1: val1, key2: val2}
-	 *   Output: {key1: key1, key2: key2}
-	 *
-	 * @param {object} obj
-	 * @return {object}
-	 */
-	var keyMirror = function(obj) {
-	  var ret = {};
-	  var key;
-	  (false ? invariant(
-	    obj instanceof Object && !Array.isArray(obj),
-	    'keyMirror(...): Argument must be an object.'
-	  ) : invariant(obj instanceof Object && !Array.isArray(obj)));
-	  for (key in obj) {
-	    if (!obj.hasOwnProperty(key)) {
-	      continue;
-	    }
-	    ret[key] = key;
-	  }
-	  return ret;
-	};
-
-	module.exports = keyMirror;
-
-
-/***/ },
-/* 41 */
-/***/ function(module, exports, require) {
-
-	/**
-	 * Copyright 2013-2014 Facebook, Inc.
-	 *
-	 * Licensed under the Apache License, Version 2.0 (the "License");
-	 * you may not use this file except in compliance with the License.
-	 * You may obtain a copy of the License at
-	 *
-	 * http://www.apache.org/licenses/LICENSE-2.0
-	 *
-	 * Unless required by applicable law or agreed to in writing, software
-	 * distributed under the License is distributed on an "AS IS" BASIS,
-	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-	 * See the License for the specific language governing permissions and
-	 * limitations under the License.
-	 *
-	 * @providesModule merge
-	 */
-
-	"use strict";
-
-	var mergeInto = require(50);
-
-	/**
-	 * Shallow merges two structures into a return value, without mutating either.
-	 *
-	 * @param {?object} one Optional object with properties to merge from.
-	 * @param {?object} two Optional object with properties to merge from.
-	 * @return {object} The shallow extension of one by two.
-	 */
-	var merge = function(one, two) {
-	  var result = {};
-	  mergeInto(result, one);
-	  mergeInto(result, two);
-	  return result;
-	};
-
-	module.exports = merge;
-
-
-/***/ },
-/* 42 */
+/* 43 */
 /***/ function(module, exports, require) {
 
 	/**
@@ -7908,49 +7951,6 @@
 	};
 
 	module.exports = mixInto;
-
-
-/***/ },
-/* 43 */
-/***/ function(module, exports, require) {
-
-	/**
-	 * Copyright 2014 Facebook, Inc.
-	 *
-	 * Licensed under the Apache License, Version 2.0 (the "License");
-	 * you may not use this file except in compliance with the License.
-	 * You may obtain a copy of the License at
-	 *
-	 * http://www.apache.org/licenses/LICENSE-2.0
-	 *
-	 * Unless required by applicable law or agreed to in writing, software
-	 * distributed under the License is distributed on an "AS IS" BASIS,
-	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-	 * See the License for the specific language governing permissions and
-	 * limitations under the License.
-	 *
-	 * @providesModule monitorCodeUse
-	 */
-
-	"use strict";
-
-	var invariant = require(26);
-
-	/**
-	 * Provides open-source compatible instrumentation for monitoring certain API
-	 * uses before we're ready to issue a warning or refactor. It accepts an event
-	 * name which may only contain the characters [a-z0-9_] and an optional data
-	 * object with further information.
-	 */
-
-	function monitorCodeUse(eventName, data) {
-	  (false ? invariant(
-	    eventName && !/[^a-z0-9_]/.test(eventName),
-	    'You must provide an eventName using only the characters [a-z0-9_]'
-	  ) : invariant(eventName && !/[^a-z0-9_]/.test(eventName)));
-	}
-
-	module.exports = monitorCodeUse;
 
 
 /***/ },
@@ -8092,18 +8092,122 @@
 	 * See the License for the specific language governing permissions and
 	 * limitations under the License.
 	 *
+	 * @providesModule mergeInto
+	 * @typechecks static-only
+	 */
+
+	"use strict";
+
+	var mergeHelpers = require(86);
+
+	var checkMergeObjectArg = mergeHelpers.checkMergeObjectArg;
+
+	/**
+	 * Shallow merges two structures by mutating the first parameter.
+	 *
+	 * @param {object} one Object to be merged into.
+	 * @param {?object} two Optional object with properties to merge from.
+	 */
+	function mergeInto(one, two) {
+	  checkMergeObjectArg(one);
+	  if (two != null) {
+	    checkMergeObjectArg(two);
+	    for (var key in two) {
+	      if (!two.hasOwnProperty(key)) {
+	        continue;
+	      }
+	      one[key] = two[key];
+	    }
+	  }
+	}
+
+	module.exports = mergeInto;
+
+
+/***/ },
+/* 47 */
+/***/ function(module, exports, require) {
+
+	/**
+	 * Copyright 2013-2014 Facebook, Inc.
+	 *
+	 * Licensed under the Apache License, Version 2.0 (the "License");
+	 * you may not use this file except in compliance with the License.
+	 * You may obtain a copy of the License at
+	 *
+	 * http://www.apache.org/licenses/LICENSE-2.0
+	 *
+	 * Unless required by applicable law or agreed to in writing, software
+	 * distributed under the License is distributed on an "AS IS" BASIS,
+	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	 * See the License for the specific language governing permissions and
+	 * limitations under the License.
+	 *
+	 * @providesModule objMapKeyVal
+	 */
+
+	"use strict";
+
+	/**
+	 * Behaves the same as `objMap` but invokes func with the key first, and value
+	 * second. Use `objMap` unless you need this special case.
+	 * Invokes func as:
+	 *
+	 *   func(key, value, iteration)
+	 *
+	 * @param {?object} obj Object to map keys over
+	 * @param {!function} func Invoked for each key/val pair.
+	 * @param {?*} context
+	 * @return {?object} Result of mapping or null if obj is falsey
+	 */
+	function objMapKeyVal(obj, func, context) {
+	  if (!obj) {
+	    return null;
+	  }
+	  var i = 0;
+	  var ret = {};
+	  for (var key in obj) {
+	    if (obj.hasOwnProperty(key)) {
+	      ret[key] = func.call(context, key, obj[key], i++);
+	    }
+	  }
+	  return ret;
+	}
+
+	module.exports = objMapKeyVal;
+
+
+/***/ },
+/* 48 */
+/***/ function(module, exports, require) {
+
+	/**
+	 * Copyright 2013-2014 Facebook, Inc.
+	 *
+	 * Licensed under the Apache License, Version 2.0 (the "License");
+	 * you may not use this file except in compliance with the License.
+	 * You may obtain a copy of the License at
+	 *
+	 * http://www.apache.org/licenses/LICENSE-2.0
+	 *
+	 * Unless required by applicable law or agreed to in writing, software
+	 * distributed under the License is distributed on an "AS IS" BASIS,
+	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	 * See the License for the specific language governing permissions and
+	 * limitations under the License.
+	 *
 	 * @providesModule CSSPropertyOperations
 	 * @typechecks static-only
 	 */
 
 	"use strict";
 
-	var CSSProperty = require(85);
+	var CSSProperty = require(87);
 
-	var dangerousStyleValue = require(86);
-	var escapeTextForBrowser = require(30);
-	var hyphenate = require(87);
-	var memoizeStringOnly = require(31);
+	var dangerousStyleValue = require(88);
+	var escapeTextForBrowser = require(26);
+	var hyphenate = require(89);
+	var memoizeStringOnly = require(27);
 
 	var processStyleName = memoizeStringOnly(function(styleName) {
 	  return escapeTextForBrowser(hyphenate(styleName));
@@ -8177,7 +8281,7 @@
 
 
 /***/ },
-/* 47 */
+/* 49 */
 /***/ function(module, exports, require) {
 
 	/**
@@ -8202,7 +8306,7 @@
 
 	var ReactMount = require(18);
 
-	var invariant = require(26);
+	var invariant = require(30);
 
 	var ReactBrowserComponentMixin = {
 	  /**
@@ -8225,7 +8329,7 @@
 
 
 /***/ },
-/* 48 */
+/* 50 */
 /***/ function(module, exports, require) {
 
 	/**
@@ -8249,17 +8353,17 @@
 
 	"use strict";
 
-	var EventConstants = require(25);
-	var EventListener = require(88);
-	var EventPluginHub = require(89);
-	var EventPluginRegistry = require(90);
-	var ExecutionEnvironment = require(58);
-	var ReactEventEmitterMixin = require(91);
-	var ViewportMetrics = require(92);
+	var EventConstants = require(29);
+	var EventListener = require(90);
+	var EventPluginHub = require(91);
+	var EventPluginRegistry = require(92);
+	var ExecutionEnvironment = require(53);
+	var ReactEventEmitterMixin = require(93);
+	var ViewportMetrics = require(94);
 
-	var invariant = require(26);
-	var isEventSupported = require(93);
-	var merge = require(41);
+	var invariant = require(30);
+	var isEventSupported = require(95);
+	var merge = require(36);
 
 	/**
 	 * Summary of `ReactEventEmitter` event handling:
@@ -8570,7 +8674,7 @@
 
 
 /***/ },
-/* 49 */
+/* 51 */
 /***/ function(module, exports, require) {
 
 	/**
@@ -8617,361 +8721,7 @@
 
 
 /***/ },
-/* 50 */
-/***/ function(module, exports, require) {
-
-	/**
-	 * Copyright 2013-2014 Facebook, Inc.
-	 *
-	 * Licensed under the Apache License, Version 2.0 (the "License");
-	 * you may not use this file except in compliance with the License.
-	 * You may obtain a copy of the License at
-	 *
-	 * http://www.apache.org/licenses/LICENSE-2.0
-	 *
-	 * Unless required by applicable law or agreed to in writing, software
-	 * distributed under the License is distributed on an "AS IS" BASIS,
-	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-	 * See the License for the specific language governing permissions and
-	 * limitations under the License.
-	 *
-	 * @providesModule mergeInto
-	 * @typechecks static-only
-	 */
-
-	"use strict";
-
-	var mergeHelpers = require(94);
-
-	var checkMergeObjectArg = mergeHelpers.checkMergeObjectArg;
-
-	/**
-	 * Shallow merges two structures by mutating the first parameter.
-	 *
-	 * @param {object} one Object to be merged into.
-	 * @param {?object} two Optional object with properties to merge from.
-	 */
-	function mergeInto(one, two) {
-	  checkMergeObjectArg(one);
-	  if (two != null) {
-	    checkMergeObjectArg(two);
-	    for (var key in two) {
-	      if (!two.hasOwnProperty(key)) {
-	        continue;
-	      }
-	      one[key] = two[key];
-	    }
-	  }
-	}
-
-	module.exports = mergeInto;
-
-
-/***/ },
-/* 51 */
-/***/ function(module, exports, require) {
-
-	/**
-	 * Copyright 2013-2014 Facebook, Inc.
-	 *
-	 * Licensed under the Apache License, Version 2.0 (the "License");
-	 * you may not use this file except in compliance with the License.
-	 * You may obtain a copy of the License at
-	 *
-	 * http://www.apache.org/licenses/LICENSE-2.0
-	 *
-	 * Unless required by applicable law or agreed to in writing, software
-	 * distributed under the License is distributed on an "AS IS" BASIS,
-	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-	 * See the License for the specific language governing permissions and
-	 * limitations under the License.
-	 *
-	 * @providesModule objMapKeyVal
-	 */
-
-	"use strict";
-
-	/**
-	 * Behaves the same as `objMap` but invokes func with the key first, and value
-	 * second. Use `objMap` unless you need this special case.
-	 * Invokes func as:
-	 *
-	 *   func(key, value, iteration)
-	 *
-	 * @param {?object} obj Object to map keys over
-	 * @param {!function} func Invoked for each key/val pair.
-	 * @param {?*} context
-	 * @return {?object} Result of mapping or null if obj is falsey
-	 */
-	function objMapKeyVal(obj, func, context) {
-	  if (!obj) {
-	    return null;
-	  }
-	  var i = 0;
-	  var ret = {};
-	  for (var key in obj) {
-	    if (obj.hasOwnProperty(key)) {
-	      ret[key] = func.call(context, key, obj[key], i++);
-	    }
-	  }
-	  return ret;
-	}
-
-	module.exports = objMapKeyVal;
-
-
-/***/ },
 /* 52 */
-/***/ function(module, exports, require) {
-
-	/**
-	 * Copyright 2013-2014 Facebook, Inc.
-	 *
-	 * Licensed under the Apache License, Version 2.0 (the "License");
-	 * you may not use this file except in compliance with the License.
-	 * You may obtain a copy of the License at
-	 *
-	 * http://www.apache.org/licenses/LICENSE-2.0
-	 *
-	 * Unless required by applicable law or agreed to in writing, software
-	 * distributed under the License is distributed on an "AS IS" BASIS,
-	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-	 * See the License for the specific language governing permissions and
-	 * limitations under the License.
-	 *
-	 * @providesModule ReactMultiChildUpdateTypes
-	 */
-
-	"use strict";
-
-	var keyMirror = require(40);
-
-	/**
-	 * When a component's children are updated, a series of update configuration
-	 * objects are created in order to batch and serialize the required changes.
-	 *
-	 * Enumerates all the possible types of update configurations.
-	 *
-	 * @internal
-	 */
-	var ReactMultiChildUpdateTypes = keyMirror({
-	  INSERT_MARKUP: null,
-	  MOVE_EXISTING: null,
-	  REMOVE_NODE: null,
-	  TEXT_CONTENT: null
-	});
-
-	module.exports = ReactMultiChildUpdateTypes;
-
-
-/***/ },
-/* 53 */
-/***/ function(module, exports, require) {
-
-	/**
-	 * Copyright 2013-2014 Facebook, Inc.
-	 *
-	 * Licensed under the Apache License, Version 2.0 (the "License");
-	 * you may not use this file except in compliance with the License.
-	 * You may obtain a copy of the License at
-	 *
-	 * http://www.apache.org/licenses/LICENSE-2.0
-	 *
-	 * Unless required by applicable law or agreed to in writing, software
-	 * distributed under the License is distributed on an "AS IS" BASIS,
-	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-	 * See the License for the specific language governing permissions and
-	 * limitations under the License.
-	 *
-	 * @providesModule flattenChildren
-	 */
-
-	"use strict";
-
-	var invariant = require(26);
-	var traverseAllChildren = require(28);
-
-	/**
-	 * @param {function} traverseContext Context passed through traversal.
-	 * @param {?ReactComponent} child React child component.
-	 * @param {!string} name String name of key path to child.
-	 */
-	function flattenSingleChildIntoContext(traverseContext, child, name) {
-	  // We found a component instance.
-	  var result = traverseContext;
-	  (false ? invariant(
-	    !result.hasOwnProperty(name),
-	    'flattenChildren(...): Encountered two children with the same key, `%s`. ' +
-	    'Children keys must be unique.',
-	    name
-	  ) : invariant(!result.hasOwnProperty(name)));
-	  if (child != null) {
-	    result[name] = child;
-	  }
-	}
-
-	/**
-	 * Flattens children that are typically specified as `props.children`. Any null
-	 * children will not be included in the resulting object.
-	 * @return {!object} flattened children keyed by name.
-	 */
-	function flattenChildren(children) {
-	  if (children == null) {
-	    return children;
-	  }
-	  var result = {};
-	  traverseAllChildren(children, flattenSingleChildIntoContext, result);
-	  return result;
-	}
-
-	module.exports = flattenChildren;
-
-
-/***/ },
-/* 54 */
-/***/ function(module, exports, require) {
-
-	/**
-	 * Copyright 2013-2014 Facebook, Inc.
-	 *
-	 * Licensed under the Apache License, Version 2.0 (the "License");
-	 * you may not use this file except in compliance with the License.
-	 * You may obtain a copy of the License at
-	 *
-	 * http://www.apache.org/licenses/LICENSE-2.0
-	 *
-	 * Unless required by applicable law or agreed to in writing, software
-	 * distributed under the License is distributed on an "AS IS" BASIS,
-	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-	 * See the License for the specific language governing permissions and
-	 * limitations under the License.
-	 *
-	 * @providesModule containsNode
-	 * @typechecks
-	 */
-
-	var isTextNode = require(96);
-
-	/*jslint bitwise:true */
-
-	/**
-	 * Checks if a given DOM node contains or is another DOM node.
-	 *
-	 * @param {?DOMNode} outerNode Outer DOM node.
-	 * @param {?DOMNode} innerNode Inner DOM node.
-	 * @return {boolean} True if `outerNode` contains or is `innerNode`.
-	 */
-	function containsNode(outerNode, innerNode) {
-	  if (!outerNode || !innerNode) {
-	    return false;
-	  } else if (outerNode === innerNode) {
-	    return true;
-	  } else if (isTextNode(outerNode)) {
-	    return false;
-	  } else if (isTextNode(innerNode)) {
-	    return containsNode(outerNode, innerNode.parentNode);
-	  } else if (outerNode.contains) {
-	    return outerNode.contains(innerNode);
-	  } else if (outerNode.compareDocumentPosition) {
-	    return !!(outerNode.compareDocumentPosition(innerNode) & 16);
-	  } else {
-	    return false;
-	  }
-	}
-
-	module.exports = containsNode;
-
-
-/***/ },
-/* 55 */
-/***/ function(module, exports, require) {
-
-	/**
-	 * Copyright 2013-2014 Facebook, Inc.
-	 *
-	 * Licensed under the Apache License, Version 2.0 (the "License");
-	 * you may not use this file except in compliance with the License.
-	 * You may obtain a copy of the License at
-	 *
-	 * http://www.apache.org/licenses/LICENSE-2.0
-	 *
-	 * Unless required by applicable law or agreed to in writing, software
-	 * distributed under the License is distributed on an "AS IS" BASIS,
-	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-	 * See the License for the specific language governing permissions and
-	 * limitations under the License.
-	 *
-	 * @providesModule getReactRootElementInContainer
-	 */
-
-	"use strict";
-
-	var DOC_NODE_TYPE = 9;
-
-	/**
-	 * @param {DOMElement|DOMDocument} container DOM element that may contain
-	 *                                           a React component
-	 * @return {?*} DOM element that may have the reactRoot ID, or null.
-	 */
-	function getReactRootElementInContainer(container) {
-	  if (!container) {
-	    return null;
-	  }
-
-	  if (container.nodeType === DOC_NODE_TYPE) {
-	    return container.documentElement;
-	  } else {
-	    return container.firstChild;
-	  }
-	}
-
-	module.exports = getReactRootElementInContainer;
-
-
-/***/ },
-/* 56 */
-/***/ function(module, exports, require) {
-
-	/**
-	 * Copyright 2013-2014 Facebook, Inc.
-	 *
-	 * Licensed under the Apache License, Version 2.0 (the "License");
-	 * you may not use this file except in compliance with the License.
-	 * You may obtain a copy of the License at
-	 *
-	 * http://www.apache.org/licenses/LICENSE-2.0
-	 *
-	 * Unless required by applicable law or agreed to in writing, software
-	 * distributed under the License is distributed on an "AS IS" BASIS,
-	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-	 * See the License for the specific language governing permissions and
-	 * limitations under the License.
-	 *
-	 * @providesModule ReactRootIndex
-	 * @typechecks
-	 */
-
-	"use strict";
-
-	var ReactRootIndexInjection = {
-	  /**
-	   * @param {function} _createReactRootIndex
-	   */
-	  injectCreateReactRootIndex: function(_createReactRootIndex) {
-	    ReactRootIndex.createReactRootIndex = _createReactRootIndex;
-	  }
-	};
-
-	var ReactRootIndex = {
-	  createReactRootIndex: null,
-	  injection: ReactRootIndexInjection
-	};
-
-	module.exports = ReactRootIndex;
-
-
-/***/ },
-/* 57 */
 /***/ function(module, exports, require) {
 
 	/**
@@ -8994,15 +8744,15 @@
 
 	"use strict";
 
-	var DOMProperty = require(29);
-	var EventPluginHub = require(89);
+	var DOMProperty = require(25);
+	var EventPluginHub = require(91);
 	var ReactComponent = require(10);
 	var ReactCompositeComponent = require(11);
 	var ReactDOM = require(14);
-	var ReactEventEmitter = require(48);
+	var ReactEventEmitter = require(50);
 	var ReactPerf = require(20);
-	var ReactRootIndex = require(56);
-	var ReactUpdates = require(38);
+	var ReactRootIndex = require(75);
+	var ReactUpdates = require(34);
 
 	var ReactInjection = {
 	  Component: ReactComponent.injection,
@@ -9020,7 +8770,7 @@
 
 
 /***/ },
-/* 58 */
+/* 53 */
 /***/ function(module, exports, require) {
 
 	/**
@@ -9070,7 +8820,7 @@
 
 
 /***/ },
-/* 59 */
+/* 54 */
 /***/ function(module, exports, require) {
 
 	/**
@@ -9095,7 +8845,7 @@
 
 	"use strict";
 
-	var DOMProperty = require(29);
+	var DOMProperty = require(25);
 
 	var MUST_USE_ATTRIBUTE = DOMProperty.injection.MUST_USE_ATTRIBUTE;
 	var MUST_USE_PROPERTY = DOMProperty.injection.MUST_USE_PROPERTY;
@@ -9272,7 +9022,7 @@
 
 
 /***/ },
-/* 60 */
+/* 55 */
 /***/ function(module, exports, require) {
 
 	/**
@@ -9295,16 +9045,16 @@
 
 	"use strict";
 
-	var EventConstants = require(25);
-	var EventPluginHub = require(89);
-	var EventPropagators = require(97);
-	var ExecutionEnvironment = require(58);
-	var ReactUpdates = require(38);
-	var SyntheticEvent = require(98);
+	var EventConstants = require(29);
+	var EventPluginHub = require(91);
+	var EventPropagators = require(96);
+	var ExecutionEnvironment = require(53);
+	var ReactUpdates = require(34);
+	var SyntheticEvent = require(97);
 
-	var isEventSupported = require(93);
-	var isTextInputElement = require(99);
-	var keyOf = require(49);
+	var isEventSupported = require(95);
+	var isTextInputElement = require(98);
+	var keyOf = require(51);
 
 	var topLevelTypes = EventConstants.topLevelTypes;
 
@@ -9665,7 +9415,7 @@
 
 
 /***/ },
-/* 61 */
+/* 56 */
 /***/ function(module, exports, require) {
 
 	/**
@@ -9701,7 +9451,7 @@
 
 
 /***/ },
-/* 62 */
+/* 57 */
 /***/ function(module, exports, require) {
 
 	/**
@@ -9725,14 +9475,14 @@
 
 	"use strict";
 
-	var EventConstants = require(25);
-	var EventPropagators = require(97);
-	var ExecutionEnvironment = require(58);
-	var ReactInputSelection = require(100);
-	var SyntheticCompositionEvent = require(101);
+	var EventConstants = require(29);
+	var EventPropagators = require(96);
+	var ExecutionEnvironment = require(53);
+	var ReactInputSelection = require(99);
+	var SyntheticCompositionEvent = require(100);
 
-	var getTextContentAccessor = require(102);
-	var keyOf = require(49);
+	var getTextContentAccessor = require(101);
+	var keyOf = require(51);
 
 	var END_KEYCODES = [9, 13, 27, 32]; // Tab, Return, Esc, Space
 	var START_KEYCODE = 229;
@@ -9967,7 +9717,7 @@
 
 
 /***/ },
-/* 63 */
+/* 58 */
 /***/ function(module, exports, require) {
 
 	/**
@@ -9990,7 +9740,7 @@
 
 	"use strict";
 
-	 var keyOf = require(49);
+	 var keyOf = require(51);
 
 	/**
 	 * Module that is injectable into `EventPluginHub`, that specifies a
@@ -10017,7 +9767,7 @@
 
 
 /***/ },
-/* 64 */
+/* 59 */
 /***/ function(module, exports, require) {
 
 	/**
@@ -10041,12 +9791,12 @@
 
 	"use strict";
 
-	var EventConstants = require(25);
-	var EventPropagators = require(97);
-	var SyntheticMouseEvent = require(103);
+	var EventConstants = require(29);
+	var EventPropagators = require(96);
+	var SyntheticMouseEvent = require(102);
 
 	var ReactMount = require(18);
-	var keyOf = require(49);
+	var keyOf = require(51);
 
 	var topLevelTypes = EventConstants.topLevelTypes;
 	var getFirstReactDOM = ReactMount.getFirstReactDOM;
@@ -10168,7 +9918,7 @@
 
 
 /***/ },
-/* 65 */
+/* 60 */
 /***/ function(module, exports, require) {
 
 	/**
@@ -10192,7 +9942,7 @@
 
 	"use strict";
 
-	var EventConstants = require(25);
+	var EventConstants = require(29);
 
 	var emptyFunction = require(83);
 
@@ -10237,7 +9987,7 @@
 
 
 /***/ },
-/* 66 */
+/* 61 */
 /***/ function(module, exports, require) {
 
 	/**
@@ -10262,14 +10012,14 @@
 
 	"use strict";
 
-	var ReactDOMIDOperations = require(104);
-	var ReactMarkupChecksum = require(80);
+	var ReactDOMIDOperations = require(103);
+	var ReactMarkupChecksum = require(81);
 	var ReactMount = require(18);
 	var ReactPerf = require(20);
-	var ReactReconcileTransaction = require(105);
+	var ReactReconcileTransaction = require(104);
 
-	var getReactRootElementInContainer = require(55);
-	var invariant = require(26);
+	var getReactRootElementInContainer = require(77);
+	var invariant = require(30);
 
 
 	var ELEMENT_NODE_TYPE = 1;
@@ -10367,7 +10117,7 @@
 
 
 /***/ },
-/* 67 */
+/* 62 */
 /***/ function(module, exports, require) {
 
 	/**
@@ -10391,13 +10141,13 @@
 
 	"use strict";
 
-	var PooledClass = require(27);
-	var ReactEventEmitter = require(48);
+	var PooledClass = require(31);
+	var ReactEventEmitter = require(50);
 	var ReactInstanceHandles = require(17);
 	var ReactMount = require(18);
 
-	var getEventTarget = require(107);
-	var mixInto = require(42);
+	var getEventTarget = require(105);
+	var mixInto = require(43);
 
 	/**
 	 * @type {boolean}
@@ -10522,7 +10272,7 @@
 
 
 /***/ },
-/* 68 */
+/* 63 */
 /***/ function(module, exports, require) {
 
 	/**
@@ -10546,11 +10296,11 @@
 	"use strict";
 
 	var AutoFocusMixin = require(106);
-	var ReactBrowserComponentMixin = require(47);
+	var ReactBrowserComponentMixin = require(49);
 	var ReactCompositeComponent = require(11);
 	var ReactDOM = require(14);
 
-	var keyMirror = require(40);
+	var keyMirror = require(35);
 
 	// Store a reference to the <button> `ReactDOMComponent`.
 	var button = ReactDOM.button;
@@ -10597,7 +10347,7 @@
 
 
 /***/ },
-/* 69 */
+/* 64 */
 /***/ function(module, exports, require) {
 
 	/**
@@ -10620,11 +10370,11 @@
 
 	"use strict";
 
-	var ReactBrowserComponentMixin = require(47);
+	var ReactBrowserComponentMixin = require(49);
 	var ReactCompositeComponent = require(11);
 	var ReactDOM = require(14);
-	var ReactEventEmitter = require(48);
-	var EventConstants = require(25);
+	var ReactEventEmitter = require(50);
+	var EventConstants = require(29);
 
 	// Store a reference to the <form> `ReactDOMComponent`.
 	var form = ReactDOM.form;
@@ -10665,7 +10415,7 @@
 
 
 /***/ },
-/* 70 */
+/* 65 */
 /***/ function(module, exports, require) {
 
 	/**
@@ -10688,11 +10438,11 @@
 
 	"use strict";
 
-	var ReactBrowserComponentMixin = require(47);
+	var ReactBrowserComponentMixin = require(49);
 	var ReactCompositeComponent = require(11);
 	var ReactDOM = require(14);
-	var ReactEventEmitter = require(48);
-	var EventConstants = require(25);
+	var ReactEventEmitter = require(50);
+	var EventConstants = require(29);
 
 	// Store a reference to the <img> `ReactDOMComponent`.
 	var img = ReactDOM.img;
@@ -10732,7 +10482,7 @@
 
 
 /***/ },
-/* 71 */
+/* 66 */
 /***/ function(module, exports, require) {
 
 	/**
@@ -10757,14 +10507,14 @@
 
 	var AutoFocusMixin = require(106);
 	var DOMPropertyOperations = require(7);
-	var LinkedValueUtils = require(108);
-	var ReactBrowserComponentMixin = require(47);
+	var LinkedValueUtils = require(107);
+	var ReactBrowserComponentMixin = require(49);
 	var ReactCompositeComponent = require(11);
 	var ReactDOM = require(14);
 	var ReactMount = require(18);
 
-	var invariant = require(26);
-	var merge = require(41);
+	var invariant = require(30);
+	var merge = require(36);
 
 	// Store a reference to the <input> `ReactDOMComponent`.
 	var input = ReactDOM.input;
@@ -10920,7 +10670,7 @@
 
 
 /***/ },
-/* 72 */
+/* 67 */
 /***/ function(module, exports, require) {
 
 	/**
@@ -10943,11 +10693,11 @@
 
 	"use strict";
 
-	var ReactBrowserComponentMixin = require(47);
+	var ReactBrowserComponentMixin = require(49);
 	var ReactCompositeComponent = require(11);
 	var ReactDOM = require(14);
 
-	var warning = require(32);
+	var warning = require(28);
 
 	// Store a reference to the <option> `ReactDOMComponent`.
 	var option = ReactDOM.option;
@@ -10981,7 +10731,7 @@
 
 
 /***/ },
-/* 73 */
+/* 68 */
 /***/ function(module, exports, require) {
 
 	/**
@@ -11005,13 +10755,13 @@
 	"use strict";
 
 	var AutoFocusMixin = require(106);
-	var LinkedValueUtils = require(108);
-	var ReactBrowserComponentMixin = require(47);
+	var LinkedValueUtils = require(107);
+	var ReactBrowserComponentMixin = require(49);
 	var ReactCompositeComponent = require(11);
 	var ReactDOM = require(14);
 
-	var invariant = require(26);
-	var merge = require(41);
+	var invariant = require(30);
+	var merge = require(36);
 
 	// Store a reference to the <select> `ReactDOMComponent`.
 	var select = ReactDOM.select;
@@ -11167,7 +10917,7 @@
 
 
 /***/ },
-/* 74 */
+/* 69 */
 /***/ function(module, exports, require) {
 
 	/**
@@ -11192,15 +10942,15 @@
 
 	var AutoFocusMixin = require(106);
 	var DOMPropertyOperations = require(7);
-	var LinkedValueUtils = require(108);
-	var ReactBrowserComponentMixin = require(47);
+	var LinkedValueUtils = require(107);
+	var ReactBrowserComponentMixin = require(49);
 	var ReactCompositeComponent = require(11);
 	var ReactDOM = require(14);
 
-	var invariant = require(26);
-	var merge = require(41);
+	var invariant = require(30);
+	var merge = require(36);
 
-	var warning = require(32);
+	var warning = require(28);
 
 	// Store a reference to the <textarea> `ReactDOMComponent`.
 	var textarea = ReactDOM.textarea;
@@ -11317,7 +11067,7 @@
 
 
 /***/ },
-/* 75 */
+/* 70 */
 /***/ function(module, exports, require) {
 
 	/**
@@ -11340,15 +11090,15 @@
 
 	"use strict";
 
-	var EventConstants = require(25);
-	var EventPropagators = require(97);
-	var ReactInputSelection = require(100);
-	var SyntheticEvent = require(98);
+	var EventConstants = require(29);
+	var EventPropagators = require(96);
+	var ReactInputSelection = require(99);
+	var SyntheticEvent = require(97);
 
-	var getActiveElement = require(110);
-	var isTextInputElement = require(99);
-	var keyOf = require(49);
-	var shallowEqual = require(111);
+	var getActiveElement = require(108);
+	var isTextInputElement = require(98);
+	var keyOf = require(51);
+	var shallowEqual = require(109);
 
 	var topLevelTypes = EventConstants.topLevelTypes;
 
@@ -11523,7 +11273,7 @@
 
 
 /***/ },
-/* 76 */
+/* 71 */
 /***/ function(module, exports, require) {
 
 	/**
@@ -11565,7 +11315,7 @@
 
 
 /***/ },
-/* 77 */
+/* 72 */
 /***/ function(module, exports, require) {
 
 	/**
@@ -11588,21 +11338,21 @@
 
 	"use strict";
 
-	var EventConstants = require(25);
+	var EventConstants = require(29);
 	var EventPluginUtils = require(8);
-	var EventPropagators = require(97);
-	var SyntheticClipboardEvent = require(112);
-	var SyntheticEvent = require(98);
-	var SyntheticFocusEvent = require(113);
-	var SyntheticKeyboardEvent = require(114);
-	var SyntheticMouseEvent = require(103);
-	var SyntheticDragEvent = require(115);
-	var SyntheticTouchEvent = require(116);
-	var SyntheticUIEvent = require(117);
-	var SyntheticWheelEvent = require(118);
+	var EventPropagators = require(96);
+	var SyntheticClipboardEvent = require(110);
+	var SyntheticEvent = require(97);
+	var SyntheticFocusEvent = require(111);
+	var SyntheticKeyboardEvent = require(112);
+	var SyntheticMouseEvent = require(102);
+	var SyntheticDragEvent = require(113);
+	var SyntheticTouchEvent = require(114);
+	var SyntheticUIEvent = require(115);
+	var SyntheticWheelEvent = require(116);
 
-	var invariant = require(26);
-	var keyOf = require(49);
+	var invariant = require(30);
+	var keyOf = require(51);
 
 	var topLevelTypes = EventConstants.topLevelTypes;
 
@@ -11984,7 +11734,7 @@
 
 
 /***/ },
-/* 78 */
+/* 73 */
 /***/ function(module, exports, require) {
 
 	/**
@@ -12007,11 +11757,11 @@
 
 	"use strict";
 
-	var ReactUpdates = require(38);
-	var Transaction = require(109);
+	var ReactUpdates = require(34);
+	var Transaction = require(117);
 
 	var emptyFunction = require(83);
-	var mixInto = require(42);
+	var mixInto = require(43);
 
 	var RESET_BATCHED_UPDATES = {
 	  initialize: emptyFunction,
@@ -12065,7 +11815,7 @@
 
 
 /***/ },
-/* 79 */
+/* 74 */
 /***/ function(module, exports, require) {
 
 	/**
@@ -12092,7 +11842,7 @@
 	// Defeat circular references by requiring this directly.
 	var ReactCompositeComponent = require(11);
 
-	var invariant = require(26);
+	var invariant = require(30);
 
 	/**
 	 * Create a component that will throw an exception when unmounted.
@@ -12134,7 +11884,324 @@
 
 
 /***/ },
+/* 75 */
+/***/ function(module, exports, require) {
+
+	/**
+	 * Copyright 2013-2014 Facebook, Inc.
+	 *
+	 * Licensed under the Apache License, Version 2.0 (the "License");
+	 * you may not use this file except in compliance with the License.
+	 * You may obtain a copy of the License at
+	 *
+	 * http://www.apache.org/licenses/LICENSE-2.0
+	 *
+	 * Unless required by applicable law or agreed to in writing, software
+	 * distributed under the License is distributed on an "AS IS" BASIS,
+	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	 * See the License for the specific language governing permissions and
+	 * limitations under the License.
+	 *
+	 * @providesModule ReactRootIndex
+	 * @typechecks
+	 */
+
+	"use strict";
+
+	var ReactRootIndexInjection = {
+	  /**
+	   * @param {function} _createReactRootIndex
+	   */
+	  injectCreateReactRootIndex: function(_createReactRootIndex) {
+	    ReactRootIndex.createReactRootIndex = _createReactRootIndex;
+	  }
+	};
+
+	var ReactRootIndex = {
+	  createReactRootIndex: null,
+	  injection: ReactRootIndexInjection
+	};
+
+	module.exports = ReactRootIndex;
+
+
+/***/ },
+/* 76 */
+/***/ function(module, exports, require) {
+
+	/**
+	 * Copyright 2013-2014 Facebook, Inc.
+	 *
+	 * Licensed under the Apache License, Version 2.0 (the "License");
+	 * you may not use this file except in compliance with the License.
+	 * You may obtain a copy of the License at
+	 *
+	 * http://www.apache.org/licenses/LICENSE-2.0
+	 *
+	 * Unless required by applicable law or agreed to in writing, software
+	 * distributed under the License is distributed on an "AS IS" BASIS,
+	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	 * See the License for the specific language governing permissions and
+	 * limitations under the License.
+	 *
+	 * @providesModule containsNode
+	 * @typechecks
+	 */
+
+	var isTextNode = require(118);
+
+	/*jslint bitwise:true */
+
+	/**
+	 * Checks if a given DOM node contains or is another DOM node.
+	 *
+	 * @param {?DOMNode} outerNode Outer DOM node.
+	 * @param {?DOMNode} innerNode Inner DOM node.
+	 * @return {boolean} True if `outerNode` contains or is `innerNode`.
+	 */
+	function containsNode(outerNode, innerNode) {
+	  if (!outerNode || !innerNode) {
+	    return false;
+	  } else if (outerNode === innerNode) {
+	    return true;
+	  } else if (isTextNode(outerNode)) {
+	    return false;
+	  } else if (isTextNode(innerNode)) {
+	    return containsNode(outerNode, innerNode.parentNode);
+	  } else if (outerNode.contains) {
+	    return outerNode.contains(innerNode);
+	  } else if (outerNode.compareDocumentPosition) {
+	    return !!(outerNode.compareDocumentPosition(innerNode) & 16);
+	  } else {
+	    return false;
+	  }
+	}
+
+	module.exports = containsNode;
+
+
+/***/ },
+/* 77 */
+/***/ function(module, exports, require) {
+
+	/**
+	 * Copyright 2013-2014 Facebook, Inc.
+	 *
+	 * Licensed under the Apache License, Version 2.0 (the "License");
+	 * you may not use this file except in compliance with the License.
+	 * You may obtain a copy of the License at
+	 *
+	 * http://www.apache.org/licenses/LICENSE-2.0
+	 *
+	 * Unless required by applicable law or agreed to in writing, software
+	 * distributed under the License is distributed on an "AS IS" BASIS,
+	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	 * See the License for the specific language governing permissions and
+	 * limitations under the License.
+	 *
+	 * @providesModule getReactRootElementInContainer
+	 */
+
+	"use strict";
+
+	var DOC_NODE_TYPE = 9;
+
+	/**
+	 * @param {DOMElement|DOMDocument} container DOM element that may contain
+	 *                                           a React component
+	 * @return {?*} DOM element that may have the reactRoot ID, or null.
+	 */
+	function getReactRootElementInContainer(container) {
+	  if (!container) {
+	    return null;
+	  }
+
+	  if (container.nodeType === DOC_NODE_TYPE) {
+	    return container.documentElement;
+	  } else {
+	    return container.firstChild;
+	  }
+	}
+
+	module.exports = getReactRootElementInContainer;
+
+
+/***/ },
+/* 78 */
+/***/ function(module, exports, require) {
+
+	/**
+	 * Copyright 2013-2014 Facebook, Inc.
+	 *
+	 * Licensed under the Apache License, Version 2.0 (the "License");
+	 * you may not use this file except in compliance with the License.
+	 * You may obtain a copy of the License at
+	 *
+	 * http://www.apache.org/licenses/LICENSE-2.0
+	 *
+	 * Unless required by applicable law or agreed to in writing, software
+	 * distributed under the License is distributed on an "AS IS" BASIS,
+	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	 * See the License for the specific language governing permissions and
+	 * limitations under the License.
+	 *
+	 * @providesModule ReactMultiChildUpdateTypes
+	 */
+
+	"use strict";
+
+	var keyMirror = require(35);
+
+	/**
+	 * When a component's children are updated, a series of update configuration
+	 * objects are created in order to batch and serialize the required changes.
+	 *
+	 * Enumerates all the possible types of update configurations.
+	 *
+	 * @internal
+	 */
+	var ReactMultiChildUpdateTypes = keyMirror({
+	  INSERT_MARKUP: null,
+	  MOVE_EXISTING: null,
+	  REMOVE_NODE: null,
+	  TEXT_CONTENT: null
+	});
+
+	module.exports = ReactMultiChildUpdateTypes;
+
+
+/***/ },
+/* 79 */
+/***/ function(module, exports, require) {
+
+	/**
+	 * Copyright 2013-2014 Facebook, Inc.
+	 *
+	 * Licensed under the Apache License, Version 2.0 (the "License");
+	 * you may not use this file except in compliance with the License.
+	 * You may obtain a copy of the License at
+	 *
+	 * http://www.apache.org/licenses/LICENSE-2.0
+	 *
+	 * Unless required by applicable law or agreed to in writing, software
+	 * distributed under the License is distributed on an "AS IS" BASIS,
+	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	 * See the License for the specific language governing permissions and
+	 * limitations under the License.
+	 *
+	 * @providesModule flattenChildren
+	 */
+
+	"use strict";
+
+	var invariant = require(30);
+	var traverseAllChildren = require(32);
+
+	/**
+	 * @param {function} traverseContext Context passed through traversal.
+	 * @param {?ReactComponent} child React child component.
+	 * @param {!string} name String name of key path to child.
+	 */
+	function flattenSingleChildIntoContext(traverseContext, child, name) {
+	  // We found a component instance.
+	  var result = traverseContext;
+	  (false ? invariant(
+	    !result.hasOwnProperty(name),
+	    'flattenChildren(...): Encountered two children with the same key, `%s`. ' +
+	    'Children keys must be unique.',
+	    name
+	  ) : invariant(!result.hasOwnProperty(name)));
+	  if (child != null) {
+	    result[name] = child;
+	  }
+	}
+
+	/**
+	 * Flattens children that are typically specified as `props.children`. Any null
+	 * children will not be included in the resulting object.
+	 * @return {!object} flattened children keyed by name.
+	 */
+	function flattenChildren(children) {
+	  if (children == null) {
+	    return children;
+	  }
+	  var result = {};
+	  traverseAllChildren(children, flattenSingleChildIntoContext, result);
+	  return result;
+	}
+
+	module.exports = flattenChildren;
+
+
+/***/ },
 /* 80 */
+/***/ function(module, exports, require) {
+
+	/**
+	 * Copyright 2013-2014 Facebook, Inc.
+	 *
+	 * Licensed under the Apache License, Version 2.0 (the "License");
+	 * you may not use this file except in compliance with the License.
+	 * You may obtain a copy of the License at
+	 *
+	 * http://www.apache.org/licenses/LICENSE-2.0
+	 *
+	 * Unless required by applicable law or agreed to in writing, software
+	 * distributed under the License is distributed on an "AS IS" BASIS,
+	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	 * See the License for the specific language governing permissions and
+	 * limitations under the License.
+	 *
+	 * @providesModule createObjectFrom
+	 */
+
+	/**
+	 * Construct an object from an array of keys
+	 * and optionally specified value or list of values.
+	 *
+	 *  >>> createObjectFrom(['a','b','c']);
+	 *  {a: true, b: true, c: true}
+	 *
+	 *  >>> createObjectFrom(['a','b','c'], false);
+	 *  {a: false, b: false, c: false}
+	 *
+	 *  >>> createObjectFrom(['a','b','c'], 'monkey');
+	 *  {c:'monkey', b:'monkey' c:'monkey'}
+	 *
+	 *  >>> createObjectFrom(['a','b','c'], [1,2,3]);
+	 *  {a: 1, b: 2, c: 3}
+	 *
+	 *  >>> createObjectFrom(['women', 'men'], [true, false]);
+	 *  {women: true, men: false}
+	 *
+	 * @param   Array   list of keys
+	 * @param   mixed   optional value or value array.  defaults true.
+	 * @returns object
+	 */
+	function createObjectFrom(keys, values /* = true */) {
+	  if (false) {
+	    if (!Array.isArray(keys)) {
+	      throw new TypeError('Must pass an array of keys.');
+	    }
+	  }
+
+	  var object = {};
+	  var isArray = Array.isArray(values);
+	  if (typeof values == 'undefined') {
+	    values = true;
+	  }
+
+	  for (var ii = keys.length; ii--;) {
+	    object[keys[ii]] = isArray ? values[ii] : values;
+	  }
+	  return object;
+	}
+
+	module.exports = createObjectFrom;
+
+
+/***/ },
+/* 81 */
 /***/ function(module, exports, require) {
 
 	/**
@@ -12193,7 +12260,7 @@
 
 
 /***/ },
-/* 81 */
+/* 82 */
 /***/ function(module, exports, require) {
 
 	/**
@@ -12217,13 +12284,13 @@
 
 	"use strict";
 
-	var PooledClass = require(27);
+	var PooledClass = require(31);
 	var ReactMountReady = require(120);
 	var ReactPutListenerQueue = require(121);
-	var Transaction = require(109);
+	var Transaction = require(117);
 
 	var emptyFunction = require(83);
-	var mixInto = require(42);
+	var mixInto = require(43);
 
 	/**
 	 * Provides a `ReactMountReady` queue for collecting `onDOMReady` callbacks
@@ -12315,73 +12382,6 @@
 
 
 /***/ },
-/* 82 */
-/***/ function(module, exports, require) {
-
-	/**
-	 * Copyright 2013-2014 Facebook, Inc.
-	 *
-	 * Licensed under the Apache License, Version 2.0 (the "License");
-	 * you may not use this file except in compliance with the License.
-	 * You may obtain a copy of the License at
-	 *
-	 * http://www.apache.org/licenses/LICENSE-2.0
-	 *
-	 * Unless required by applicable law or agreed to in writing, software
-	 * distributed under the License is distributed on an "AS IS" BASIS,
-	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-	 * See the License for the specific language governing permissions and
-	 * limitations under the License.
-	 *
-	 * @providesModule createObjectFrom
-	 */
-
-	/**
-	 * Construct an object from an array of keys
-	 * and optionally specified value or list of values.
-	 *
-	 *  >>> createObjectFrom(['a','b','c']);
-	 *  {a: true, b: true, c: true}
-	 *
-	 *  >>> createObjectFrom(['a','b','c'], false);
-	 *  {a: false, b: false, c: false}
-	 *
-	 *  >>> createObjectFrom(['a','b','c'], 'monkey');
-	 *  {c:'monkey', b:'monkey' c:'monkey'}
-	 *
-	 *  >>> createObjectFrom(['a','b','c'], [1,2,3]);
-	 *  {a: 1, b: 2, c: 3}
-	 *
-	 *  >>> createObjectFrom(['women', 'men'], [true, false]);
-	 *  {women: true, men: false}
-	 *
-	 * @param   Array   list of keys
-	 * @param   mixed   optional value or value array.  defaults true.
-	 * @returns object
-	 */
-	function createObjectFrom(keys, values /* = true */) {
-	  if (false) {
-	    if (!Array.isArray(keys)) {
-	      throw new TypeError('Must pass an array of keys.');
-	    }
-	  }
-
-	  var object = {};
-	  var isArray = Array.isArray(values);
-	  if (typeof values == 'undefined') {
-	    values = true;
-	  }
-
-	  for (var ii = keys.length; ii--;) {
-	    object[keys[ii]] = isArray ? values[ii] : values;
-	  }
-	  return object;
-	}
-
-	module.exports = createObjectFrom;
-
-
-/***/ },
 /* 83 */
 /***/ function(module, exports, require) {
 
@@ -12403,7 +12403,7 @@
 	 * @providesModule emptyFunction
 	 */
 
-	var copyProperties = require(125);
+	var copyProperties = require(122);
 
 	function makeEmptyFunction(arg) {
 	  return function() {
@@ -12432,6 +12432,39 @@
 
 /***/ },
 /* 84 */
+/***/ function(module, exports, require) {
+
+	/**
+	 * Copyright 2013-2014 Facebook, Inc.
+	 *
+	 * Licensed under the Apache License, Version 2.0 (the "License");
+	 * you may not use this file except in compliance with the License.
+	 * You may obtain a copy of the License at
+	 *
+	 * http://www.apache.org/licenses/LICENSE-2.0
+	 *
+	 * Unless required by applicable law or agreed to in writing, software
+	 * distributed under the License is distributed on an "AS IS" BASIS,
+	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	 * See the License for the specific language governing permissions and
+	 * limitations under the License.
+	 *
+	 * @providesModule emptyObject
+	 */
+
+	"use strict";
+
+	var emptyObject = {};
+
+	if (false) {
+	  Object.freeze(emptyObject);
+	}
+
+	module.exports = emptyObject;
+
+
+/***/ },
+/* 85 */
 /***/ function(module, exports, require) {
 
 	/**
@@ -12481,7 +12514,149 @@
 
 
 /***/ },
-/* 85 */
+/* 86 */
+/***/ function(module, exports, require) {
+
+	/**
+	 * Copyright 2013-2014 Facebook, Inc.
+	 *
+	 * Licensed under the Apache License, Version 2.0 (the "License");
+	 * you may not use this file except in compliance with the License.
+	 * You may obtain a copy of the License at
+	 *
+	 * http://www.apache.org/licenses/LICENSE-2.0
+	 *
+	 * Unless required by applicable law or agreed to in writing, software
+	 * distributed under the License is distributed on an "AS IS" BASIS,
+	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	 * See the License for the specific language governing permissions and
+	 * limitations under the License.
+	 *
+	 * @providesModule mergeHelpers
+	 *
+	 * requiresPolyfills: Array.isArray
+	 */
+
+	"use strict";
+
+	var invariant = require(30);
+	var keyMirror = require(35);
+
+	/**
+	 * Maximum number of levels to traverse. Will catch circular structures.
+	 * @const
+	 */
+	var MAX_MERGE_DEPTH = 36;
+
+	/**
+	 * We won't worry about edge cases like new String('x') or new Boolean(true).
+	 * Functions are considered terminals, and arrays are not.
+	 * @param {*} o The item/object/value to test.
+	 * @return {boolean} true iff the argument is a terminal.
+	 */
+	var isTerminal = function(o) {
+	  return typeof o !== 'object' || o === null;
+	};
+
+	var mergeHelpers = {
+
+	  MAX_MERGE_DEPTH: MAX_MERGE_DEPTH,
+
+	  isTerminal: isTerminal,
+
+	  /**
+	   * Converts null/undefined values into empty object.
+	   *
+	   * @param {?Object=} arg Argument to be normalized (nullable optional)
+	   * @return {!Object}
+	   */
+	  normalizeMergeArg: function(arg) {
+	    return arg === undefined || arg === null ? {} : arg;
+	  },
+
+	  /**
+	   * If merging Arrays, a merge strategy *must* be supplied. If not, it is
+	   * likely the caller's fault. If this function is ever called with anything
+	   * but `one` and `two` being `Array`s, it is the fault of the merge utilities.
+	   *
+	   * @param {*} one Array to merge into.
+	   * @param {*} two Array to merge from.
+	   */
+	  checkMergeArrayArgs: function(one, two) {
+	    (false ? invariant(
+	      Array.isArray(one) && Array.isArray(two),
+	      'Tried to merge arrays, instead got %s and %s.',
+	      one,
+	      two
+	    ) : invariant(Array.isArray(one) && Array.isArray(two)));
+	  },
+
+	  /**
+	   * @param {*} one Object to merge into.
+	   * @param {*} two Object to merge from.
+	   */
+	  checkMergeObjectArgs: function(one, two) {
+	    mergeHelpers.checkMergeObjectArg(one);
+	    mergeHelpers.checkMergeObjectArg(two);
+	  },
+
+	  /**
+	   * @param {*} arg
+	   */
+	  checkMergeObjectArg: function(arg) {
+	    (false ? invariant(
+	      !isTerminal(arg) && !Array.isArray(arg),
+	      'Tried to merge an object, instead got %s.',
+	      arg
+	    ) : invariant(!isTerminal(arg) && !Array.isArray(arg)));
+	  },
+
+	  /**
+	   * Checks that a merge was not given a circular object or an object that had
+	   * too great of depth.
+	   *
+	   * @param {number} Level of recursion to validate against maximum.
+	   */
+	  checkMergeLevel: function(level) {
+	    (false ? invariant(
+	      level < MAX_MERGE_DEPTH,
+	      'Maximum deep merge depth exceeded. You may be attempting to merge ' +
+	      'circular structures in an unsupported way.'
+	    ) : invariant(level < MAX_MERGE_DEPTH));
+	  },
+
+	  /**
+	   * Checks that the supplied merge strategy is valid.
+	   *
+	   * @param {string} Array merge strategy.
+	   */
+	  checkArrayStrategy: function(strategy) {
+	    (false ? invariant(
+	      strategy === undefined || strategy in mergeHelpers.ArrayStrategies,
+	      'You must provide an array strategy to deep merge functions to ' +
+	      'instruct the deep merge how to resolve merging two arrays.'
+	    ) : invariant(strategy === undefined || strategy in mergeHelpers.ArrayStrategies));
+	  },
+
+	  /**
+	   * Set of possible behaviors of merge algorithms when encountering two Arrays
+	   * that must be merged together.
+	   * - `clobber`: The left `Array` is ignored.
+	   * - `indexByIndex`: The result is achieved by recursively deep merging at
+	   *   each index. (not yet supported.)
+	   */
+	  ArrayStrategies: keyMirror({
+	    Clobber: true,
+	    IndexByIndex: true
+	  })
+
+	};
+
+	module.exports = mergeHelpers;
+
+
+/***/ },
+/* 87 */
 /***/ function(module, exports, require) {
 
 	/**
@@ -12608,7 +12783,7 @@
 
 
 /***/ },
-/* 86 */
+/* 88 */
 /***/ function(module, exports, require) {
 
 	/**
@@ -12632,7 +12807,7 @@
 
 	"use strict";
 
-	var CSSProperty = require(85);
+	var CSSProperty = require(87);
 
 	/**
 	 * Convert a value into the proper css writable value. The `styleName` name
@@ -12671,7 +12846,7 @@
 
 
 /***/ },
-/* 87 */
+/* 89 */
 /***/ function(module, exports, require) {
 
 	/**
@@ -12712,7 +12887,7 @@
 
 
 /***/ },
-/* 88 */
+/* 90 */
 /***/ function(module, exports, require) {
 
 	/**
@@ -12787,7 +12962,7 @@
 
 
 /***/ },
-/* 89 */
+/* 91 */
 /***/ function(module, exports, require) {
 
 	/**
@@ -12810,15 +12985,15 @@
 
 	"use strict";
 
-	var EventPluginRegistry = require(90);
+	var EventPluginRegistry = require(92);
 	var EventPluginUtils = require(8);
-	var ExecutionEnvironment = require(58);
+	var ExecutionEnvironment = require(53);
 
-	var accumulate = require(122);
-	var forEachAccumulated = require(123);
-	var invariant = require(26);
-	var isEventSupported = require(93);
-	var monitorCodeUse = require(43);
+	var accumulate = require(123);
+	var forEachAccumulated = require(124);
+	var invariant = require(30);
+	var isEventSupported = require(95);
+	var monitorCodeUse = require(37);
 
 	/**
 	 * Internal store for event listeners
@@ -13088,7 +13263,7 @@
 
 
 /***/ },
-/* 90 */
+/* 92 */
 /***/ function(module, exports, require) {
 
 	/**
@@ -13112,7 +13287,7 @@
 
 	"use strict";
 
-	var invariant = require(26);
+	var invariant = require(30);
 
 	/**
 	 * Injectable ordering of event plugins.
@@ -13375,7 +13550,7 @@
 
 
 /***/ },
-/* 91 */
+/* 93 */
 /***/ function(module, exports, require) {
 
 	/**
@@ -13398,8 +13573,8 @@
 
 	"use strict";
 
-	var EventPluginHub = require(89);
-	var ReactUpdates = require(38);
+	var EventPluginHub = require(91);
+	var ReactUpdates = require(34);
 
 	function runEventQueueInBatch(events) {
 	  EventPluginHub.enqueueEvents(events);
@@ -13438,7 +13613,7 @@
 
 
 /***/ },
-/* 92 */
+/* 94 */
 /***/ function(module, exports, require) {
 
 	/**
@@ -13461,7 +13636,7 @@
 
 	"use strict";
 
-	var getUnboundedScrollPosition = require(124);
+	var getUnboundedScrollPosition = require(125);
 
 	var ViewportMetrics = {
 
@@ -13481,7 +13656,7 @@
 
 
 /***/ },
-/* 93 */
+/* 95 */
 /***/ function(module, exports, require) {
 
 	/**
@@ -13504,7 +13679,7 @@
 
 	"use strict";
 
-	var ExecutionEnvironment = require(58);
+	var ExecutionEnvironment = require(53);
 
 	var useHasFeature;
 	if (ExecutionEnvironment.canUseDOM) {
@@ -13557,218 +13732,7 @@
 
 
 /***/ },
-/* 94 */
-/***/ function(module, exports, require) {
-
-	/**
-	 * Copyright 2013-2014 Facebook, Inc.
-	 *
-	 * Licensed under the Apache License, Version 2.0 (the "License");
-	 * you may not use this file except in compliance with the License.
-	 * You may obtain a copy of the License at
-	 *
-	 * http://www.apache.org/licenses/LICENSE-2.0
-	 *
-	 * Unless required by applicable law or agreed to in writing, software
-	 * distributed under the License is distributed on an "AS IS" BASIS,
-	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-	 * See the License for the specific language governing permissions and
-	 * limitations under the License.
-	 *
-	 * @providesModule mergeHelpers
-	 *
-	 * requiresPolyfills: Array.isArray
-	 */
-
-	"use strict";
-
-	var invariant = require(26);
-	var keyMirror = require(40);
-
-	/**
-	 * Maximum number of levels to traverse. Will catch circular structures.
-	 * @const
-	 */
-	var MAX_MERGE_DEPTH = 36;
-
-	/**
-	 * We won't worry about edge cases like new String('x') or new Boolean(true).
-	 * Functions are considered terminals, and arrays are not.
-	 * @param {*} o The item/object/value to test.
-	 * @return {boolean} true iff the argument is a terminal.
-	 */
-	var isTerminal = function(o) {
-	  return typeof o !== 'object' || o === null;
-	};
-
-	var mergeHelpers = {
-
-	  MAX_MERGE_DEPTH: MAX_MERGE_DEPTH,
-
-	  isTerminal: isTerminal,
-
-	  /**
-	   * Converts null/undefined values into empty object.
-	   *
-	   * @param {?Object=} arg Argument to be normalized (nullable optional)
-	   * @return {!Object}
-	   */
-	  normalizeMergeArg: function(arg) {
-	    return arg === undefined || arg === null ? {} : arg;
-	  },
-
-	  /**
-	   * If merging Arrays, a merge strategy *must* be supplied. If not, it is
-	   * likely the caller's fault. If this function is ever called with anything
-	   * but `one` and `two` being `Array`s, it is the fault of the merge utilities.
-	   *
-	   * @param {*} one Array to merge into.
-	   * @param {*} two Array to merge from.
-	   */
-	  checkMergeArrayArgs: function(one, two) {
-	    (false ? invariant(
-	      Array.isArray(one) && Array.isArray(two),
-	      'Tried to merge arrays, instead got %s and %s.',
-	      one,
-	      two
-	    ) : invariant(Array.isArray(one) && Array.isArray(two)));
-	  },
-
-	  /**
-	   * @param {*} one Object to merge into.
-	   * @param {*} two Object to merge from.
-	   */
-	  checkMergeObjectArgs: function(one, two) {
-	    mergeHelpers.checkMergeObjectArg(one);
-	    mergeHelpers.checkMergeObjectArg(two);
-	  },
-
-	  /**
-	   * @param {*} arg
-	   */
-	  checkMergeObjectArg: function(arg) {
-	    (false ? invariant(
-	      !isTerminal(arg) && !Array.isArray(arg),
-	      'Tried to merge an object, instead got %s.',
-	      arg
-	    ) : invariant(!isTerminal(arg) && !Array.isArray(arg)));
-	  },
-
-	  /**
-	   * Checks that a merge was not given a circular object or an object that had
-	   * too great of depth.
-	   *
-	   * @param {number} Level of recursion to validate against maximum.
-	   */
-	  checkMergeLevel: function(level) {
-	    (false ? invariant(
-	      level < MAX_MERGE_DEPTH,
-	      'Maximum deep merge depth exceeded. You may be attempting to merge ' +
-	      'circular structures in an unsupported way.'
-	    ) : invariant(level < MAX_MERGE_DEPTH));
-	  },
-
-	  /**
-	   * Checks that the supplied merge strategy is valid.
-	   *
-	   * @param {string} Array merge strategy.
-	   */
-	  checkArrayStrategy: function(strategy) {
-	    (false ? invariant(
-	      strategy === undefined || strategy in mergeHelpers.ArrayStrategies,
-	      'You must provide an array strategy to deep merge functions to ' +
-	      'instruct the deep merge how to resolve merging two arrays.'
-	    ) : invariant(strategy === undefined || strategy in mergeHelpers.ArrayStrategies));
-	  },
-
-	  /**
-	   * Set of possible behaviors of merge algorithms when encountering two Arrays
-	   * that must be merged together.
-	   * - `clobber`: The left `Array` is ignored.
-	   * - `indexByIndex`: The result is achieved by recursively deep merging at
-	   *   each index. (not yet supported.)
-	   */
-	  ArrayStrategies: keyMirror({
-	    Clobber: true,
-	    IndexByIndex: true
-	  })
-
-	};
-
-	module.exports = mergeHelpers;
-
-
-/***/ },
-/* 95 */
-/***/ function(module, exports, require) {
-
-	/**
-	 * Copyright 2013-2014 Facebook, Inc.
-	 *
-	 * Licensed under the Apache License, Version 2.0 (the "License");
-	 * you may not use this file except in compliance with the License.
-	 * You may obtain a copy of the License at
-	 *
-	 * http://www.apache.org/licenses/LICENSE-2.0
-	 *
-	 * Unless required by applicable law or agreed to in writing, software
-	 * distributed under the License is distributed on an "AS IS" BASIS,
-	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-	 * See the License for the specific language governing permissions and
-	 * limitations under the License.
-	 *
-	 * @providesModule emptyObject
-	 */
-
-	"use strict";
-
-	var emptyObject = {};
-
-	if (false) {
-	  Object.freeze(emptyObject);
-	}
-
-	module.exports = emptyObject;
-
-
-/***/ },
 /* 96 */
-/***/ function(module, exports, require) {
-
-	/**
-	 * Copyright 2013-2014 Facebook, Inc.
-	 *
-	 * Licensed under the Apache License, Version 2.0 (the "License");
-	 * you may not use this file except in compliance with the License.
-	 * You may obtain a copy of the License at
-	 *
-	 * http://www.apache.org/licenses/LICENSE-2.0
-	 *
-	 * Unless required by applicable law or agreed to in writing, software
-	 * distributed under the License is distributed on an "AS IS" BASIS,
-	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-	 * See the License for the specific language governing permissions and
-	 * limitations under the License.
-	 *
-	 * @providesModule isTextNode
-	 * @typechecks
-	 */
-
-	var isNode = require(126);
-
-	/**
-	 * @param {*} object The object to check.
-	 * @return {boolean} Whether or not the object is a DOM text node.
-	 */
-	function isTextNode(object) {
-	  return isNode(object) && object.nodeType == 3;
-	}
-
-	module.exports = isTextNode;
-
-
-/***/ },
-/* 97 */
 /***/ function(module, exports, require) {
 
 	/**
@@ -13791,11 +13755,11 @@
 
 	"use strict";
 
-	var EventConstants = require(25);
-	var EventPluginHub = require(89);
+	var EventConstants = require(29);
+	var EventPluginHub = require(91);
 
-	var accumulate = require(122);
-	var forEachAccumulated = require(123);
+	var accumulate = require(123);
+	var forEachAccumulated = require(124);
 
 	var PropagationPhases = EventConstants.PropagationPhases;
 	var getListener = EventPluginHub.getListener;
@@ -13917,7 +13881,7 @@
 
 
 /***/ },
-/* 98 */
+/* 97 */
 /***/ function(module, exports, require) {
 
 	/**
@@ -13941,12 +13905,12 @@
 
 	"use strict";
 
-	var PooledClass = require(27);
+	var PooledClass = require(31);
 
 	var emptyFunction = require(83);
-	var getEventTarget = require(107);
-	var merge = require(41);
-	var mergeInto = require(50);
+	var getEventTarget = require(105);
+	var merge = require(36);
+	var mergeInto = require(46);
 
 	/**
 	 * @interface Event
@@ -14087,7 +14051,7 @@
 
 
 /***/ },
-/* 99 */
+/* 98 */
 /***/ function(module, exports, require) {
 
 	/**
@@ -14142,7 +14106,7 @@
 
 
 /***/ },
-/* 100 */
+/* 99 */
 /***/ function(module, exports, require) {
 
 	/**
@@ -14165,11 +14129,11 @@
 
 	"use strict";
 
-	var ReactDOMSelection = require(127);
+	var ReactDOMSelection = require(126);
 
-	var containsNode = require(54);
-	var focusNode = require(128);
-	var getActiveElement = require(110);
+	var containsNode = require(76);
+	var focusNode = require(127);
+	var getActiveElement = require(108);
 
 	function isInDocument(node) {
 	  return containsNode(document.documentElement, node);
@@ -14289,7 +14253,7 @@
 
 
 /***/ },
-/* 101 */
+/* 100 */
 /***/ function(module, exports, require) {
 
 	/**
@@ -14313,7 +14277,7 @@
 
 	"use strict";
 
-	var SyntheticEvent = require(98);
+	var SyntheticEvent = require(97);
 
 	/**
 	 * @interface Event
@@ -14346,7 +14310,7 @@
 
 
 /***/ },
-/* 102 */
+/* 101 */
 /***/ function(module, exports, require) {
 
 	/**
@@ -14369,7 +14333,7 @@
 
 	"use strict";
 
-	var ExecutionEnvironment = require(58);
+	var ExecutionEnvironment = require(53);
 
 	var contentKey = null;
 
@@ -14394,7 +14358,7 @@
 
 
 /***/ },
-/* 103 */
+/* 102 */
 /***/ function(module, exports, require) {
 
 	/**
@@ -14418,8 +14382,8 @@
 
 	"use strict";
 
-	var SyntheticUIEvent = require(117);
-	var ViewportMetrics = require(92);
+	var SyntheticUIEvent = require(115);
+	var ViewportMetrics = require(94);
 
 	/**
 	 * @interface MouseEvent
@@ -14485,7 +14449,7 @@
 
 
 /***/ },
-/* 104 */
+/* 103 */
 /***/ function(module, exports, require) {
 
 	/**
@@ -14511,13 +14475,13 @@
 
 	"use strict";
 
-	var CSSPropertyOperations = require(46);
-	var DOMChildrenOperations = require(129);
+	var CSSPropertyOperations = require(48);
+	var DOMChildrenOperations = require(128);
 	var DOMPropertyOperations = require(7);
 	var ReactMount = require(18);
 	var ReactPerf = require(20);
 
-	var invariant = require(26);
+	var invariant = require(30);
 
 	/**
 	 * Errors for properties that should not be updated with `updatePropertyById()`.
@@ -14709,7 +14673,7 @@
 
 
 /***/ },
-/* 105 */
+/* 104 */
 /***/ function(module, exports, require) {
 
 	/**
@@ -14733,14 +14697,14 @@
 
 	"use strict";
 
-	var PooledClass = require(27);
-	var ReactEventEmitter = require(48);
-	var ReactInputSelection = require(100);
+	var PooledClass = require(31);
+	var ReactEventEmitter = require(50);
+	var ReactInputSelection = require(99);
 	var ReactMountReady = require(120);
 	var ReactPutListenerQueue = require(121);
-	var Transaction = require(109);
+	var Transaction = require(117);
 
-	var mixInto = require(42);
+	var mixInto = require(43);
 
 	/**
 	 * Ensures that, when possible, the selection range (currently selected text
@@ -14897,45 +14861,7 @@
 
 
 /***/ },
-/* 106 */
-/***/ function(module, exports, require) {
-
-	/**
-	 * Copyright 2013-2014 Facebook, Inc.
-	 *
-	 * Licensed under the Apache License, Version 2.0 (the "License");
-	 * you may not use this file except in compliance with the License.
-	 * You may obtain a copy of the License at
-	 *
-	 * http://www.apache.org/licenses/LICENSE-2.0
-	 *
-	 * Unless required by applicable law or agreed to in writing, software
-	 * distributed under the License is distributed on an "AS IS" BASIS,
-	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-	 * See the License for the specific language governing permissions and
-	 * limitations under the License.
-	 *
-	 * @providesModule AutoFocusMixin
-	 * @typechecks static-only
-	 */
-
-	"use strict";
-
-	var focusNode = require(128);
-
-	var AutoFocusMixin = {
-	  componentDidMount: function() {
-	    if (this.props.autoFocus) {
-	      focusNode(this.getDOMNode());
-	    }
-	  }
-	};
-
-	module.exports = AutoFocusMixin;
-
-
-/***/ },
-/* 107 */
+/* 105 */
 /***/ function(module, exports, require) {
 
 	/**
@@ -14977,7 +14903,45 @@
 
 
 /***/ },
-/* 108 */
+/* 106 */
+/***/ function(module, exports, require) {
+
+	/**
+	 * Copyright 2013-2014 Facebook, Inc.
+	 *
+	 * Licensed under the Apache License, Version 2.0 (the "License");
+	 * you may not use this file except in compliance with the License.
+	 * You may obtain a copy of the License at
+	 *
+	 * http://www.apache.org/licenses/LICENSE-2.0
+	 *
+	 * Unless required by applicable law or agreed to in writing, software
+	 * distributed under the License is distributed on an "AS IS" BASIS,
+	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	 * See the License for the specific language governing permissions and
+	 * limitations under the License.
+	 *
+	 * @providesModule AutoFocusMixin
+	 * @typechecks static-only
+	 */
+
+	"use strict";
+
+	var focusNode = require(127);
+
+	var AutoFocusMixin = {
+	  componentDidMount: function() {
+	    if (this.props.autoFocus) {
+	      focusNode(this.getDOMNode());
+	    }
+	  }
+	};
+
+	module.exports = AutoFocusMixin;
+
+
+/***/ },
+/* 107 */
 /***/ function(module, exports, require) {
 
 	/**
@@ -15003,8 +14967,8 @@
 
 	var ReactPropTypes = require(21);
 
-	var invariant = require(26);
-	var warning = require(32);
+	var invariant = require(30);
+	var warning = require(28);
 
 	var hasReadOnlyValue = {
 	  'button': true,
@@ -15143,7 +15107,502 @@
 
 
 /***/ },
+/* 108 */
+/***/ function(module, exports, require) {
+
+	/**
+	 * Copyright 2013-2014 Facebook, Inc.
+	 *
+	 * Licensed under the Apache License, Version 2.0 (the "License");
+	 * you may not use this file except in compliance with the License.
+	 * You may obtain a copy of the License at
+	 *
+	 * http://www.apache.org/licenses/LICENSE-2.0
+	 *
+	 * Unless required by applicable law or agreed to in writing, software
+	 * distributed under the License is distributed on an "AS IS" BASIS,
+	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	 * See the License for the specific language governing permissions and
+	 * limitations under the License.
+	 *
+	 * @providesModule getActiveElement
+	 * @typechecks
+	 */
+
+	/**
+	 * Same as document.activeElement but wraps in a try-catch block. In IE it is
+	 * not safe to call document.activeElement if there is nothing focused.
+	 *
+	 * The activeElement will be null only if the document body is not yet defined.
+	 */
+	function getActiveElement() /*?DOMElement*/ {
+	  try {
+	    return document.activeElement || document.body;
+	  } catch (e) {
+	    return document.body;
+	  }
+	}
+
+	module.exports = getActiveElement;
+
+
+/***/ },
 /* 109 */
+/***/ function(module, exports, require) {
+
+	/**
+	 * Copyright 2013-2014 Facebook, Inc.
+	 *
+	 * Licensed under the Apache License, Version 2.0 (the "License");
+	 * you may not use this file except in compliance with the License.
+	 * You may obtain a copy of the License at
+	 *
+	 * http://www.apache.org/licenses/LICENSE-2.0
+	 *
+	 * Unless required by applicable law or agreed to in writing, software
+	 * distributed under the License is distributed on an "AS IS" BASIS,
+	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	 * See the License for the specific language governing permissions and
+	 * limitations under the License.
+	 *
+	 * @providesModule shallowEqual
+	 */
+
+	"use strict";
+
+	/**
+	 * Performs equality by iterating through keys on an object and returning
+	 * false when any key has values which are not strictly equal between
+	 * objA and objB. Returns true when the values of all keys are strictly equal.
+	 *
+	 * @return {boolean}
+	 */
+	function shallowEqual(objA, objB) {
+	  if (objA === objB) {
+	    return true;
+	  }
+	  var key;
+	  // Test for A's keys different from B.
+	  for (key in objA) {
+	    if (objA.hasOwnProperty(key) &&
+	        (!objB.hasOwnProperty(key) || objA[key] !== objB[key])) {
+	      return false;
+	    }
+	  }
+	  // Test for B'a keys missing from A.
+	  for (key in objB) {
+	    if (objB.hasOwnProperty(key) && !objA.hasOwnProperty(key)) {
+	      return false;
+	    }
+	  }
+	  return true;
+	}
+
+	module.exports = shallowEqual;
+
+
+/***/ },
+/* 110 */
+/***/ function(module, exports, require) {
+
+	/**
+	 * Copyright 2013-2014 Facebook, Inc.
+	 *
+	 * Licensed under the Apache License, Version 2.0 (the "License");
+	 * you may not use this file except in compliance with the License.
+	 * You may obtain a copy of the License at
+	 *
+	 * http://www.apache.org/licenses/LICENSE-2.0
+	 *
+	 * Unless required by applicable law or agreed to in writing, software
+	 * distributed under the License is distributed on an "AS IS" BASIS,
+	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	 * See the License for the specific language governing permissions and
+	 * limitations under the License.
+	 *
+	 * @providesModule SyntheticClipboardEvent
+	 * @typechecks static-only
+	 */
+
+	"use strict";
+
+	var SyntheticEvent = require(97);
+
+	/**
+	 * @interface Event
+	 * @see http://www.w3.org/TR/clipboard-apis/
+	 */
+	var ClipboardEventInterface = {
+	  clipboardData: function(event) {
+	    return (
+	      'clipboardData' in event ?
+	        event.clipboardData :
+	        window.clipboardData
+	    );
+	  }
+	};
+
+	/**
+	 * @param {object} dispatchConfig Configuration used to dispatch this event.
+	 * @param {string} dispatchMarker Marker identifying the event target.
+	 * @param {object} nativeEvent Native browser event.
+	 * @extends {SyntheticUIEvent}
+	 */
+	function SyntheticClipboardEvent(dispatchConfig, dispatchMarker, nativeEvent) {
+	  SyntheticEvent.call(this, dispatchConfig, dispatchMarker, nativeEvent);
+	}
+
+	SyntheticEvent.augmentClass(SyntheticClipboardEvent, ClipboardEventInterface);
+
+	module.exports = SyntheticClipboardEvent;
+
+
+
+/***/ },
+/* 111 */
+/***/ function(module, exports, require) {
+
+	/**
+	 * Copyright 2013-2014 Facebook, Inc.
+	 *
+	 * Licensed under the Apache License, Version 2.0 (the "License");
+	 * you may not use this file except in compliance with the License.
+	 * You may obtain a copy of the License at
+	 *
+	 * http://www.apache.org/licenses/LICENSE-2.0
+	 *
+	 * Unless required by applicable law or agreed to in writing, software
+	 * distributed under the License is distributed on an "AS IS" BASIS,
+	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	 * See the License for the specific language governing permissions and
+	 * limitations under the License.
+	 *
+	 * @providesModule SyntheticFocusEvent
+	 * @typechecks static-only
+	 */
+
+	"use strict";
+
+	var SyntheticUIEvent = require(115);
+
+	/**
+	 * @interface FocusEvent
+	 * @see http://www.w3.org/TR/DOM-Level-3-Events/
+	 */
+	var FocusEventInterface = {
+	  relatedTarget: null
+	};
+
+	/**
+	 * @param {object} dispatchConfig Configuration used to dispatch this event.
+	 * @param {string} dispatchMarker Marker identifying the event target.
+	 * @param {object} nativeEvent Native browser event.
+	 * @extends {SyntheticUIEvent}
+	 */
+	function SyntheticFocusEvent(dispatchConfig, dispatchMarker, nativeEvent) {
+	  SyntheticUIEvent.call(this, dispatchConfig, dispatchMarker, nativeEvent);
+	}
+
+	SyntheticUIEvent.augmentClass(SyntheticFocusEvent, FocusEventInterface);
+
+	module.exports = SyntheticFocusEvent;
+
+
+/***/ },
+/* 112 */
+/***/ function(module, exports, require) {
+
+	/**
+	 * Copyright 2013-2014 Facebook, Inc.
+	 *
+	 * Licensed under the Apache License, Version 2.0 (the "License");
+	 * you may not use this file except in compliance with the License.
+	 * You may obtain a copy of the License at
+	 *
+	 * http://www.apache.org/licenses/LICENSE-2.0
+	 *
+	 * Unless required by applicable law or agreed to in writing, software
+	 * distributed under the License is distributed on an "AS IS" BASIS,
+	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	 * See the License for the specific language governing permissions and
+	 * limitations under the License.
+	 *
+	 * @providesModule SyntheticKeyboardEvent
+	 * @typechecks static-only
+	 */
+
+	"use strict";
+
+	var SyntheticUIEvent = require(115);
+
+	var getEventKey = require(129);
+
+	/**
+	 * @interface KeyboardEvent
+	 * @see http://www.w3.org/TR/DOM-Level-3-Events/
+	 */
+	var KeyboardEventInterface = {
+	  key: getEventKey,
+	  location: null,
+	  ctrlKey: null,
+	  shiftKey: null,
+	  altKey: null,
+	  metaKey: null,
+	  repeat: null,
+	  locale: null,
+	  // Legacy Interface
+	  'char': null,
+	  charCode: null,
+	  keyCode: null,
+	  which: null
+	};
+
+	/**
+	 * @param {object} dispatchConfig Configuration used to dispatch this event.
+	 * @param {string} dispatchMarker Marker identifying the event target.
+	 * @param {object} nativeEvent Native browser event.
+	 * @extends {SyntheticUIEvent}
+	 */
+	function SyntheticKeyboardEvent(dispatchConfig, dispatchMarker, nativeEvent) {
+	  SyntheticUIEvent.call(this, dispatchConfig, dispatchMarker, nativeEvent);
+	}
+
+	SyntheticUIEvent.augmentClass(SyntheticKeyboardEvent, KeyboardEventInterface);
+
+	module.exports = SyntheticKeyboardEvent;
+
+
+/***/ },
+/* 113 */
+/***/ function(module, exports, require) {
+
+	/**
+	 * Copyright 2013-2014 Facebook, Inc.
+	 *
+	 * Licensed under the Apache License, Version 2.0 (the "License");
+	 * you may not use this file except in compliance with the License.
+	 * You may obtain a copy of the License at
+	 *
+	 * http://www.apache.org/licenses/LICENSE-2.0
+	 *
+	 * Unless required by applicable law or agreed to in writing, software
+	 * distributed under the License is distributed on an "AS IS" BASIS,
+	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	 * See the License for the specific language governing permissions and
+	 * limitations under the License.
+	 *
+	 * @providesModule SyntheticDragEvent
+	 * @typechecks static-only
+	 */
+
+	"use strict";
+
+	var SyntheticMouseEvent = require(102);
+
+	/**
+	 * @interface DragEvent
+	 * @see http://www.w3.org/TR/DOM-Level-3-Events/
+	 */
+	var DragEventInterface = {
+	  dataTransfer: null
+	};
+
+	/**
+	 * @param {object} dispatchConfig Configuration used to dispatch this event.
+	 * @param {string} dispatchMarker Marker identifying the event target.
+	 * @param {object} nativeEvent Native browser event.
+	 * @extends {SyntheticUIEvent}
+	 */
+	function SyntheticDragEvent(dispatchConfig, dispatchMarker, nativeEvent) {
+	  SyntheticMouseEvent.call(this, dispatchConfig, dispatchMarker, nativeEvent);
+	}
+
+	SyntheticMouseEvent.augmentClass(SyntheticDragEvent, DragEventInterface);
+
+	module.exports = SyntheticDragEvent;
+
+
+/***/ },
+/* 114 */
+/***/ function(module, exports, require) {
+
+	/**
+	 * Copyright 2013-2014 Facebook, Inc.
+	 *
+	 * Licensed under the Apache License, Version 2.0 (the "License");
+	 * you may not use this file except in compliance with the License.
+	 * You may obtain a copy of the License at
+	 *
+	 * http://www.apache.org/licenses/LICENSE-2.0
+	 *
+	 * Unless required by applicable law or agreed to in writing, software
+	 * distributed under the License is distributed on an "AS IS" BASIS,
+	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	 * See the License for the specific language governing permissions and
+	 * limitations under the License.
+	 *
+	 * @providesModule SyntheticTouchEvent
+	 * @typechecks static-only
+	 */
+
+	"use strict";
+
+	var SyntheticUIEvent = require(115);
+
+	/**
+	 * @interface TouchEvent
+	 * @see http://www.w3.org/TR/touch-events/
+	 */
+	var TouchEventInterface = {
+	  touches: null,
+	  targetTouches: null,
+	  changedTouches: null,
+	  altKey: null,
+	  metaKey: null,
+	  ctrlKey: null,
+	  shiftKey: null
+	};
+
+	/**
+	 * @param {object} dispatchConfig Configuration used to dispatch this event.
+	 * @param {string} dispatchMarker Marker identifying the event target.
+	 * @param {object} nativeEvent Native browser event.
+	 * @extends {SyntheticUIEvent}
+	 */
+	function SyntheticTouchEvent(dispatchConfig, dispatchMarker, nativeEvent) {
+	  SyntheticUIEvent.call(this, dispatchConfig, dispatchMarker, nativeEvent);
+	}
+
+	SyntheticUIEvent.augmentClass(SyntheticTouchEvent, TouchEventInterface);
+
+	module.exports = SyntheticTouchEvent;
+
+
+/***/ },
+/* 115 */
+/***/ function(module, exports, require) {
+
+	/**
+	 * Copyright 2013-2014 Facebook, Inc.
+	 *
+	 * Licensed under the Apache License, Version 2.0 (the "License");
+	 * you may not use this file except in compliance with the License.
+	 * You may obtain a copy of the License at
+	 *
+	 * http://www.apache.org/licenses/LICENSE-2.0
+	 *
+	 * Unless required by applicable law or agreed to in writing, software
+	 * distributed under the License is distributed on an "AS IS" BASIS,
+	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	 * See the License for the specific language governing permissions and
+	 * limitations under the License.
+	 *
+	 * @providesModule SyntheticUIEvent
+	 * @typechecks static-only
+	 */
+
+	"use strict";
+
+	var SyntheticEvent = require(97);
+
+	/**
+	 * @interface UIEvent
+	 * @see http://www.w3.org/TR/DOM-Level-3-Events/
+	 */
+	var UIEventInterface = {
+	  view: null,
+	  detail: null
+	};
+
+	/**
+	 * @param {object} dispatchConfig Configuration used to dispatch this event.
+	 * @param {string} dispatchMarker Marker identifying the event target.
+	 * @param {object} nativeEvent Native browser event.
+	 * @extends {SyntheticEvent}
+	 */
+	function SyntheticUIEvent(dispatchConfig, dispatchMarker, nativeEvent) {
+	  SyntheticEvent.call(this, dispatchConfig, dispatchMarker, nativeEvent);
+	}
+
+	SyntheticEvent.augmentClass(SyntheticUIEvent, UIEventInterface);
+
+	module.exports = SyntheticUIEvent;
+
+
+/***/ },
+/* 116 */
+/***/ function(module, exports, require) {
+
+	/**
+	 * Copyright 2013-2014 Facebook, Inc.
+	 *
+	 * Licensed under the Apache License, Version 2.0 (the "License");
+	 * you may not use this file except in compliance with the License.
+	 * You may obtain a copy of the License at
+	 *
+	 * http://www.apache.org/licenses/LICENSE-2.0
+	 *
+	 * Unless required by applicable law or agreed to in writing, software
+	 * distributed under the License is distributed on an "AS IS" BASIS,
+	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	 * See the License for the specific language governing permissions and
+	 * limitations under the License.
+	 *
+	 * @providesModule SyntheticWheelEvent
+	 * @typechecks static-only
+	 */
+
+	"use strict";
+
+	var SyntheticMouseEvent = require(102);
+
+	/**
+	 * @interface WheelEvent
+	 * @see http://www.w3.org/TR/DOM-Level-3-Events/
+	 */
+	var WheelEventInterface = {
+	  deltaX: function(event) {
+	    return (
+	      'deltaX' in event ? event.deltaX :
+	      // Fallback to `wheelDeltaX` for Webkit and normalize (right is positive).
+	      'wheelDeltaX' in event ? -event.wheelDeltaX : 0
+	    );
+	  },
+	  deltaY: function(event) {
+	    return (
+	      'deltaY' in event ? event.deltaY :
+	      // Fallback to `wheelDeltaY` for Webkit and normalize (down is positive).
+	      'wheelDeltaY' in event ? -event.wheelDeltaY :
+	      // Fallback to `wheelDelta` for IE<9 and normalize (down is positive).
+	      'wheelDelta' in event ? -event.wheelDelta : 0
+	    );
+	  },
+	  deltaZ: null,
+
+	  // Browsers without "deltaMode" is reporting in raw wheel delta where one
+	  // notch on the scroll is always +/- 120, roughly equivalent to pixels.
+	  // A good approximation of DOM_DELTA_LINE (1) is 5% of viewport size or
+	  // ~40 pixels, for DOM_DELTA_SCREEN (2) it is 87.5% of viewport size.
+	  deltaMode: null
+	};
+
+	/**
+	 * @param {object} dispatchConfig Configuration used to dispatch this event.
+	 * @param {string} dispatchMarker Marker identifying the event target.
+	 * @param {object} nativeEvent Native browser event.
+	 * @extends {SyntheticMouseEvent}
+	 */
+	function SyntheticWheelEvent(dispatchConfig, dispatchMarker, nativeEvent) {
+	  SyntheticMouseEvent.call(this, dispatchConfig, dispatchMarker, nativeEvent);
+	}
+
+	SyntheticMouseEvent.augmentClass(SyntheticWheelEvent, WheelEventInterface);
+
+	module.exports = SyntheticWheelEvent;
+
+
+/***/ },
+/* 117 */
 /***/ function(module, exports, require) {
 
 	/**
@@ -15166,7 +15625,7 @@
 
 	"use strict";
 
-	var invariant = require(26);
+	var invariant = require(30);
 
 	/**
 	 * `Transaction` creates a black box that is able to wrap any method such that
@@ -15425,429 +15884,6 @@
 
 
 /***/ },
-/* 110 */
-/***/ function(module, exports, require) {
-
-	/**
-	 * Copyright 2013-2014 Facebook, Inc.
-	 *
-	 * Licensed under the Apache License, Version 2.0 (the "License");
-	 * you may not use this file except in compliance with the License.
-	 * You may obtain a copy of the License at
-	 *
-	 * http://www.apache.org/licenses/LICENSE-2.0
-	 *
-	 * Unless required by applicable law or agreed to in writing, software
-	 * distributed under the License is distributed on an "AS IS" BASIS,
-	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-	 * See the License for the specific language governing permissions and
-	 * limitations under the License.
-	 *
-	 * @providesModule getActiveElement
-	 * @typechecks
-	 */
-
-	/**
-	 * Same as document.activeElement but wraps in a try-catch block. In IE it is
-	 * not safe to call document.activeElement if there is nothing focused.
-	 *
-	 * The activeElement will be null only if the document body is not yet defined.
-	 */
-	function getActiveElement() /*?DOMElement*/ {
-	  try {
-	    return document.activeElement || document.body;
-	  } catch (e) {
-	    return document.body;
-	  }
-	}
-
-	module.exports = getActiveElement;
-
-
-/***/ },
-/* 111 */
-/***/ function(module, exports, require) {
-
-	/**
-	 * Copyright 2013-2014 Facebook, Inc.
-	 *
-	 * Licensed under the Apache License, Version 2.0 (the "License");
-	 * you may not use this file except in compliance with the License.
-	 * You may obtain a copy of the License at
-	 *
-	 * http://www.apache.org/licenses/LICENSE-2.0
-	 *
-	 * Unless required by applicable law or agreed to in writing, software
-	 * distributed under the License is distributed on an "AS IS" BASIS,
-	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-	 * See the License for the specific language governing permissions and
-	 * limitations under the License.
-	 *
-	 * @providesModule shallowEqual
-	 */
-
-	"use strict";
-
-	/**
-	 * Performs equality by iterating through keys on an object and returning
-	 * false when any key has values which are not strictly equal between
-	 * objA and objB. Returns true when the values of all keys are strictly equal.
-	 *
-	 * @return {boolean}
-	 */
-	function shallowEqual(objA, objB) {
-	  if (objA === objB) {
-	    return true;
-	  }
-	  var key;
-	  // Test for A's keys different from B.
-	  for (key in objA) {
-	    if (objA.hasOwnProperty(key) &&
-	        (!objB.hasOwnProperty(key) || objA[key] !== objB[key])) {
-	      return false;
-	    }
-	  }
-	  // Test for B'a keys missing from A.
-	  for (key in objB) {
-	    if (objB.hasOwnProperty(key) && !objA.hasOwnProperty(key)) {
-	      return false;
-	    }
-	  }
-	  return true;
-	}
-
-	module.exports = shallowEqual;
-
-
-/***/ },
-/* 112 */
-/***/ function(module, exports, require) {
-
-	/**
-	 * Copyright 2013-2014 Facebook, Inc.
-	 *
-	 * Licensed under the Apache License, Version 2.0 (the "License");
-	 * you may not use this file except in compliance with the License.
-	 * You may obtain a copy of the License at
-	 *
-	 * http://www.apache.org/licenses/LICENSE-2.0
-	 *
-	 * Unless required by applicable law or agreed to in writing, software
-	 * distributed under the License is distributed on an "AS IS" BASIS,
-	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-	 * See the License for the specific language governing permissions and
-	 * limitations under the License.
-	 *
-	 * @providesModule SyntheticClipboardEvent
-	 * @typechecks static-only
-	 */
-
-	"use strict";
-
-	var SyntheticEvent = require(98);
-
-	/**
-	 * @interface Event
-	 * @see http://www.w3.org/TR/clipboard-apis/
-	 */
-	var ClipboardEventInterface = {
-	  clipboardData: function(event) {
-	    return (
-	      'clipboardData' in event ?
-	        event.clipboardData :
-	        window.clipboardData
-	    );
-	  }
-	};
-
-	/**
-	 * @param {object} dispatchConfig Configuration used to dispatch this event.
-	 * @param {string} dispatchMarker Marker identifying the event target.
-	 * @param {object} nativeEvent Native browser event.
-	 * @extends {SyntheticUIEvent}
-	 */
-	function SyntheticClipboardEvent(dispatchConfig, dispatchMarker, nativeEvent) {
-	  SyntheticEvent.call(this, dispatchConfig, dispatchMarker, nativeEvent);
-	}
-
-	SyntheticEvent.augmentClass(SyntheticClipboardEvent, ClipboardEventInterface);
-
-	module.exports = SyntheticClipboardEvent;
-
-
-
-/***/ },
-/* 113 */
-/***/ function(module, exports, require) {
-
-	/**
-	 * Copyright 2013-2014 Facebook, Inc.
-	 *
-	 * Licensed under the Apache License, Version 2.0 (the "License");
-	 * you may not use this file except in compliance with the License.
-	 * You may obtain a copy of the License at
-	 *
-	 * http://www.apache.org/licenses/LICENSE-2.0
-	 *
-	 * Unless required by applicable law or agreed to in writing, software
-	 * distributed under the License is distributed on an "AS IS" BASIS,
-	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-	 * See the License for the specific language governing permissions and
-	 * limitations under the License.
-	 *
-	 * @providesModule SyntheticFocusEvent
-	 * @typechecks static-only
-	 */
-
-	"use strict";
-
-	var SyntheticUIEvent = require(117);
-
-	/**
-	 * @interface FocusEvent
-	 * @see http://www.w3.org/TR/DOM-Level-3-Events/
-	 */
-	var FocusEventInterface = {
-	  relatedTarget: null
-	};
-
-	/**
-	 * @param {object} dispatchConfig Configuration used to dispatch this event.
-	 * @param {string} dispatchMarker Marker identifying the event target.
-	 * @param {object} nativeEvent Native browser event.
-	 * @extends {SyntheticUIEvent}
-	 */
-	function SyntheticFocusEvent(dispatchConfig, dispatchMarker, nativeEvent) {
-	  SyntheticUIEvent.call(this, dispatchConfig, dispatchMarker, nativeEvent);
-	}
-
-	SyntheticUIEvent.augmentClass(SyntheticFocusEvent, FocusEventInterface);
-
-	module.exports = SyntheticFocusEvent;
-
-
-/***/ },
-/* 114 */
-/***/ function(module, exports, require) {
-
-	/**
-	 * Copyright 2013-2014 Facebook, Inc.
-	 *
-	 * Licensed under the Apache License, Version 2.0 (the "License");
-	 * you may not use this file except in compliance with the License.
-	 * You may obtain a copy of the License at
-	 *
-	 * http://www.apache.org/licenses/LICENSE-2.0
-	 *
-	 * Unless required by applicable law or agreed to in writing, software
-	 * distributed under the License is distributed on an "AS IS" BASIS,
-	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-	 * See the License for the specific language governing permissions and
-	 * limitations under the License.
-	 *
-	 * @providesModule SyntheticKeyboardEvent
-	 * @typechecks static-only
-	 */
-
-	"use strict";
-
-	var SyntheticUIEvent = require(117);
-
-	var getEventKey = require(130);
-
-	/**
-	 * @interface KeyboardEvent
-	 * @see http://www.w3.org/TR/DOM-Level-3-Events/
-	 */
-	var KeyboardEventInterface = {
-	  key: getEventKey,
-	  location: null,
-	  ctrlKey: null,
-	  shiftKey: null,
-	  altKey: null,
-	  metaKey: null,
-	  repeat: null,
-	  locale: null,
-	  // Legacy Interface
-	  'char': null,
-	  charCode: null,
-	  keyCode: null,
-	  which: null
-	};
-
-	/**
-	 * @param {object} dispatchConfig Configuration used to dispatch this event.
-	 * @param {string} dispatchMarker Marker identifying the event target.
-	 * @param {object} nativeEvent Native browser event.
-	 * @extends {SyntheticUIEvent}
-	 */
-	function SyntheticKeyboardEvent(dispatchConfig, dispatchMarker, nativeEvent) {
-	  SyntheticUIEvent.call(this, dispatchConfig, dispatchMarker, nativeEvent);
-	}
-
-	SyntheticUIEvent.augmentClass(SyntheticKeyboardEvent, KeyboardEventInterface);
-
-	module.exports = SyntheticKeyboardEvent;
-
-
-/***/ },
-/* 115 */
-/***/ function(module, exports, require) {
-
-	/**
-	 * Copyright 2013-2014 Facebook, Inc.
-	 *
-	 * Licensed under the Apache License, Version 2.0 (the "License");
-	 * you may not use this file except in compliance with the License.
-	 * You may obtain a copy of the License at
-	 *
-	 * http://www.apache.org/licenses/LICENSE-2.0
-	 *
-	 * Unless required by applicable law or agreed to in writing, software
-	 * distributed under the License is distributed on an "AS IS" BASIS,
-	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-	 * See the License for the specific language governing permissions and
-	 * limitations under the License.
-	 *
-	 * @providesModule SyntheticDragEvent
-	 * @typechecks static-only
-	 */
-
-	"use strict";
-
-	var SyntheticMouseEvent = require(103);
-
-	/**
-	 * @interface DragEvent
-	 * @see http://www.w3.org/TR/DOM-Level-3-Events/
-	 */
-	var DragEventInterface = {
-	  dataTransfer: null
-	};
-
-	/**
-	 * @param {object} dispatchConfig Configuration used to dispatch this event.
-	 * @param {string} dispatchMarker Marker identifying the event target.
-	 * @param {object} nativeEvent Native browser event.
-	 * @extends {SyntheticUIEvent}
-	 */
-	function SyntheticDragEvent(dispatchConfig, dispatchMarker, nativeEvent) {
-	  SyntheticMouseEvent.call(this, dispatchConfig, dispatchMarker, nativeEvent);
-	}
-
-	SyntheticMouseEvent.augmentClass(SyntheticDragEvent, DragEventInterface);
-
-	module.exports = SyntheticDragEvent;
-
-
-/***/ },
-/* 116 */
-/***/ function(module, exports, require) {
-
-	/**
-	 * Copyright 2013-2014 Facebook, Inc.
-	 *
-	 * Licensed under the Apache License, Version 2.0 (the "License");
-	 * you may not use this file except in compliance with the License.
-	 * You may obtain a copy of the License at
-	 *
-	 * http://www.apache.org/licenses/LICENSE-2.0
-	 *
-	 * Unless required by applicable law or agreed to in writing, software
-	 * distributed under the License is distributed on an "AS IS" BASIS,
-	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-	 * See the License for the specific language governing permissions and
-	 * limitations under the License.
-	 *
-	 * @providesModule SyntheticTouchEvent
-	 * @typechecks static-only
-	 */
-
-	"use strict";
-
-	var SyntheticUIEvent = require(117);
-
-	/**
-	 * @interface TouchEvent
-	 * @see http://www.w3.org/TR/touch-events/
-	 */
-	var TouchEventInterface = {
-	  touches: null,
-	  targetTouches: null,
-	  changedTouches: null,
-	  altKey: null,
-	  metaKey: null,
-	  ctrlKey: null,
-	  shiftKey: null
-	};
-
-	/**
-	 * @param {object} dispatchConfig Configuration used to dispatch this event.
-	 * @param {string} dispatchMarker Marker identifying the event target.
-	 * @param {object} nativeEvent Native browser event.
-	 * @extends {SyntheticUIEvent}
-	 */
-	function SyntheticTouchEvent(dispatchConfig, dispatchMarker, nativeEvent) {
-	  SyntheticUIEvent.call(this, dispatchConfig, dispatchMarker, nativeEvent);
-	}
-
-	SyntheticUIEvent.augmentClass(SyntheticTouchEvent, TouchEventInterface);
-
-	module.exports = SyntheticTouchEvent;
-
-
-/***/ },
-/* 117 */
-/***/ function(module, exports, require) {
-
-	/**
-	 * Copyright 2013-2014 Facebook, Inc.
-	 *
-	 * Licensed under the Apache License, Version 2.0 (the "License");
-	 * you may not use this file except in compliance with the License.
-	 * You may obtain a copy of the License at
-	 *
-	 * http://www.apache.org/licenses/LICENSE-2.0
-	 *
-	 * Unless required by applicable law or agreed to in writing, software
-	 * distributed under the License is distributed on an "AS IS" BASIS,
-	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-	 * See the License for the specific language governing permissions and
-	 * limitations under the License.
-	 *
-	 * @providesModule SyntheticUIEvent
-	 * @typechecks static-only
-	 */
-
-	"use strict";
-
-	var SyntheticEvent = require(98);
-
-	/**
-	 * @interface UIEvent
-	 * @see http://www.w3.org/TR/DOM-Level-3-Events/
-	 */
-	var UIEventInterface = {
-	  view: null,
-	  detail: null
-	};
-
-	/**
-	 * @param {object} dispatchConfig Configuration used to dispatch this event.
-	 * @param {string} dispatchMarker Marker identifying the event target.
-	 * @param {object} nativeEvent Native browser event.
-	 * @extends {SyntheticEvent}
-	 */
-	function SyntheticUIEvent(dispatchConfig, dispatchMarker, nativeEvent) {
-	  SyntheticEvent.call(this, dispatchConfig, dispatchMarker, nativeEvent);
-	}
-
-	SyntheticEvent.augmentClass(SyntheticUIEvent, UIEventInterface);
-
-	module.exports = SyntheticUIEvent;
-
-
-/***/ },
 /* 118 */
 /***/ function(module, exports, require) {
 
@@ -15866,57 +15902,21 @@
 	 * See the License for the specific language governing permissions and
 	 * limitations under the License.
 	 *
-	 * @providesModule SyntheticWheelEvent
-	 * @typechecks static-only
+	 * @providesModule isTextNode
+	 * @typechecks
 	 */
 
-	"use strict";
-
-	var SyntheticMouseEvent = require(103);
+	var isNode = require(130);
 
 	/**
-	 * @interface WheelEvent
-	 * @see http://www.w3.org/TR/DOM-Level-3-Events/
+	 * @param {*} object The object to check.
+	 * @return {boolean} Whether or not the object is a DOM text node.
 	 */
-	var WheelEventInterface = {
-	  deltaX: function(event) {
-	    return (
-	      'deltaX' in event ? event.deltaX :
-	      // Fallback to `wheelDeltaX` for Webkit and normalize (right is positive).
-	      'wheelDeltaX' in event ? -event.wheelDeltaX : 0
-	    );
-	  },
-	  deltaY: function(event) {
-	    return (
-	      'deltaY' in event ? event.deltaY :
-	      // Fallback to `wheelDeltaY` for Webkit and normalize (down is positive).
-	      'wheelDeltaY' in event ? -event.wheelDeltaY :
-	      // Fallback to `wheelDelta` for IE<9 and normalize (down is positive).
-	      'wheelDelta' in event ? -event.wheelDelta : 0
-	    );
-	  },
-	  deltaZ: null,
-
-	  // Browsers without "deltaMode" is reporting in raw wheel delta where one
-	  // notch on the scroll is always +/- 120, roughly equivalent to pixels.
-	  // A good approximation of DOM_DELTA_LINE (1) is 5% of viewport size or
-	  // ~40 pixels, for DOM_DELTA_SCREEN (2) it is 87.5% of viewport size.
-	  deltaMode: null
-	};
-
-	/**
-	 * @param {object} dispatchConfig Configuration used to dispatch this event.
-	 * @param {string} dispatchMarker Marker identifying the event target.
-	 * @param {object} nativeEvent Native browser event.
-	 * @extends {SyntheticMouseEvent}
-	 */
-	function SyntheticWheelEvent(dispatchConfig, dispatchMarker, nativeEvent) {
-	  SyntheticMouseEvent.call(this, dispatchConfig, dispatchMarker, nativeEvent);
+	function isTextNode(object) {
+	  return isNode(object) && object.nodeType == 3;
 	}
 
-	SyntheticMouseEvent.augmentClass(SyntheticWheelEvent, WheelEventInterface);
-
-	module.exports = SyntheticWheelEvent;
+	module.exports = isTextNode;
 
 
 /***/ },
@@ -15988,9 +15988,9 @@
 
 	"use strict";
 
-	var PooledClass = require(27);
+	var PooledClass = require(31);
 
-	var mixInto = require(42);
+	var mixInto = require(43);
 
 	/**
 	 * A specialized pseudo-event module to help keep track of components waiting to
@@ -16089,10 +16089,10 @@
 
 	"use strict";
 
-	var PooledClass = require(27);
-	var ReactEventEmitter = require(48);
+	var PooledClass = require(31);
+	var ReactEventEmitter = require(50);
 
-	var mixInto = require(42);
+	var mixInto = require(43);
 
 	function ReactPutListenerQueue() {
 	  this.listenersToPut = [];
@@ -16134,159 +16134,6 @@
 
 /***/ },
 /* 122 */
-/***/ function(module, exports, require) {
-
-	/**
-	 * Copyright 2013-2014 Facebook, Inc.
-	 *
-	 * Licensed under the Apache License, Version 2.0 (the "License");
-	 * you may not use this file except in compliance with the License.
-	 * You may obtain a copy of the License at
-	 *
-	 * http://www.apache.org/licenses/LICENSE-2.0
-	 *
-	 * Unless required by applicable law or agreed to in writing, software
-	 * distributed under the License is distributed on an "AS IS" BASIS,
-	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-	 * See the License for the specific language governing permissions and
-	 * limitations under the License.
-	 *
-	 * @providesModule accumulate
-	 */
-
-	"use strict";
-
-	var invariant = require(26);
-
-	/**
-	 * Accumulates items that must not be null or undefined.
-	 *
-	 * This is used to conserve memory by avoiding array allocations.
-	 *
-	 * @return {*|array<*>} An accumulation of items.
-	 */
-	function accumulate(current, next) {
-	  (false ? invariant(
-	    next != null,
-	    'accumulate(...): Accumulated items must be not be null or undefined.'
-	  ) : invariant(next != null));
-	  if (current == null) {
-	    return next;
-	  } else {
-	    // Both are not empty. Warning: Never call x.concat(y) when you are not
-	    // certain that x is an Array (x could be a string with concat method).
-	    var currentIsArray = Array.isArray(current);
-	    var nextIsArray = Array.isArray(next);
-	    if (currentIsArray) {
-	      return current.concat(next);
-	    } else {
-	      if (nextIsArray) {
-	        return [current].concat(next);
-	      } else {
-	        return [current, next];
-	      }
-	    }
-	  }
-	}
-
-	module.exports = accumulate;
-
-
-/***/ },
-/* 123 */
-/***/ function(module, exports, require) {
-
-	/**
-	 * Copyright 2013-2014 Facebook, Inc.
-	 *
-	 * Licensed under the Apache License, Version 2.0 (the "License");
-	 * you may not use this file except in compliance with the License.
-	 * You may obtain a copy of the License at
-	 *
-	 * http://www.apache.org/licenses/LICENSE-2.0
-	 *
-	 * Unless required by applicable law or agreed to in writing, software
-	 * distributed under the License is distributed on an "AS IS" BASIS,
-	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-	 * See the License for the specific language governing permissions and
-	 * limitations under the License.
-	 *
-	 * @providesModule forEachAccumulated
-	 */
-
-	"use strict";
-
-	/**
-	 * @param {array} an "accumulation" of items which is either an Array or
-	 * a single item. Useful when paired with the `accumulate` module. This is a
-	 * simple utility that allows us to reason about a collection of items, but
-	 * handling the case when there is exactly one item (and we do not need to
-	 * allocate an array).
-	 */
-	var forEachAccumulated = function(arr, cb, scope) {
-	  if (Array.isArray(arr)) {
-	    arr.forEach(cb, scope);
-	  } else if (arr) {
-	    cb.call(scope, arr);
-	  }
-	};
-
-	module.exports = forEachAccumulated;
-
-
-/***/ },
-/* 124 */
-/***/ function(module, exports, require) {
-
-	/**
-	 * Copyright 2013-2014 Facebook, Inc.
-	 *
-	 * Licensed under the Apache License, Version 2.0 (the "License");
-	 * you may not use this file except in compliance with the License.
-	 * You may obtain a copy of the License at
-	 *
-	 * http://www.apache.org/licenses/LICENSE-2.0
-	 *
-	 * Unless required by applicable law or agreed to in writing, software
-	 * distributed under the License is distributed on an "AS IS" BASIS,
-	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-	 * See the License for the specific language governing permissions and
-	 * limitations under the License.
-	 *
-	 * @providesModule getUnboundedScrollPosition
-	 * @typechecks
-	 */
-
-	"use strict";
-
-	/**
-	 * Gets the scroll position of the supplied element or window.
-	 *
-	 * The return values are unbounded, unlike `getScrollPosition`. This means they
-	 * may be negative or exceed the element boundaries (which is possible using
-	 * inertial scrolling).
-	 *
-	 * @param {DOMWindow|DOMElement} scrollable
-	 * @return {object} Map with `x` and `y` keys.
-	 */
-	function getUnboundedScrollPosition(scrollable) {
-	  if (scrollable === window) {
-	    return {
-	      x: window.pageXOffset || document.documentElement.scrollLeft,
-	      y: window.pageYOffset || document.documentElement.scrollTop
-	    };
-	  }
-	  return {
-	    x: scrollable.scrollLeft,
-	    y: scrollable.scrollTop
-	  };
-	}
-
-	module.exports = getUnboundedScrollPosition;
-
-
-/***/ },
-/* 125 */
 /***/ function(module, exports, require) {
 
 	/**
@@ -16346,7 +16193,7 @@
 
 
 /***/ },
-/* 126 */
+/* 123 */
 /***/ function(module, exports, require) {
 
 	/**
@@ -16364,28 +16211,142 @@
 	 * See the License for the specific language governing permissions and
 	 * limitations under the License.
 	 *
-	 * @providesModule isNode
-	 * @typechecks
+	 * @providesModule accumulate
 	 */
+
+	"use strict";
+
+	var invariant = require(30);
 
 	/**
-	 * @param {*} object The object to check.
-	 * @return {boolean} Whether or not the object is a DOM node.
+	 * Accumulates items that must not be null or undefined.
+	 *
+	 * This is used to conserve memory by avoiding array allocations.
+	 *
+	 * @return {*|array<*>} An accumulation of items.
 	 */
-	function isNode(object) {
-	  return !!(object && (
-	    typeof Node === 'function' ? object instanceof Node :
-	      typeof object === 'object' &&
-	      typeof object.nodeType === 'number' &&
-	      typeof object.nodeName === 'string'
-	  ));
+	function accumulate(current, next) {
+	  (false ? invariant(
+	    next != null,
+	    'accumulate(...): Accumulated items must be not be null or undefined.'
+	  ) : invariant(next != null));
+	  if (current == null) {
+	    return next;
+	  } else {
+	    // Both are not empty. Warning: Never call x.concat(y) when you are not
+	    // certain that x is an Array (x could be a string with concat method).
+	    var currentIsArray = Array.isArray(current);
+	    var nextIsArray = Array.isArray(next);
+	    if (currentIsArray) {
+	      return current.concat(next);
+	    } else {
+	      if (nextIsArray) {
+	        return [current].concat(next);
+	      } else {
+	        return [current, next];
+	      }
+	    }
+	  }
 	}
 
-	module.exports = isNode;
+	module.exports = accumulate;
 
 
 /***/ },
-/* 127 */
+/* 124 */
+/***/ function(module, exports, require) {
+
+	/**
+	 * Copyright 2013-2014 Facebook, Inc.
+	 *
+	 * Licensed under the Apache License, Version 2.0 (the "License");
+	 * you may not use this file except in compliance with the License.
+	 * You may obtain a copy of the License at
+	 *
+	 * http://www.apache.org/licenses/LICENSE-2.0
+	 *
+	 * Unless required by applicable law or agreed to in writing, software
+	 * distributed under the License is distributed on an "AS IS" BASIS,
+	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	 * See the License for the specific language governing permissions and
+	 * limitations under the License.
+	 *
+	 * @providesModule forEachAccumulated
+	 */
+
+	"use strict";
+
+	/**
+	 * @param {array} an "accumulation" of items which is either an Array or
+	 * a single item. Useful when paired with the `accumulate` module. This is a
+	 * simple utility that allows us to reason about a collection of items, but
+	 * handling the case when there is exactly one item (and we do not need to
+	 * allocate an array).
+	 */
+	var forEachAccumulated = function(arr, cb, scope) {
+	  if (Array.isArray(arr)) {
+	    arr.forEach(cb, scope);
+	  } else if (arr) {
+	    cb.call(scope, arr);
+	  }
+	};
+
+	module.exports = forEachAccumulated;
+
+
+/***/ },
+/* 125 */
+/***/ function(module, exports, require) {
+
+	/**
+	 * Copyright 2013-2014 Facebook, Inc.
+	 *
+	 * Licensed under the Apache License, Version 2.0 (the "License");
+	 * you may not use this file except in compliance with the License.
+	 * You may obtain a copy of the License at
+	 *
+	 * http://www.apache.org/licenses/LICENSE-2.0
+	 *
+	 * Unless required by applicable law or agreed to in writing, software
+	 * distributed under the License is distributed on an "AS IS" BASIS,
+	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	 * See the License for the specific language governing permissions and
+	 * limitations under the License.
+	 *
+	 * @providesModule getUnboundedScrollPosition
+	 * @typechecks
+	 */
+
+	"use strict";
+
+	/**
+	 * Gets the scroll position of the supplied element or window.
+	 *
+	 * The return values are unbounded, unlike `getScrollPosition`. This means they
+	 * may be negative or exceed the element boundaries (which is possible using
+	 * inertial scrolling).
+	 *
+	 * @param {DOMWindow|DOMElement} scrollable
+	 * @return {object} Map with `x` and `y` keys.
+	 */
+	function getUnboundedScrollPosition(scrollable) {
+	  if (scrollable === window) {
+	    return {
+	      x: window.pageXOffset || document.documentElement.scrollLeft,
+	      y: window.pageYOffset || document.documentElement.scrollTop
+	    };
+	  }
+	  return {
+	    x: scrollable.scrollLeft,
+	    y: scrollable.scrollTop
+	  };
+	}
+
+	module.exports = getUnboundedScrollPosition;
+
+
+/***/ },
+/* 126 */
 /***/ function(module, exports, require) {
 
 	/**
@@ -16409,7 +16370,7 @@
 	"use strict";
 
 	var getNodeForCharacterOffset = require(131);
-	var getTextContentAccessor = require(102);
+	var getTextContentAccessor = require(101);
 
 	/**
 	 * Get the appropriate anchor and focus node/offset pairs for IE.
@@ -16580,7 +16541,7 @@
 
 
 /***/ },
-/* 128 */
+/* 127 */
 /***/ function(module, exports, require) {
 
 	/**
@@ -16619,7 +16580,7 @@
 
 
 /***/ },
-/* 129 */
+/* 128 */
 /***/ function(module, exports, require) {
 
 	/**
@@ -16644,9 +16605,9 @@
 	"use strict";
 
 	var Danger = require(132);
-	var ReactMultiChildUpdateTypes = require(52);
+	var ReactMultiChildUpdateTypes = require(78);
 
-	var getTextContentAccessor = require(102);
+	var getTextContentAccessor = require(101);
 
 	/**
 	 * The DOM property to use when setting text content.
@@ -16796,7 +16757,7 @@
 
 
 /***/ },
-/* 130 */
+/* 129 */
 /***/ function(module, exports, require) {
 
 	/**
@@ -16884,6 +16845,45 @@
 	}
 
 	module.exports = getEventKey;
+
+
+/***/ },
+/* 130 */
+/***/ function(module, exports, require) {
+
+	/**
+	 * Copyright 2013-2014 Facebook, Inc.
+	 *
+	 * Licensed under the Apache License, Version 2.0 (the "License");
+	 * you may not use this file except in compliance with the License.
+	 * You may obtain a copy of the License at
+	 *
+	 * http://www.apache.org/licenses/LICENSE-2.0
+	 *
+	 * Unless required by applicable law or agreed to in writing, software
+	 * distributed under the License is distributed on an "AS IS" BASIS,
+	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	 * See the License for the specific language governing permissions and
+	 * limitations under the License.
+	 *
+	 * @providesModule isNode
+	 * @typechecks
+	 */
+
+	/**
+	 * @param {*} object The object to check.
+	 * @return {boolean} Whether or not the object is a DOM node.
+	 */
+	function isNode(object) {
+	  return !!(object && (
+	    typeof Node === 'function' ? object instanceof Node :
+	      typeof object === 'object' &&
+	      typeof object.nodeType === 'number' &&
+	      typeof object.nodeName === 'string'
+	  ));
+	}
+
+	module.exports = isNode;
 
 
 /***/ },
@@ -16999,12 +16999,12 @@
 
 	"use strict";
 
-	var ExecutionEnvironment = require(58);
+	var ExecutionEnvironment = require(53);
 
 	var createNodesFromMarkup = require(133);
 	var emptyFunction = require(83);
 	var getMarkupWrap = require(134);
-	var invariant = require(26);
+	var invariant = require(30);
 
 	var OPEN_TAG_NAME_EXP = /^(<[^ \/>]+)/;
 	var RESULT_INDEX_ATTR = 'data-danger-index';
@@ -17190,11 +17190,11 @@
 
 	/*jslint evil: true, sub: true */
 
-	var ExecutionEnvironment = require(58);
+	var ExecutionEnvironment = require(53);
 
 	var createArrayFrom = require(135);
 	var getMarkupWrap = require(134);
-	var invariant = require(26);
+	var invariant = require(30);
 
 	/**
 	 * Dummy container used to render all markup.
@@ -17286,9 +17286,9 @@
 	 * @providesModule getMarkupWrap
 	 */
 
-	var ExecutionEnvironment = require(58);
+	var ExecutionEnvironment = require(53);
 
-	var invariant = require(26);
+	var invariant = require(30);
 
 	/**
 	 * Dummy container used to detect which wraps are necessary.
@@ -17508,7 +17508,7 @@
 	 * @typechecks
 	 */
 
-	var invariant = require(26);
+	var invariant = require(30);
 
 	/**
 	 * Convert array-like objects to arrays.
