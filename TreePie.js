@@ -42,7 +42,6 @@ var TreePie = React.createClass({
       var mid = (start + end)/2;
       var size = end - start;
       var totalWeight = weight(d);
-      console.log(d.name, totalWeight);
 
       var _start;
       var _end = start;
