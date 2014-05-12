@@ -18,6 +18,13 @@ var Arc = React.createClass({
   }
 });
 
+function formatPercent(p) {
+  if (p == 0) return '';
+  var per = p.toFixed(2)*100;
+  if (per == 0) return '<1%';
+  return per + '%';
+}
+
 function weight(o) {
   if (typeof o === 'string') return 1;
   if (o.children) return weight(o.children) || 1;
@@ -28,6 +35,19 @@ function mapChildren(o, f) {
   if (typeof o === 'string') return [];
   if (o.children) return o.children.map(f);
   return o.map(f);
+}
+
+function percent(o) {
+  if (o.percent) return o.percent;
+  var totalWeight = 0;
+  var totalPercent = 0;
+  (o.children || o).forEach(function(child) {
+    var w = weight(child);
+    totalWeight += w;
+    totalPercent += w * percent(child);
+  });
+  if (totalWeight == 0) return 0;
+  return totalPercent / totalWeight;
 }
 
 var TreePie = React.createClass({
@@ -62,9 +82,14 @@ var TreePie = React.createClass({
       
       var tx = tr*Math.cos(mid);
       var ty = tr*Math.sin(mid);
+      if (ir == 0) {
+        tx = cx;
+        ty = cy;
+      }
+      var p = percent(d);
       var progress;
-      if (d.percent) {
-        progress = <Arc className="progress" cx={cx} cy={cy} r={or} r2={ir} start={start} end={start + (end-start)*d.percent}/>;
+      if (p) {
+        progress = <Arc className="progress" cx={cx} cy={cy} r={or} r2={ir} start={start} end={start + (end-start)*p}/>;
       }
 
       return <g>
@@ -73,7 +98,7 @@ var TreePie = React.createClass({
           <Arc cx={cx} cy={cy} r={or} r2={ir} start={start} end={end}/>
           {progress}
           <text x={tx} y={ty}>{d.name}</text>
-          <text className="score" x={tx} y={ty+50}>{d.score}</text>
+          <text className="score" x={tx} y={ty+50}>{d.score || formatPercent(p)}</text>
         </g>
       </g>;
     }
