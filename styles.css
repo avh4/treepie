@@ -1,14 +1,20 @@
-circle {
+.backdrop {
   fill: #ffe;
 }
 
-path {
+.arc {
   stroke: #777;
   fill: #fde;
 }
 
+.arc:hover {
+	fill: #8e8;
+}
+
 text {
-  font-size: 100px;
+  font-size: 60px;
+  text-anchor: middle;
+  dominant-baseline: central;
 }
 
 html, body {
