@@ -4,6 +4,8 @@ Easily create tree pies (a.k.a. [multilevel pie chart, sunburst diagram, ring ch
 
 Live app: http://avh4.github.io/treepie/ (your data will be saved in local storage)
 
+![Screenshot of treepie with The Voice Seasn 6 Top 10](screenshot.png)
+
 
 ## Development
 
