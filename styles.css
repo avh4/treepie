@@ -17,6 +17,11 @@ text {
   dominant-baseline: central;
 }
 
+text.score {
+  font-size: 40px;
+  fill: #999;
+}
+
 html, body {
 	margin: 0; overflow: hidden;
 	background: #eee;

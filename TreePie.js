@@ -59,12 +59,16 @@ var TreePie = React.createClass({
         _end = _start + size * weight(_d) / totalWeight;
         return child(_d, or, _start, _end, path.concat(j));
       });
+      
+      var tx = tr*Math.cos(mid);
+      var ty = tr*Math.sin(mid);
 
       return <g>
         {children}
         <g onClick={self.doSelect.bind(self, path)}>
           <Arc cx={cx} cy={cy} r={or} r2={ir} start={start} end={end}/>
-          <text x={tr*Math.cos(mid)} y={tr*Math.sin(mid)}>{d.name}</text>
+          <text x={tx} y={ty}>{d.name}</text>
+          <text className="score" x={tx} y={ty+50}>{d.score}</text>
         </g>
       </g>;
     }
