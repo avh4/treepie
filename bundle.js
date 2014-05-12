@@ -49,7 +49,7 @@
 
 	"use strict";
 
-	var React = require(5);
+	var React = require(3);
 	var TreePie = require(1);
 	var InputField = require(2);
 
@@ -72,7 +72,7 @@
 	  }
 	})
 
-	React.renderComponent(App(null), document.body);
+	React.renderComponent(App(null), document.body.findElementById('root'));
 
 
 /***/ },
@@ -84,8 +84,8 @@
 	 */
 	"use strict";
 
-	var React = require(5);
-	var Paths = require(3);
+	var React = require(3);
+	var Paths = require(5);
 
 	var Arc = React.createClass({displayName: 'Arc',
 	  render: function () {
@@ -157,7 +157,7 @@
 
 	"use strict";
 
-	var React = require(5);
+	var React = require(3);
 	var OutlineParser = require(4);
 
 	function format(string) {
@@ -227,6 +227,45 @@
 /* 3 */
 /***/ function(module, exports, require) {
 
+	module.exports = require(6);
+
+
+/***/ },
+/* 4 */
+/***/ function(module, exports, require) {
+
+	module.exports = function(string) {
+	  if (string === '') return [];
+	  var lasts = [{children: []}];
+	  string.trim().split(/\n+/).forEach(function(e) {
+	    var spaces = e.match(/^ */)[0].length;
+	    lasts[spaces+1] = { name: e.trim(), children: []};
+	    lasts[spaces].children.push(lasts[spaces+1]);
+	  });
+	  return lasts[0].children;
+	};
+
+	function _reverse(depth, parent) {
+	  var indent = '';
+	  for (var i = 0; i < depth; i++) {
+	    indent += ' ';
+	  }
+	  var children = parent.children.map(function(child) {
+	    return _reverse(depth + 1, child);
+	  }).join('');
+	  return '\n' + indent + parent.name + children;
+	}
+
+	module.exports.reverse = function(data) {
+	  return data.map(function(d) {
+	    return _reverse(0, d);
+	  }).join('').trim();
+	};
+
+/***/ },
+/* 5 */
+/***/ function(module, exports, require) {
+
 	function polarToCartesian(centerX, centerY, radius, angleInDegrees) {
 	  var angleInRadians = (angleInDegrees - 90) * Math.PI / 180.0;
 
@@ -270,45 +309,6 @@
 	    "z",
 	    ].join(' ');
 	};
-
-
-/***/ },
-/* 4 */
-/***/ function(module, exports, require) {
-
-	module.exports = function(string) {
-	  if (string === '') return [];
-	  var lasts = [{children: []}];
-	  string.trim().split(/\n+/).forEach(function(e) {
-	    var spaces = e.match(/^ */)[0].length;
-	    lasts[spaces+1] = { name: e.trim(), children: []};
-	    lasts[spaces].children.push(lasts[spaces+1]);
-	  });
-	  return lasts[0].children;
-	};
-
-	function _reverse(depth, parent) {
-	  var indent = '';
-	  for (var i = 0; i < depth; i++) {
-	    indent += ' ';
-	  }
-	  var children = parent.children.map(function(child) {
-	    return _reverse(depth + 1, child);
-	  }).join('');
-	  return '\n' + indent + parent.name + children;
-	}
-
-	module.exports.reverse = function(data) {
-	  return data.map(function(d) {
-	    return _reverse(0, d);
-	  }).join('').trim();
-	};
-
-/***/ },
-/* 5 */
-/***/ function(module, exports, require) {
-
-	module.exports = require(6);
 
 
 /***/ },
@@ -7167,7 +7167,7 @@
 
 	"use strict";
 
-	var emptyObject = require(85);
+	var emptyObject = require(95);
 	var invariant = require(26);
 
 	/**
@@ -8098,11 +8098,11 @@
 
 	"use strict";
 
-	var CSSProperty = require(86);
+	var CSSProperty = require(85);
 
-	var dangerousStyleValue = require(87);
+	var dangerousStyleValue = require(86);
 	var escapeTextForBrowser = require(30);
-	var hyphenate = require(88);
+	var hyphenate = require(87);
 	var memoizeStringOnly = require(31);
 
 	var processStyleName = memoizeStringOnly(function(styleName) {
@@ -8250,15 +8250,15 @@
 	"use strict";
 
 	var EventConstants = require(25);
-	var EventListener = require(89);
-	var EventPluginHub = require(90);
-	var EventPluginRegistry = require(91);
+	var EventListener = require(88);
+	var EventPluginHub = require(89);
+	var EventPluginRegistry = require(90);
 	var ExecutionEnvironment = require(58);
-	var ReactEventEmitterMixin = require(92);
-	var ViewportMetrics = require(93);
+	var ReactEventEmitterMixin = require(91);
+	var ViewportMetrics = require(92);
 
 	var invariant = require(26);
-	var isEventSupported = require(94);
+	var isEventSupported = require(93);
 	var merge = require(41);
 
 	/**
@@ -8641,7 +8641,7 @@
 
 	"use strict";
 
-	var mergeHelpers = require(96);
+	var mergeHelpers = require(94);
 
 	var checkMergeObjectArg = mergeHelpers.checkMergeObjectArg;
 
@@ -8850,7 +8850,7 @@
 	 * @typechecks
 	 */
 
-	var isTextNode = require(95);
+	var isTextNode = require(96);
 
 	/*jslint bitwise:true */
 
@@ -8995,7 +8995,7 @@
 	"use strict";
 
 	var DOMProperty = require(29);
-	var EventPluginHub = require(90);
+	var EventPluginHub = require(89);
 	var ReactComponent = require(10);
 	var ReactCompositeComponent = require(11);
 	var ReactDOM = require(14);
@@ -9296,13 +9296,13 @@
 	"use strict";
 
 	var EventConstants = require(25);
-	var EventPluginHub = require(90);
+	var EventPluginHub = require(89);
 	var EventPropagators = require(97);
 	var ExecutionEnvironment = require(58);
 	var ReactUpdates = require(38);
 	var SyntheticEvent = require(98);
 
-	var isEventSupported = require(94);
+	var isEventSupported = require(93);
 	var isTextInputElement = require(99);
 	var keyOf = require(49);
 
@@ -9728,10 +9728,10 @@
 	var EventConstants = require(25);
 	var EventPropagators = require(97);
 	var ExecutionEnvironment = require(58);
-	var ReactInputSelection = require(104);
-	var SyntheticCompositionEvent = require(105);
+	var ReactInputSelection = require(100);
+	var SyntheticCompositionEvent = require(101);
 
-	var getTextContentAccessor = require(106);
+	var getTextContentAccessor = require(102);
 	var keyOf = require(49);
 
 	var END_KEYCODES = [9, 13, 27, 32]; // Tab, Return, Esc, Space
@@ -10043,7 +10043,7 @@
 
 	var EventConstants = require(25);
 	var EventPropagators = require(97);
-	var SyntheticMouseEvent = require(100);
+	var SyntheticMouseEvent = require(103);
 
 	var ReactMount = require(18);
 	var keyOf = require(49);
@@ -10262,11 +10262,11 @@
 
 	"use strict";
 
-	var ReactDOMIDOperations = require(101);
+	var ReactDOMIDOperations = require(104);
 	var ReactMarkupChecksum = require(80);
 	var ReactMount = require(18);
 	var ReactPerf = require(20);
-	var ReactReconcileTransaction = require(102);
+	var ReactReconcileTransaction = require(105);
 
 	var getReactRootElementInContainer = require(55);
 	var invariant = require(26);
@@ -10396,7 +10396,7 @@
 	var ReactInstanceHandles = require(17);
 	var ReactMount = require(18);
 
-	var getEventTarget = require(103);
+	var getEventTarget = require(107);
 	var mixInto = require(42);
 
 	/**
@@ -10545,7 +10545,7 @@
 
 	"use strict";
 
-	var AutoFocusMixin = require(107);
+	var AutoFocusMixin = require(106);
 	var ReactBrowserComponentMixin = require(47);
 	var ReactCompositeComponent = require(11);
 	var ReactDOM = require(14);
@@ -10755,7 +10755,7 @@
 
 	"use strict";
 
-	var AutoFocusMixin = require(107);
+	var AutoFocusMixin = require(106);
 	var DOMPropertyOperations = require(7);
 	var LinkedValueUtils = require(108);
 	var ReactBrowserComponentMixin = require(47);
@@ -11004,7 +11004,7 @@
 
 	"use strict";
 
-	var AutoFocusMixin = require(107);
+	var AutoFocusMixin = require(106);
 	var LinkedValueUtils = require(108);
 	var ReactBrowserComponentMixin = require(47);
 	var ReactCompositeComponent = require(11);
@@ -11190,7 +11190,7 @@
 
 	"use strict";
 
-	var AutoFocusMixin = require(107);
+	var AutoFocusMixin = require(106);
 	var DOMPropertyOperations = require(7);
 	var LinkedValueUtils = require(108);
 	var ReactBrowserComponentMixin = require(47);
@@ -11342,7 +11342,7 @@
 
 	var EventConstants = require(25);
 	var EventPropagators = require(97);
-	var ReactInputSelection = require(104);
+	var ReactInputSelection = require(100);
 	var SyntheticEvent = require(98);
 
 	var getActiveElement = require(110);
@@ -11595,7 +11595,7 @@
 	var SyntheticEvent = require(98);
 	var SyntheticFocusEvent = require(113);
 	var SyntheticKeyboardEvent = require(114);
-	var SyntheticMouseEvent = require(100);
+	var SyntheticMouseEvent = require(103);
 	var SyntheticDragEvent = require(115);
 	var SyntheticTouchEvent = require(116);
 	var SyntheticUIEvent = require(117);
@@ -12403,7 +12403,7 @@
 	 * @providesModule emptyFunction
 	 */
 
-	var copyProperties = require(122);
+	var copyProperties = require(125);
 
 	function makeEmptyFunction(arg) {
 	  return function() {
@@ -12482,39 +12482,6 @@
 
 /***/ },
 /* 85 */
-/***/ function(module, exports, require) {
-
-	/**
-	 * Copyright 2013-2014 Facebook, Inc.
-	 *
-	 * Licensed under the Apache License, Version 2.0 (the "License");
-	 * you may not use this file except in compliance with the License.
-	 * You may obtain a copy of the License at
-	 *
-	 * http://www.apache.org/licenses/LICENSE-2.0
-	 *
-	 * Unless required by applicable law or agreed to in writing, software
-	 * distributed under the License is distributed on an "AS IS" BASIS,
-	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-	 * See the License for the specific language governing permissions and
-	 * limitations under the License.
-	 *
-	 * @providesModule emptyObject
-	 */
-
-	"use strict";
-
-	var emptyObject = {};
-
-	if (false) {
-	  Object.freeze(emptyObject);
-	}
-
-	module.exports = emptyObject;
-
-
-/***/ },
-/* 86 */
 /***/ function(module, exports, require) {
 
 	/**
@@ -12641,7 +12608,7 @@
 
 
 /***/ },
-/* 87 */
+/* 86 */
 /***/ function(module, exports, require) {
 
 	/**
@@ -12665,7 +12632,7 @@
 
 	"use strict";
 
-	var CSSProperty = require(86);
+	var CSSProperty = require(85);
 
 	/**
 	 * Convert a value into the proper css writable value. The `styleName` name
@@ -12704,7 +12671,7 @@
 
 
 /***/ },
-/* 88 */
+/* 87 */
 /***/ function(module, exports, require) {
 
 	/**
@@ -12745,7 +12712,7 @@
 
 
 /***/ },
-/* 89 */
+/* 88 */
 /***/ function(module, exports, require) {
 
 	/**
@@ -12820,7 +12787,7 @@
 
 
 /***/ },
-/* 90 */
+/* 89 */
 /***/ function(module, exports, require) {
 
 	/**
@@ -12843,14 +12810,14 @@
 
 	"use strict";
 
-	var EventPluginRegistry = require(91);
+	var EventPluginRegistry = require(90);
 	var EventPluginUtils = require(8);
 	var ExecutionEnvironment = require(58);
 
-	var accumulate = require(123);
-	var forEachAccumulated = require(124);
+	var accumulate = require(122);
+	var forEachAccumulated = require(123);
 	var invariant = require(26);
-	var isEventSupported = require(94);
+	var isEventSupported = require(93);
 	var monitorCodeUse = require(43);
 
 	/**
@@ -13121,7 +13088,7 @@
 
 
 /***/ },
-/* 91 */
+/* 90 */
 /***/ function(module, exports, require) {
 
 	/**
@@ -13408,7 +13375,7 @@
 
 
 /***/ },
-/* 92 */
+/* 91 */
 /***/ function(module, exports, require) {
 
 	/**
@@ -13431,7 +13398,7 @@
 
 	"use strict";
 
-	var EventPluginHub = require(90);
+	var EventPluginHub = require(89);
 	var ReactUpdates = require(38);
 
 	function runEventQueueInBatch(events) {
@@ -13471,7 +13438,7 @@
 
 
 /***/ },
-/* 93 */
+/* 92 */
 /***/ function(module, exports, require) {
 
 	/**
@@ -13494,7 +13461,7 @@
 
 	"use strict";
 
-	var getUnboundedScrollPosition = require(127);
+	var getUnboundedScrollPosition = require(124);
 
 	var ViewportMetrics = {
 
@@ -13514,7 +13481,7 @@
 
 
 /***/ },
-/* 94 */
+/* 93 */
 /***/ function(module, exports, require) {
 
 	/**
@@ -13590,43 +13557,7 @@
 
 
 /***/ },
-/* 95 */
-/***/ function(module, exports, require) {
-
-	/**
-	 * Copyright 2013-2014 Facebook, Inc.
-	 *
-	 * Licensed under the Apache License, Version 2.0 (the "License");
-	 * you may not use this file except in compliance with the License.
-	 * You may obtain a copy of the License at
-	 *
-	 * http://www.apache.org/licenses/LICENSE-2.0
-	 *
-	 * Unless required by applicable law or agreed to in writing, software
-	 * distributed under the License is distributed on an "AS IS" BASIS,
-	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-	 * See the License for the specific language governing permissions and
-	 * limitations under the License.
-	 *
-	 * @providesModule isTextNode
-	 * @typechecks
-	 */
-
-	var isNode = require(125);
-
-	/**
-	 * @param {*} object The object to check.
-	 * @return {boolean} Whether or not the object is a DOM text node.
-	 */
-	function isTextNode(object) {
-	  return isNode(object) && object.nodeType == 3;
-	}
-
-	module.exports = isTextNode;
-
-
-/***/ },
-/* 96 */
+/* 94 */
 /***/ function(module, exports, require) {
 
 	/**
@@ -13768,6 +13699,75 @@
 
 
 /***/ },
+/* 95 */
+/***/ function(module, exports, require) {
+
+	/**
+	 * Copyright 2013-2014 Facebook, Inc.
+	 *
+	 * Licensed under the Apache License, Version 2.0 (the "License");
+	 * you may not use this file except in compliance with the License.
+	 * You may obtain a copy of the License at
+	 *
+	 * http://www.apache.org/licenses/LICENSE-2.0
+	 *
+	 * Unless required by applicable law or agreed to in writing, software
+	 * distributed under the License is distributed on an "AS IS" BASIS,
+	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	 * See the License for the specific language governing permissions and
+	 * limitations under the License.
+	 *
+	 * @providesModule emptyObject
+	 */
+
+	"use strict";
+
+	var emptyObject = {};
+
+	if (false) {
+	  Object.freeze(emptyObject);
+	}
+
+	module.exports = emptyObject;
+
+
+/***/ },
+/* 96 */
+/***/ function(module, exports, require) {
+
+	/**
+	 * Copyright 2013-2014 Facebook, Inc.
+	 *
+	 * Licensed under the Apache License, Version 2.0 (the "License");
+	 * you may not use this file except in compliance with the License.
+	 * You may obtain a copy of the License at
+	 *
+	 * http://www.apache.org/licenses/LICENSE-2.0
+	 *
+	 * Unless required by applicable law or agreed to in writing, software
+	 * distributed under the License is distributed on an "AS IS" BASIS,
+	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	 * See the License for the specific language governing permissions and
+	 * limitations under the License.
+	 *
+	 * @providesModule isTextNode
+	 * @typechecks
+	 */
+
+	var isNode = require(126);
+
+	/**
+	 * @param {*} object The object to check.
+	 * @return {boolean} Whether or not the object is a DOM text node.
+	 */
+	function isTextNode(object) {
+	  return isNode(object) && object.nodeType == 3;
+	}
+
+	module.exports = isTextNode;
+
+
+/***/ },
 /* 97 */
 /***/ function(module, exports, require) {
 
@@ -13792,10 +13792,10 @@
 	"use strict";
 
 	var EventConstants = require(25);
-	var EventPluginHub = require(90);
+	var EventPluginHub = require(89);
 
-	var accumulate = require(123);
-	var forEachAccumulated = require(124);
+	var accumulate = require(122);
+	var forEachAccumulated = require(123);
 
 	var PropagationPhases = EventConstants.PropagationPhases;
 	var getListener = EventPluginHub.getListener;
@@ -13944,7 +13944,7 @@
 	var PooledClass = require(27);
 
 	var emptyFunction = require(83);
-	var getEventTarget = require(103);
+	var getEventTarget = require(107);
 	var merge = require(41);
 	var mergeInto = require(50);
 
@@ -14160,6 +14160,258 @@
 	 * See the License for the specific language governing permissions and
 	 * limitations under the License.
 	 *
+	 * @providesModule ReactInputSelection
+	 */
+
+	"use strict";
+
+	var ReactDOMSelection = require(127);
+
+	var containsNode = require(54);
+	var focusNode = require(128);
+	var getActiveElement = require(110);
+
+	function isInDocument(node) {
+	  return containsNode(document.documentElement, node);
+	}
+
+	/**
+	 * @ReactInputSelection: React input selection module. Based on Selection.js,
+	 * but modified to be suitable for react and has a couple of bug fixes (doesn't
+	 * assume buttons have range selections allowed).
+	 * Input selection module for React.
+	 */
+	var ReactInputSelection = {
+
+	  hasSelectionCapabilities: function(elem) {
+	    return elem && (
+	      (elem.nodeName === 'INPUT' && elem.type === 'text') ||
+	      elem.nodeName === 'TEXTAREA' ||
+	      elem.contentEditable === 'true'
+	    );
+	  },
+
+	  getSelectionInformation: function() {
+	    var focusedElem = getActiveElement();
+	    return {
+	      focusedElem: focusedElem,
+	      selectionRange:
+	          ReactInputSelection.hasSelectionCapabilities(focusedElem) ?
+	          ReactInputSelection.getSelection(focusedElem) :
+	          null
+	    };
+	  },
+
+	  /**
+	   * @restoreSelection: If any selection information was potentially lost,
+	   * restore it. This is useful when performing operations that could remove dom
+	   * nodes and place them back in, resulting in focus being lost.
+	   */
+	  restoreSelection: function(priorSelectionInformation) {
+	    var curFocusedElem = getActiveElement();
+	    var priorFocusedElem = priorSelectionInformation.focusedElem;
+	    var priorSelectionRange = priorSelectionInformation.selectionRange;
+	    if (curFocusedElem !== priorFocusedElem &&
+	        isInDocument(priorFocusedElem)) {
+	      if (ReactInputSelection.hasSelectionCapabilities(priorFocusedElem)) {
+	        ReactInputSelection.setSelection(
+	          priorFocusedElem,
+	          priorSelectionRange
+	        );
+	      }
+	      focusNode(priorFocusedElem);
+	    }
+	  },
+
+	  /**
+	   * @getSelection: Gets the selection bounds of a focused textarea, input or
+	   * contentEditable node.
+	   * -@input: Look up selection bounds of this input
+	   * -@return {start: selectionStart, end: selectionEnd}
+	   */
+	  getSelection: function(input) {
+	    var selection;
+
+	    if ('selectionStart' in input) {
+	      // Modern browser with input or textarea.
+	      selection = {
+	        start: input.selectionStart,
+	        end: input.selectionEnd
+	      };
+	    } else if (document.selection && input.nodeName === 'INPUT') {
+	      // IE8 input.
+	      var range = document.selection.createRange();
+	      // There can only be one selection per document in IE, so it must
+	      // be in our element.
+	      if (range.parentElement() === input) {
+	        selection = {
+	          start: -range.moveStart('character', -input.value.length),
+	          end: -range.moveEnd('character', -input.value.length)
+	        };
+	      }
+	    } else {
+	      // Content editable or old IE textarea.
+	      selection = ReactDOMSelection.getOffsets(input);
+	    }
+
+	    return selection || {start: 0, end: 0};
+	  },
+
+	  /**
+	   * @setSelection: Sets the selection bounds of a textarea or input and focuses
+	   * the input.
+	   * -@input     Set selection bounds of this input or textarea
+	   * -@offsets   Object of same form that is returned from get*
+	   */
+	  setSelection: function(input, offsets) {
+	    var start = offsets.start;
+	    var end = offsets.end;
+	    if (typeof end === 'undefined') {
+	      end = start;
+	    }
+
+	    if ('selectionStart' in input) {
+	      input.selectionStart = start;
+	      input.selectionEnd = Math.min(end, input.value.length);
+	    } else if (document.selection && input.nodeName === 'INPUT') {
+	      var range = input.createTextRange();
+	      range.collapse(true);
+	      range.moveStart('character', start);
+	      range.moveEnd('character', end - start);
+	      range.select();
+	    } else {
+	      ReactDOMSelection.setOffsets(input, offsets);
+	    }
+	  }
+	};
+
+	module.exports = ReactInputSelection;
+
+
+/***/ },
+/* 101 */
+/***/ function(module, exports, require) {
+
+	/**
+	 * Copyright 2013-2014 Facebook, Inc.
+	 *
+	 * Licensed under the Apache License, Version 2.0 (the "License");
+	 * you may not use this file except in compliance with the License.
+	 * You may obtain a copy of the License at
+	 *
+	 * http://www.apache.org/licenses/LICENSE-2.0
+	 *
+	 * Unless required by applicable law or agreed to in writing, software
+	 * distributed under the License is distributed on an "AS IS" BASIS,
+	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	 * See the License for the specific language governing permissions and
+	 * limitations under the License.
+	 *
+	 * @providesModule SyntheticCompositionEvent
+	 * @typechecks static-only
+	 */
+
+	"use strict";
+
+	var SyntheticEvent = require(98);
+
+	/**
+	 * @interface Event
+	 * @see http://www.w3.org/TR/DOM-Level-3-Events/#events-compositionevents
+	 */
+	var CompositionEventInterface = {
+	  data: null
+	};
+
+	/**
+	 * @param {object} dispatchConfig Configuration used to dispatch this event.
+	 * @param {string} dispatchMarker Marker identifying the event target.
+	 * @param {object} nativeEvent Native browser event.
+	 * @extends {SyntheticUIEvent}
+	 */
+	function SyntheticCompositionEvent(
+	  dispatchConfig,
+	  dispatchMarker,
+	  nativeEvent) {
+	  SyntheticEvent.call(this, dispatchConfig, dispatchMarker, nativeEvent);
+	}
+
+	SyntheticEvent.augmentClass(
+	  SyntheticCompositionEvent,
+	  CompositionEventInterface
+	);
+
+	module.exports = SyntheticCompositionEvent;
+
+
+
+/***/ },
+/* 102 */
+/***/ function(module, exports, require) {
+
+	/**
+	 * Copyright 2013-2014 Facebook, Inc.
+	 *
+	 * Licensed under the Apache License, Version 2.0 (the "License");
+	 * you may not use this file except in compliance with the License.
+	 * You may obtain a copy of the License at
+	 *
+	 * http://www.apache.org/licenses/LICENSE-2.0
+	 *
+	 * Unless required by applicable law or agreed to in writing, software
+	 * distributed under the License is distributed on an "AS IS" BASIS,
+	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	 * See the License for the specific language governing permissions and
+	 * limitations under the License.
+	 *
+	 * @providesModule getTextContentAccessor
+	 */
+
+	"use strict";
+
+	var ExecutionEnvironment = require(58);
+
+	var contentKey = null;
+
+	/**
+	 * Gets the key used to access text content on a DOM node.
+	 *
+	 * @return {?string} Key used to access text content.
+	 * @internal
+	 */
+	function getTextContentAccessor() {
+	  if (!contentKey && ExecutionEnvironment.canUseDOM) {
+	    // Prefer textContent to innerText because many browsers support both but
+	    // SVG <text> elements don't support innerText even when <div> does.
+	    contentKey = 'textContent' in document.createElement('div') ?
+	      'textContent' :
+	      'innerText';
+	  }
+	  return contentKey;
+	}
+
+	module.exports = getTextContentAccessor;
+
+
+/***/ },
+/* 103 */
+/***/ function(module, exports, require) {
+
+	/**
+	 * Copyright 2013-2014 Facebook, Inc.
+	 *
+	 * Licensed under the Apache License, Version 2.0 (the "License");
+	 * you may not use this file except in compliance with the License.
+	 * You may obtain a copy of the License at
+	 *
+	 * http://www.apache.org/licenses/LICENSE-2.0
+	 *
+	 * Unless required by applicable law or agreed to in writing, software
+	 * distributed under the License is distributed on an "AS IS" BASIS,
+	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	 * See the License for the specific language governing permissions and
+	 * limitations under the License.
+	 *
 	 * @providesModule SyntheticMouseEvent
 	 * @typechecks static-only
 	 */
@@ -14167,7 +14419,7 @@
 	"use strict";
 
 	var SyntheticUIEvent = require(117);
-	var ViewportMetrics = require(93);
+	var ViewportMetrics = require(92);
 
 	/**
 	 * @interface MouseEvent
@@ -14233,7 +14485,7 @@
 
 
 /***/ },
-/* 101 */
+/* 104 */
 /***/ function(module, exports, require) {
 
 	/**
@@ -14260,7 +14512,7 @@
 	"use strict";
 
 	var CSSPropertyOperations = require(46);
-	var DOMChildrenOperations = require(126);
+	var DOMChildrenOperations = require(129);
 	var DOMPropertyOperations = require(7);
 	var ReactMount = require(18);
 	var ReactPerf = require(20);
@@ -14457,7 +14709,7 @@
 
 
 /***/ },
-/* 102 */
+/* 105 */
 /***/ function(module, exports, require) {
 
 	/**
@@ -14483,7 +14735,7 @@
 
 	var PooledClass = require(27);
 	var ReactEventEmitter = require(48);
-	var ReactInputSelection = require(104);
+	var ReactInputSelection = require(100);
 	var ReactMountReady = require(120);
 	var ReactPutListenerQueue = require(121);
 	var Transaction = require(109);
@@ -14645,7 +14897,45 @@
 
 
 /***/ },
-/* 103 */
+/* 106 */
+/***/ function(module, exports, require) {
+
+	/**
+	 * Copyright 2013-2014 Facebook, Inc.
+	 *
+	 * Licensed under the Apache License, Version 2.0 (the "License");
+	 * you may not use this file except in compliance with the License.
+	 * You may obtain a copy of the License at
+	 *
+	 * http://www.apache.org/licenses/LICENSE-2.0
+	 *
+	 * Unless required by applicable law or agreed to in writing, software
+	 * distributed under the License is distributed on an "AS IS" BASIS,
+	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	 * See the License for the specific language governing permissions and
+	 * limitations under the License.
+	 *
+	 * @providesModule AutoFocusMixin
+	 * @typechecks static-only
+	 */
+
+	"use strict";
+
+	var focusNode = require(128);
+
+	var AutoFocusMixin = {
+	  componentDidMount: function() {
+	    if (this.props.autoFocus) {
+	      focusNode(this.getDOMNode());
+	    }
+	  }
+	};
+
+	module.exports = AutoFocusMixin;
+
+
+/***/ },
+/* 107 */
 /***/ function(module, exports, require) {
 
 	/**
@@ -14684,296 +14974,6 @@
 	}
 
 	module.exports = getEventTarget;
-
-
-/***/ },
-/* 104 */
-/***/ function(module, exports, require) {
-
-	/**
-	 * Copyright 2013-2014 Facebook, Inc.
-	 *
-	 * Licensed under the Apache License, Version 2.0 (the "License");
-	 * you may not use this file except in compliance with the License.
-	 * You may obtain a copy of the License at
-	 *
-	 * http://www.apache.org/licenses/LICENSE-2.0
-	 *
-	 * Unless required by applicable law or agreed to in writing, software
-	 * distributed under the License is distributed on an "AS IS" BASIS,
-	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-	 * See the License for the specific language governing permissions and
-	 * limitations under the License.
-	 *
-	 * @providesModule ReactInputSelection
-	 */
-
-	"use strict";
-
-	var ReactDOMSelection = require(128);
-
-	var containsNode = require(54);
-	var focusNode = require(129);
-	var getActiveElement = require(110);
-
-	function isInDocument(node) {
-	  return containsNode(document.documentElement, node);
-	}
-
-	/**
-	 * @ReactInputSelection: React input selection module. Based on Selection.js,
-	 * but modified to be suitable for react and has a couple of bug fixes (doesn't
-	 * assume buttons have range selections allowed).
-	 * Input selection module for React.
-	 */
-	var ReactInputSelection = {
-
-	  hasSelectionCapabilities: function(elem) {
-	    return elem && (
-	      (elem.nodeName === 'INPUT' && elem.type === 'text') ||
-	      elem.nodeName === 'TEXTAREA' ||
-	      elem.contentEditable === 'true'
-	    );
-	  },
-
-	  getSelectionInformation: function() {
-	    var focusedElem = getActiveElement();
-	    return {
-	      focusedElem: focusedElem,
-	      selectionRange:
-	          ReactInputSelection.hasSelectionCapabilities(focusedElem) ?
-	          ReactInputSelection.getSelection(focusedElem) :
-	          null
-	    };
-	  },
-
-	  /**
-	   * @restoreSelection: If any selection information was potentially lost,
-	   * restore it. This is useful when performing operations that could remove dom
-	   * nodes and place them back in, resulting in focus being lost.
-	   */
-	  restoreSelection: function(priorSelectionInformation) {
-	    var curFocusedElem = getActiveElement();
-	    var priorFocusedElem = priorSelectionInformation.focusedElem;
-	    var priorSelectionRange = priorSelectionInformation.selectionRange;
-	    if (curFocusedElem !== priorFocusedElem &&
-	        isInDocument(priorFocusedElem)) {
-	      if (ReactInputSelection.hasSelectionCapabilities(priorFocusedElem)) {
-	        ReactInputSelection.setSelection(
-	          priorFocusedElem,
-	          priorSelectionRange
-	        );
-	      }
-	      focusNode(priorFocusedElem);
-	    }
-	  },
-
-	  /**
-	   * @getSelection: Gets the selection bounds of a focused textarea, input or
-	   * contentEditable node.
-	   * -@input: Look up selection bounds of this input
-	   * -@return {start: selectionStart, end: selectionEnd}
-	   */
-	  getSelection: function(input) {
-	    var selection;
-
-	    if ('selectionStart' in input) {
-	      // Modern browser with input or textarea.
-	      selection = {
-	        start: input.selectionStart,
-	        end: input.selectionEnd
-	      };
-	    } else if (document.selection && input.nodeName === 'INPUT') {
-	      // IE8 input.
-	      var range = document.selection.createRange();
-	      // There can only be one selection per document in IE, so it must
-	      // be in our element.
-	      if (range.parentElement() === input) {
-	        selection = {
-	          start: -range.moveStart('character', -input.value.length),
-	          end: -range.moveEnd('character', -input.value.length)
-	        };
-	      }
-	    } else {
-	      // Content editable or old IE textarea.
-	      selection = ReactDOMSelection.getOffsets(input);
-	    }
-
-	    return selection || {start: 0, end: 0};
-	  },
-
-	  /**
-	   * @setSelection: Sets the selection bounds of a textarea or input and focuses
-	   * the input.
-	   * -@input     Set selection bounds of this input or textarea
-	   * -@offsets   Object of same form that is returned from get*
-	   */
-	  setSelection: function(input, offsets) {
-	    var start = offsets.start;
-	    var end = offsets.end;
-	    if (typeof end === 'undefined') {
-	      end = start;
-	    }
-
-	    if ('selectionStart' in input) {
-	      input.selectionStart = start;
-	      input.selectionEnd = Math.min(end, input.value.length);
-	    } else if (document.selection && input.nodeName === 'INPUT') {
-	      var range = input.createTextRange();
-	      range.collapse(true);
-	      range.moveStart('character', start);
-	      range.moveEnd('character', end - start);
-	      range.select();
-	    } else {
-	      ReactDOMSelection.setOffsets(input, offsets);
-	    }
-	  }
-	};
-
-	module.exports = ReactInputSelection;
-
-
-/***/ },
-/* 105 */
-/***/ function(module, exports, require) {
-
-	/**
-	 * Copyright 2013-2014 Facebook, Inc.
-	 *
-	 * Licensed under the Apache License, Version 2.0 (the "License");
-	 * you may not use this file except in compliance with the License.
-	 * You may obtain a copy of the License at
-	 *
-	 * http://www.apache.org/licenses/LICENSE-2.0
-	 *
-	 * Unless required by applicable law or agreed to in writing, software
-	 * distributed under the License is distributed on an "AS IS" BASIS,
-	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-	 * See the License for the specific language governing permissions and
-	 * limitations under the License.
-	 *
-	 * @providesModule SyntheticCompositionEvent
-	 * @typechecks static-only
-	 */
-
-	"use strict";
-
-	var SyntheticEvent = require(98);
-
-	/**
-	 * @interface Event
-	 * @see http://www.w3.org/TR/DOM-Level-3-Events/#events-compositionevents
-	 */
-	var CompositionEventInterface = {
-	  data: null
-	};
-
-	/**
-	 * @param {object} dispatchConfig Configuration used to dispatch this event.
-	 * @param {string} dispatchMarker Marker identifying the event target.
-	 * @param {object} nativeEvent Native browser event.
-	 * @extends {SyntheticUIEvent}
-	 */
-	function SyntheticCompositionEvent(
-	  dispatchConfig,
-	  dispatchMarker,
-	  nativeEvent) {
-	  SyntheticEvent.call(this, dispatchConfig, dispatchMarker, nativeEvent);
-	}
-
-	SyntheticEvent.augmentClass(
-	  SyntheticCompositionEvent,
-	  CompositionEventInterface
-	);
-
-	module.exports = SyntheticCompositionEvent;
-
-
-
-/***/ },
-/* 106 */
-/***/ function(module, exports, require) {
-
-	/**
-	 * Copyright 2013-2014 Facebook, Inc.
-	 *
-	 * Licensed under the Apache License, Version 2.0 (the "License");
-	 * you may not use this file except in compliance with the License.
-	 * You may obtain a copy of the License at
-	 *
-	 * http://www.apache.org/licenses/LICENSE-2.0
-	 *
-	 * Unless required by applicable law or agreed to in writing, software
-	 * distributed under the License is distributed on an "AS IS" BASIS,
-	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-	 * See the License for the specific language governing permissions and
-	 * limitations under the License.
-	 *
-	 * @providesModule getTextContentAccessor
-	 */
-
-	"use strict";
-
-	var ExecutionEnvironment = require(58);
-
-	var contentKey = null;
-
-	/**
-	 * Gets the key used to access text content on a DOM node.
-	 *
-	 * @return {?string} Key used to access text content.
-	 * @internal
-	 */
-	function getTextContentAccessor() {
-	  if (!contentKey && ExecutionEnvironment.canUseDOM) {
-	    // Prefer textContent to innerText because many browsers support both but
-	    // SVG <text> elements don't support innerText even when <div> does.
-	    contentKey = 'textContent' in document.createElement('div') ?
-	      'textContent' :
-	      'innerText';
-	  }
-	  return contentKey;
-	}
-
-	module.exports = getTextContentAccessor;
-
-
-/***/ },
-/* 107 */
-/***/ function(module, exports, require) {
-
-	/**
-	 * Copyright 2013-2014 Facebook, Inc.
-	 *
-	 * Licensed under the Apache License, Version 2.0 (the "License");
-	 * you may not use this file except in compliance with the License.
-	 * You may obtain a copy of the License at
-	 *
-	 * http://www.apache.org/licenses/LICENSE-2.0
-	 *
-	 * Unless required by applicable law or agreed to in writing, software
-	 * distributed under the License is distributed on an "AS IS" BASIS,
-	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-	 * See the License for the specific language governing permissions and
-	 * limitations under the License.
-	 *
-	 * @providesModule AutoFocusMixin
-	 * @typechecks static-only
-	 */
-
-	"use strict";
-
-	var focusNode = require(129);
-
-	var AutoFocusMixin = {
-	  componentDidMount: function() {
-	    if (this.props.autoFocus) {
-	      focusNode(this.getDOMNode());
-	    }
-	  }
-	};
-
-	module.exports = AutoFocusMixin;
 
 
 /***/ },
@@ -15715,7 +15715,7 @@
 
 	"use strict";
 
-	var SyntheticMouseEvent = require(100);
+	var SyntheticMouseEvent = require(103);
 
 	/**
 	 * @interface DragEvent
@@ -15872,7 +15872,7 @@
 
 	"use strict";
 
-	var SyntheticMouseEvent = require(100);
+	var SyntheticMouseEvent = require(103);
 
 	/**
 	 * @interface WheelEvent
@@ -16151,66 +16151,6 @@
 	 * See the License for the specific language governing permissions and
 	 * limitations under the License.
 	 *
-	 * @providesModule copyProperties
-	 */
-
-	/**
-	 * Copy properties from one or more objects (up to 5) into the first object.
-	 * This is a shallow copy. It mutates the first object and also returns it.
-	 *
-	 * NOTE: `arguments` has a very significant performance penalty, which is why
-	 * we don't support unlimited arguments.
-	 */
-	function copyProperties(obj, a, b, c, d, e, f) {
-	  obj = obj || {};
-
-	  if (false) {
-	    if (f) {
-	      throw new Error('Too many arguments passed to copyProperties');
-	    }
-	  }
-
-	  var args = [a, b, c, d, e];
-	  var ii = 0, v;
-	  while (args[ii]) {
-	    v = args[ii++];
-	    for (var k in v) {
-	      obj[k] = v[k];
-	    }
-
-	    // IE ignores toString in object iteration.. See:
-	    // webreflection.blogspot.com/2007/07/quick-fix-internet-explorer-and.html
-	    if (v.hasOwnProperty && v.hasOwnProperty('toString') &&
-	        (typeof v.toString != 'undefined') && (obj.toString !== v.toString)) {
-	      obj.toString = v.toString;
-	    }
-	  }
-
-	  return obj;
-	}
-
-	module.exports = copyProperties;
-
-
-/***/ },
-/* 123 */
-/***/ function(module, exports, require) {
-
-	/**
-	 * Copyright 2013-2014 Facebook, Inc.
-	 *
-	 * Licensed under the Apache License, Version 2.0 (the "License");
-	 * you may not use this file except in compliance with the License.
-	 * You may obtain a copy of the License at
-	 *
-	 * http://www.apache.org/licenses/LICENSE-2.0
-	 *
-	 * Unless required by applicable law or agreed to in writing, software
-	 * distributed under the License is distributed on an "AS IS" BASIS,
-	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-	 * See the License for the specific language governing permissions and
-	 * limitations under the License.
-	 *
 	 * @providesModule accumulate
 	 */
 
@@ -16253,7 +16193,7 @@
 
 
 /***/ },
-/* 124 */
+/* 123 */
 /***/ function(module, exports, require) {
 
 	/**
@@ -16295,223 +16235,7 @@
 
 
 /***/ },
-/* 125 */
-/***/ function(module, exports, require) {
-
-	/**
-	 * Copyright 2013-2014 Facebook, Inc.
-	 *
-	 * Licensed under the Apache License, Version 2.0 (the "License");
-	 * you may not use this file except in compliance with the License.
-	 * You may obtain a copy of the License at
-	 *
-	 * http://www.apache.org/licenses/LICENSE-2.0
-	 *
-	 * Unless required by applicable law or agreed to in writing, software
-	 * distributed under the License is distributed on an "AS IS" BASIS,
-	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-	 * See the License for the specific language governing permissions and
-	 * limitations under the License.
-	 *
-	 * @providesModule isNode
-	 * @typechecks
-	 */
-
-	/**
-	 * @param {*} object The object to check.
-	 * @return {boolean} Whether or not the object is a DOM node.
-	 */
-	function isNode(object) {
-	  return !!(object && (
-	    typeof Node === 'function' ? object instanceof Node :
-	      typeof object === 'object' &&
-	      typeof object.nodeType === 'number' &&
-	      typeof object.nodeName === 'string'
-	  ));
-	}
-
-	module.exports = isNode;
-
-
-/***/ },
-/* 126 */
-/***/ function(module, exports, require) {
-
-	/**
-	 * Copyright 2013-2014 Facebook, Inc.
-	 *
-	 * Licensed under the Apache License, Version 2.0 (the "License");
-	 * you may not use this file except in compliance with the License.
-	 * You may obtain a copy of the License at
-	 *
-	 * http://www.apache.org/licenses/LICENSE-2.0
-	 *
-	 * Unless required by applicable law or agreed to in writing, software
-	 * distributed under the License is distributed on an "AS IS" BASIS,
-	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-	 * See the License for the specific language governing permissions and
-	 * limitations under the License.
-	 *
-	 * @providesModule DOMChildrenOperations
-	 * @typechecks static-only
-	 */
-
-	"use strict";
-
-	var Danger = require(132);
-	var ReactMultiChildUpdateTypes = require(52);
-
-	var getTextContentAccessor = require(106);
-
-	/**
-	 * The DOM property to use when setting text content.
-	 *
-	 * @type {string}
-	 * @private
-	 */
-	var textContentAccessor = getTextContentAccessor();
-
-	/**
-	 * Inserts `childNode` as a child of `parentNode` at the `index`.
-	 *
-	 * @param {DOMElement} parentNode Parent node in which to insert.
-	 * @param {DOMElement} childNode Child node to insert.
-	 * @param {number} index Index at which to insert the child.
-	 * @internal
-	 */
-	function insertChildAt(parentNode, childNode, index) {
-	  var childNodes = parentNode.childNodes;
-	  if (childNodes[index] === childNode) {
-	    return;
-	  }
-	  // If `childNode` is already a child of `parentNode`, remove it so that
-	  // computing `childNodes[index]` takes into account the removal.
-	  if (childNode.parentNode === parentNode) {
-	    parentNode.removeChild(childNode);
-	  }
-	  if (index >= childNodes.length) {
-	    parentNode.appendChild(childNode);
-	  } else {
-	    parentNode.insertBefore(childNode, childNodes[index]);
-	  }
-	}
-
-	var updateTextContent;
-	if (textContentAccessor === 'textContent') {
-	  /**
-	   * Sets the text content of `node` to `text`.
-	   *
-	   * @param {DOMElement} node Node to change
-	   * @param {string} text New text content
-	   */
-	  updateTextContent = function(node, text) {
-	    node.textContent = text;
-	  };
-	} else {
-	  /**
-	   * Sets the text content of `node` to `text`.
-	   *
-	   * @param {DOMElement} node Node to change
-	   * @param {string} text New text content
-	   */
-	  updateTextContent = function(node, text) {
-	    // In order to preserve newlines correctly, we can't use .innerText to set
-	    // the contents (see #1080), so we empty the element then append a text node
-	    while (node.firstChild) {
-	      node.removeChild(node.firstChild);
-	    }
-	    if (text) {
-	      var doc = node.ownerDocument || document;
-	      node.appendChild(doc.createTextNode(text));
-	    }
-	  };
-	}
-
-	/**
-	 * Operations for updating with DOM children.
-	 */
-	var DOMChildrenOperations = {
-
-	  dangerouslyReplaceNodeWithMarkup: Danger.dangerouslyReplaceNodeWithMarkup,
-
-	  updateTextContent: updateTextContent,
-
-	  /**
-	   * Updates a component's children by processing a series of updates. The
-	   * update configurations are each expected to have a `parentNode` property.
-	   *
-	   * @param {array<object>} updates List of update configurations.
-	   * @param {array<string>} markupList List of markup strings.
-	   * @internal
-	   */
-	  processUpdates: function(updates, markupList) {
-	    var update;
-	    // Mapping from parent IDs to initial child orderings.
-	    var initialChildren = null;
-	    // List of children that will be moved or removed.
-	    var updatedChildren = null;
-
-	    for (var i = 0; update = updates[i]; i++) {
-	      if (update.type === ReactMultiChildUpdateTypes.MOVE_EXISTING ||
-	          update.type === ReactMultiChildUpdateTypes.REMOVE_NODE) {
-	        var updatedIndex = update.fromIndex;
-	        var updatedChild = update.parentNode.childNodes[updatedIndex];
-	        var parentID = update.parentID;
-
-	        initialChildren = initialChildren || {};
-	        initialChildren[parentID] = initialChildren[parentID] || [];
-	        initialChildren[parentID][updatedIndex] = updatedChild;
-
-	        updatedChildren = updatedChildren || [];
-	        updatedChildren.push(updatedChild);
-	      }
-	    }
-
-	    var renderedMarkup = Danger.dangerouslyRenderMarkup(markupList);
-
-	    // Remove updated children first so that `toIndex` is consistent.
-	    if (updatedChildren) {
-	      for (var j = 0; j < updatedChildren.length; j++) {
-	        updatedChildren[j].parentNode.removeChild(updatedChildren[j]);
-	      }
-	    }
-
-	    for (var k = 0; update = updates[k]; k++) {
-	      switch (update.type) {
-	        case ReactMultiChildUpdateTypes.INSERT_MARKUP:
-	          insertChildAt(
-	            update.parentNode,
-	            renderedMarkup[update.markupIndex],
-	            update.toIndex
-	          );
-	          break;
-	        case ReactMultiChildUpdateTypes.MOVE_EXISTING:
-	          insertChildAt(
-	            update.parentNode,
-	            initialChildren[update.parentID][update.fromIndex],
-	            update.toIndex
-	          );
-	          break;
-	        case ReactMultiChildUpdateTypes.TEXT_CONTENT:
-	          updateTextContent(
-	            update.parentNode,
-	            update.textContent
-	          );
-	          break;
-	        case ReactMultiChildUpdateTypes.REMOVE_NODE:
-	          // Already removed by the for-loop above.
-	          break;
-	      }
-	    }
-	  }
-
-	};
-
-	module.exports = DOMChildrenOperations;
-
-
-/***/ },
-/* 127 */
+/* 124 */
 /***/ function(module, exports, require) {
 
 	/**
@@ -16562,7 +16286,106 @@
 
 
 /***/ },
-/* 128 */
+/* 125 */
+/***/ function(module, exports, require) {
+
+	/**
+	 * Copyright 2013-2014 Facebook, Inc.
+	 *
+	 * Licensed under the Apache License, Version 2.0 (the "License");
+	 * you may not use this file except in compliance with the License.
+	 * You may obtain a copy of the License at
+	 *
+	 * http://www.apache.org/licenses/LICENSE-2.0
+	 *
+	 * Unless required by applicable law or agreed to in writing, software
+	 * distributed under the License is distributed on an "AS IS" BASIS,
+	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	 * See the License for the specific language governing permissions and
+	 * limitations under the License.
+	 *
+	 * @providesModule copyProperties
+	 */
+
+	/**
+	 * Copy properties from one or more objects (up to 5) into the first object.
+	 * This is a shallow copy. It mutates the first object and also returns it.
+	 *
+	 * NOTE: `arguments` has a very significant performance penalty, which is why
+	 * we don't support unlimited arguments.
+	 */
+	function copyProperties(obj, a, b, c, d, e, f) {
+	  obj = obj || {};
+
+	  if (false) {
+	    if (f) {
+	      throw new Error('Too many arguments passed to copyProperties');
+	    }
+	  }
+
+	  var args = [a, b, c, d, e];
+	  var ii = 0, v;
+	  while (args[ii]) {
+	    v = args[ii++];
+	    for (var k in v) {
+	      obj[k] = v[k];
+	    }
+
+	    // IE ignores toString in object iteration.. See:
+	    // webreflection.blogspot.com/2007/07/quick-fix-internet-explorer-and.html
+	    if (v.hasOwnProperty && v.hasOwnProperty('toString') &&
+	        (typeof v.toString != 'undefined') && (obj.toString !== v.toString)) {
+	      obj.toString = v.toString;
+	    }
+	  }
+
+	  return obj;
+	}
+
+	module.exports = copyProperties;
+
+
+/***/ },
+/* 126 */
+/***/ function(module, exports, require) {
+
+	/**
+	 * Copyright 2013-2014 Facebook, Inc.
+	 *
+	 * Licensed under the Apache License, Version 2.0 (the "License");
+	 * you may not use this file except in compliance with the License.
+	 * You may obtain a copy of the License at
+	 *
+	 * http://www.apache.org/licenses/LICENSE-2.0
+	 *
+	 * Unless required by applicable law or agreed to in writing, software
+	 * distributed under the License is distributed on an "AS IS" BASIS,
+	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	 * See the License for the specific language governing permissions and
+	 * limitations under the License.
+	 *
+	 * @providesModule isNode
+	 * @typechecks
+	 */
+
+	/**
+	 * @param {*} object The object to check.
+	 * @return {boolean} Whether or not the object is a DOM node.
+	 */
+	function isNode(object) {
+	  return !!(object && (
+	    typeof Node === 'function' ? object instanceof Node :
+	      typeof object === 'object' &&
+	      typeof object.nodeType === 'number' &&
+	      typeof object.nodeName === 'string'
+	  ));
+	}
+
+	module.exports = isNode;
+
+
+/***/ },
+/* 127 */
 /***/ function(module, exports, require) {
 
 	/**
@@ -16586,7 +16409,7 @@
 	"use strict";
 
 	var getNodeForCharacterOffset = require(131);
-	var getTextContentAccessor = require(106);
+	var getTextContentAccessor = require(102);
 
 	/**
 	 * Get the appropriate anchor and focus node/offset pairs for IE.
@@ -16757,7 +16580,7 @@
 
 
 /***/ },
-/* 129 */
+/* 128 */
 /***/ function(module, exports, require) {
 
 	/**
@@ -16793,6 +16616,183 @@
 	}
 
 	module.exports = focusNode;
+
+
+/***/ },
+/* 129 */
+/***/ function(module, exports, require) {
+
+	/**
+	 * Copyright 2013-2014 Facebook, Inc.
+	 *
+	 * Licensed under the Apache License, Version 2.0 (the "License");
+	 * you may not use this file except in compliance with the License.
+	 * You may obtain a copy of the License at
+	 *
+	 * http://www.apache.org/licenses/LICENSE-2.0
+	 *
+	 * Unless required by applicable law or agreed to in writing, software
+	 * distributed under the License is distributed on an "AS IS" BASIS,
+	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	 * See the License for the specific language governing permissions and
+	 * limitations under the License.
+	 *
+	 * @providesModule DOMChildrenOperations
+	 * @typechecks static-only
+	 */
+
+	"use strict";
+
+	var Danger = require(132);
+	var ReactMultiChildUpdateTypes = require(52);
+
+	var getTextContentAccessor = require(102);
+
+	/**
+	 * The DOM property to use when setting text content.
+	 *
+	 * @type {string}
+	 * @private
+	 */
+	var textContentAccessor = getTextContentAccessor();
+
+	/**
+	 * Inserts `childNode` as a child of `parentNode` at the `index`.
+	 *
+	 * @param {DOMElement} parentNode Parent node in which to insert.
+	 * @param {DOMElement} childNode Child node to insert.
+	 * @param {number} index Index at which to insert the child.
+	 * @internal
+	 */
+	function insertChildAt(parentNode, childNode, index) {
+	  var childNodes = parentNode.childNodes;
+	  if (childNodes[index] === childNode) {
+	    return;
+	  }
+	  // If `childNode` is already a child of `parentNode`, remove it so that
+	  // computing `childNodes[index]` takes into account the removal.
+	  if (childNode.parentNode === parentNode) {
+	    parentNode.removeChild(childNode);
+	  }
+	  if (index >= childNodes.length) {
+	    parentNode.appendChild(childNode);
+	  } else {
+	    parentNode.insertBefore(childNode, childNodes[index]);
+	  }
+	}
+
+	var updateTextContent;
+	if (textContentAccessor === 'textContent') {
+	  /**
+	   * Sets the text content of `node` to `text`.
+	   *
+	   * @param {DOMElement} node Node to change
+	   * @param {string} text New text content
+	   */
+	  updateTextContent = function(node, text) {
+	    node.textContent = text;
+	  };
+	} else {
+	  /**
+	   * Sets the text content of `node` to `text`.
+	   *
+	   * @param {DOMElement} node Node to change
+	   * @param {string} text New text content
+	   */
+	  updateTextContent = function(node, text) {
+	    // In order to preserve newlines correctly, we can't use .innerText to set
+	    // the contents (see #1080), so we empty the element then append a text node
+	    while (node.firstChild) {
+	      node.removeChild(node.firstChild);
+	    }
+	    if (text) {
+	      var doc = node.ownerDocument || document;
+	      node.appendChild(doc.createTextNode(text));
+	    }
+	  };
+	}
+
+	/**
+	 * Operations for updating with DOM children.
+	 */
+	var DOMChildrenOperations = {
+
+	  dangerouslyReplaceNodeWithMarkup: Danger.dangerouslyReplaceNodeWithMarkup,
+
+	  updateTextContent: updateTextContent,
+
+	  /**
+	   * Updates a component's children by processing a series of updates. The
+	   * update configurations are each expected to have a `parentNode` property.
+	   *
+	   * @param {array<object>} updates List of update configurations.
+	   * @param {array<string>} markupList List of markup strings.
+	   * @internal
+	   */
+	  processUpdates: function(updates, markupList) {
+	    var update;
+	    // Mapping from parent IDs to initial child orderings.
+	    var initialChildren = null;
+	    // List of children that will be moved or removed.
+	    var updatedChildren = null;
+
+	    for (var i = 0; update = updates[i]; i++) {
+	      if (update.type === ReactMultiChildUpdateTypes.MOVE_EXISTING ||
+	          update.type === ReactMultiChildUpdateTypes.REMOVE_NODE) {
+	        var updatedIndex = update.fromIndex;
+	        var updatedChild = update.parentNode.childNodes[updatedIndex];
+	        var parentID = update.parentID;
+
+	        initialChildren = initialChildren || {};
+	        initialChildren[parentID] = initialChildren[parentID] || [];
+	        initialChildren[parentID][updatedIndex] = updatedChild;
+
+	        updatedChildren = updatedChildren || [];
+	        updatedChildren.push(updatedChild);
+	      }
+	    }
+
+	    var renderedMarkup = Danger.dangerouslyRenderMarkup(markupList);
+
+	    // Remove updated children first so that `toIndex` is consistent.
+	    if (updatedChildren) {
+	      for (var j = 0; j < updatedChildren.length; j++) {
+	        updatedChildren[j].parentNode.removeChild(updatedChildren[j]);
+	      }
+	    }
+
+	    for (var k = 0; update = updates[k]; k++) {
+	      switch (update.type) {
+	        case ReactMultiChildUpdateTypes.INSERT_MARKUP:
+	          insertChildAt(
+	            update.parentNode,
+	            renderedMarkup[update.markupIndex],
+	            update.toIndex
+	          );
+	          break;
+	        case ReactMultiChildUpdateTypes.MOVE_EXISTING:
+	          insertChildAt(
+	            update.parentNode,
+	            initialChildren[update.parentID][update.fromIndex],
+	            update.toIndex
+	          );
+	          break;
+	        case ReactMultiChildUpdateTypes.TEXT_CONTENT:
+	          updateTextContent(
+	            update.parentNode,
+	            update.textContent
+	          );
+	          break;
+	        case ReactMultiChildUpdateTypes.REMOVE_NODE:
+	          // Already removed by the for-loop above.
+	          break;
+	      }
+	    }
+	  }
+
+	};
+
+	module.exports = DOMChildrenOperations;
 
 
 /***/ },
