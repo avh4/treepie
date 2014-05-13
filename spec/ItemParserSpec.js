@@ -1,4 +1,4 @@
-var ItemParser = require('./ItemParser');
+var ItemParser = require('../src/ItemParser');
 
 describe('ItemParser', function() {
   it('handles items with name only', function() {

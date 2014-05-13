@@ -1,4 +1,4 @@
-var OutlineParser = require('./OutlineParser');
+var OutlineParser = require('../src/OutlineParser');
 
 describe('OutlineParser', function() {
   it('handles a single item', function() {

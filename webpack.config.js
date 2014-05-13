@@ -2,7 +2,7 @@ var webpack = require('webpack');
 
 module.exports = {
   context: __dirname,
-  entry: './app.js',
+  entry: './src/app.js',
   module: {
     loaders: [
       { test: /\.js$/, loader: 'jsx-loader' }
