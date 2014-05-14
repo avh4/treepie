@@ -20,7 +20,7 @@ var Arc = React.createClass({
 
 function formatPercent(p) {
   if (p == 0) return '';
-  var per = p.toFixed(2)*100;
+  var per = (p.toFixed(2)*100).toFixed(0);
   if (per == 0) return '<1%';
   return per + '%';
 }
